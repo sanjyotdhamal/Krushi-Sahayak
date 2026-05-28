@@ -24,11 +24,6 @@
 ![Languages](https://img.shields.io/badge/Languages-English%20%2B%20Marathi-f0a500?style=flat-square)
 ![Schemes](https://img.shields.io/badge/Schemes-32%20Real%20Govt%20Schemes-1a7a3c?style=flat-square)
 
-<br/>
-
-[🚀 Live Demo](#) &nbsp;·&nbsp; [📄 Report](#) &nbsp;·&nbsp; [🔬 Research Paper](#) &nbsp;·&nbsp; [🐛 Report Bug](#)
-
-</div>
 
 ---
 
