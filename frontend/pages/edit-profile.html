@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Edit Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e; --green-main:#1a7a3c; --green-mid:#25a050;
+    --green-light:#e8f5ee; --saffron:#e8650a; --gold:#f0a500;
+    --cream:#fffdf7; --text-dark:#1a2e1a; --text-mid:#3a5a3a; --red:#e53935;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Baloo 2',sans-serif; background:var(--cream); color:var(--text-dark); min-height:100vh; }
+  body.mr { font-family:'Noto Sans Devanagari',sans-serif; }
+
+  /* ── NAV ── */
+  nav {
+    background:rgba(13,92,46,0.97); border-bottom:3px solid var(--saffron);
+    padding:0 2rem; display:flex; align-items:center; justify-content:space-between;
+    height:65px; box-shadow:0 4px 24px rgba(0,0,0,0.2);
+    position:sticky; top:0; z-index:100;
+  }
+  .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .logo-icon { width:42px; height:42px; background:linear-gradient(135deg,var(--saffron),var(--gold)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+  .logo-text .en { font-family:'Baloo 2',sans-serif; font-size:1.2rem; font-weight:800; color:#fff; display:block; }
+  .logo-text .mr-sub { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.68rem; color:var(--gold); display:block; }
+  .nav-right { display:flex; align-items:center; gap:10px; }
+  .lang-switch { display:flex; background:rgba(255,255,255,0.12); border-radius:25px; padding:3px; gap:2px; border:1px solid rgba(255,255,255,0.2); }
+  .lang-btn { padding:4px 12px; border-radius:20px; border:none; font-family:'Baloo 2',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; color:rgba(255,255,255,0.7); background:transparent; transition:all 0.2s; }
+  .lang-btn.active { background:var(--saffron); color:#fff; }
+  .btn-back { padding:7px 16px; border-radius:20px; border:2px solid rgba(255,255,255,0.4); color:#fff; background:transparent; font-family:'Baloo 2',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; text-decoration:none; display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .btn-back:hover { background:rgba(255,255,255,0.12); }
+
+  /* ── LAYOUT ── */
+  .page-wrapper { max-width:820px; margin:0 auto; padding:36px 20px 80px; }
+
+  /* ── HEADER ── */
+  .page-header { text-align:center; margin-bottom:32px; }
+  .page-title { font-family:'Yatra One',cursive; font-size:2rem; color:var(--green-dark); margin-bottom:4px; }
+  .page-sub { font-size:0.92rem; color:#7a9a7a; }
+
+  /* ── FARMER ID BANNER ── */
+  .id-banner {
+    background:linear-gradient(135deg,var(--green-main),var(--green-dark));
+    border-radius:18px; padding:20px 28px; margin-bottom:28px;
+    display:flex; align-items:center; gap:18px;
+    box-shadow:0 6px 24px rgba(26,122,60,0.25);
+  }
+  .id-avatar {
+    width:60px; height:60px; border-radius:50%;
+    background:linear-gradient(135deg,var(--saffron),var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.8rem; flex-shrink:0;
+  }
+  .id-info { flex:1; }
+  .id-name { font-size:1.15rem; font-weight:800; color:#fff; margin-bottom:2px; }
+  .id-num  { font-size:0.8rem; color:rgba(255,255,255,0.7); font-family:'Baloo 2',sans-serif; }
+  .id-badge {
+    background:rgba(255,255,255,0.18); color:#fff;
+    font-size:0.72rem; font-weight:700; padding:4px 12px;
+    border-radius:20px; border:1px solid rgba(255,255,255,0.3);
+    white-space:nowrap;
+  }
+
+  /* ── TAB SWITCHER ── */
+  .tab-bar {
+    display:flex; gap:8px; margin-bottom:28px;
+    background:#fff; border-radius:16px; padding:6px;
+    box-shadow:0 2px 12px rgba(26,122,60,0.08);
+    border:2px solid var(--green-light);
+  }
+  .tab-btn {
+    flex:1; padding:10px 8px; border-radius:12px; border:none;
+    font-family:'Baloo 2',sans-serif; font-size:0.82rem; font-weight:700;
+    cursor:pointer; transition:all 0.25s; color:#8a9a8a;
+    background:transparent; display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .tab-btn.active { background:var(--green-main); color:#fff; box-shadow:0 4px 14px rgba(26,122,60,0.3); }
+
+  /* ── FORM CARD ── */
+  .form-card {
+    background:#fff; border-radius:22px; padding:32px 36px;
+    box-shadow:0 6px 32px rgba(26,122,60,0.09);
+    border:2px solid var(--green-light); margin-bottom:20px;
+    display:none;
+  }
+  .form-card.active { display:block; animation:fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;} }
+
+  .section-title {
+    font-family:'Yatra One',cursive; font-size:1.15rem; color:var(--green-dark);
+    margin-bottom:4px; display:flex; align-items:center; gap:8px;
+  }
+  .section-sub { font-size:0.8rem; color:#8a9a8a; margin-bottom:24px; }
+
+  /* ── FORM FIELDS ── */
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+  .form-row.single { grid-template-columns:1fr; }
+  .form-row.triple { grid-template-columns:1fr 1fr 1fr; }
+  .form-group { display:flex; flex-direction:column; gap:5px; }
+  .form-label {
+    font-size:0.8rem; font-weight:700; color:var(--text-dark);
+    display:flex; align-items:center; gap:5px;
+  }
+  .form-label .sublabel { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:#bbb; font-weight:400; }
+  .required { color:var(--red); }
+  .form-input, .form-select {
+    padding:11px 15px; border-radius:11px;
+    border:2px solid #e8f0e8; background:#fafff8;
+    font-family:'Baloo 2',sans-serif; font-size:0.9rem; color:var(--text-dark);
+    transition:all 0.2s; outline:none; width:100%;
+  }
+  .form-input:focus, .form-select:focus {
+    border-color:var(--green-main); background:#fff;
+    box-shadow:0 0 0 4px rgba(26,122,60,0.08);
+  }
+  .form-input[readonly] { background:#f5f5f5; color:#888; cursor:not-allowed; }
+  .form-hint { font-size:0.7rem; color:#aaa; margin-top:2px; }
+
+  /* Radio */
+  .radio-group { display:flex; gap:10px; flex-wrap:wrap; }
+  .radio-option { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:11px; border:2px solid #e8f0e8; background:#fafff8; cursor:pointer; transition:all 0.2s; flex:1; min-width:110px; }
+  .radio-option input { display:none; }
+  .radio-option:has(input:checked) { border-color:var(--green-main); background:var(--green-light); }
+  .radio-dot { width:16px; height:16px; border-radius:50%; border:2px solid #ccc; display:flex; align-items:center; justify-content:center; transition:all 0.2s; flex-shrink:0; }
+  .radio-option:has(input:checked) .radio-dot { border-color:var(--green-main); background:var(--green-main); }
+  .radio-option:has(input:checked) .radio-dot::after { content:''; width:6px; height:6px; border-radius:50%; background:#fff; }
+  .radio-label { font-size:0.83rem; font-weight:600; }
+
+  .form-divider { border:none; border-top:2px dashed var(--green-light); margin:24px 0; }
+
+  /* ── LOCKED FIELD NOTE ── */
+  .locked-note {
+    background:#fff8e8; border:1.5px solid var(--gold); border-radius:12px;
+    padding:12px 16px; margin-bottom:20px;
+    font-size:0.8rem; color:#7a6000;
+    display:flex; align-items:flex-start; gap:10px;
+  }
+  .locked-note .ln-icon { font-size:1.1rem; flex-shrink:0; margin-top:1px; }
+
+  /* ── PASSWORD STRENGTH ── */
+  .pw-strength-bar { height:5px; border-radius:4px; margin-top:6px; background:#eee; overflow:hidden; }
+  .pw-strength-fill { height:100%; border-radius:4px; width:0%; transition:all 0.3s; }
+  .pw-strength-label { font-size:0.68rem; margin-top:3px; font-weight:600; }
+
+  /* ── SAVE BUTTON ── */
+  .save-actions { display:flex; gap:14px; align-items:center; justify-content:flex-end; margin-top:28px; }
+  .btn-cancel { padding:11px 24px; border-radius:50px; border:2px solid #ddd; color:#888; background:#fff; font-family:'Baloo 2',sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.25s; text-decoration:none; display:flex; align-items:center; gap:6px; }
+  .btn-cancel:hover { border-color:#bbb; color:#666; }
+  .btn-save { padding:12px 32px; border-radius:50px; background:linear-gradient(135deg,var(--green-main),var(--green-dark)); color:#fff; border:none; font-family:'Baloo 2',sans-serif; font-size:0.95rem; font-weight:700; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; gap:8px; box-shadow:0 6px 20px rgba(26,122,60,0.35); }
+  .btn-save:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(26,122,60,0.4); }
+  .btn-save-danger { background:linear-gradient(135deg,#e53935,#b71c1c); box-shadow:0 6px 20px rgba(229,57,53,0.35); }
+  .btn-save-danger:hover { box-shadow:0 10px 28px rgba(229,57,53,0.4); }
+
+  /* ── SUCCESS TOAST ── */
+  #saveToast {
+    position:fixed; bottom:90px; left:50%; transform:translateX(-50%);
+    background:var(--green-main); color:#fff;
+    font-family:'Baloo 2',sans-serif; font-weight:700; font-size:0.9rem;
+    padding:13px 28px; border-radius:50px;
+    box-shadow:0 6px 24px rgba(0,0,0,0.2);
+    z-index:9999; opacity:0; transition:opacity 0.3s;
+    white-space:nowrap; pointer-events:none;
+  }
+  #saveToast.show { opacity:1; }
+
+  @media(max-width:600px){
+    .form-card { padding:22px 16px; }
+    .form-row, .form-row.triple { grid-template-columns:1fr; }
+    .id-banner { flex-direction:column; text-align:center; }
+    .tab-btn { font-size:0.72rem; }
+  }
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="logo-icon">🌾</div>
+    <div class="logo-text">
+      <span class="en">Krushi Sahayak</span>
+      <span class="mr-sub">कृषी सहायक</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+      <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+    </div>
+    <a href="farmer-dashboard.html" class="btn-back">← <span data-en="Dashboard" data-mr="डॅशबोर्ड">Dashboard</span></a>
+  </div>
+</nav>
+
+<!-- ── PAGE ── -->
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title" data-en="<i data-lucide="user-pen" class="lucide"></i> Edit Profile" data-mr="<i data-lucide="user-pen" class="lucide"></i> प्रोफाइल संपादित करा"><i data-lucide="user-pen" class="lucide"></i> Edit Profile</h1>
+    <p class="page-sub" data-en="Update your personal, farm and bank details" data-mr="वैयक्तिक, शेत आणि बँक माहिती अद्यतनित करा">Update your personal, farm and bank details</p>
+  </div>
+
+  <!-- Farmer ID Banner -->
+  <div class="id-banner">
+    <div class="id-avatar">👨‍🌾</div>
+    <div class="id-info">
+      <div class="id-name" id="bannerName">—</div>
+      <div class="id-num" id="bannerID">—</div>
+    </div>
+    <div class="id-badge">✅ <span data-en="Verified Farmer" data-mr="सत्यापित शेतकरी">Verified Farmer</span></div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab1" onclick="switchTab(1)">👤 <span data-en="Personal" data-mr="वैयक्तिक">Personal</span></button>
+    <button class="tab-btn" id="tab2" onclick="switchTab(2)">🌾 <span data-en="Farm" data-mr="शेत">Farm</span></button>
+    <button class="tab-btn" id="tab3" onclick="switchTab(3)">🏦 <span data-en="Bank" data-mr="बँक">Bank</span></button>
+    <button class="tab-btn" id="tab4" onclick="switchTab(4)">🔒 <span data-en="Password" data-mr="पासवर्ड">Password</span></button>
+  </div>
+
+  <!-- ════ TAB 1: PERSONAL ════ -->
+  <div class="form-card active" id="panel1">
+    <div class="section-title">👤 <span data-en="Personal Details" data-mr="वैयक्तिक माहिती">Personal Details</span></div>
+    <div class="section-sub" data-en="Update your name and contact information" data-mr="आपले नाव आणि संपर्क माहिती अद्यतनित करा">Update your name and contact information</div>
+
+    <div class="locked-note">
+      <span class="ln-icon">🔒</span>
+      <span data-en="Aadhaar Number and Mobile Number cannot be changed once registered. Contact helpline 1800-123-4567 for corrections." data-mr="आधार क्रमांक आणि मोबाईल नंबर नोंदणीनंतर बदलता येत नाही. दुरुस्तीसाठी हेल्पलाइन 1800-123-4567 वर संपर्क करा.">Aadhaar Number and Mobile Number cannot be changed once registered. Contact helpline 1800-123-4567 for corrections.</span>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Full Name" data-mr="पूर्ण नाव">Full Name</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-name" placeholder="Ramesh Kumar Patil"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Mobile Number" data-mr="मोबाईल नंबर">Mobile Number</span></label>
+        <input type="tel" class="form-input" id="ep-mobile" readonly/>
+        <div class="form-hint" data-en="🔒 Cannot be changed" data-mr="🔒 बदलता येत नाही">🔒 Cannot be changed</div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Aadhaar Number" data-mr="आधार क्रमांक">Aadhaar Number</span></label>
+        <input type="text" class="form-input" id="ep-aadhaar" readonly/>
+        <div class="form-hint" data-en="🔒 Cannot be changed" data-mr="🔒 बदलता येत नाही">🔒 Cannot be changed</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Category" data-mr="जात प्रवर्ग">Category</span> <span class="required">*</span></label>
+        <select class="form-select" id="ep-category">
+          <option value="general">General / सामान्य</option>
+          <option value="obc">OBC</option>
+          <option value="sc">SC / अनुसूचित जाती</option>
+          <option value="st">ST / अनुसूचित जमाती</option>
+          <option value="nt">NT/VJ / भटके विमुक्त</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="form-divider"/>
+    <div class="section-title" style="font-size:1rem;margin-bottom:4px;">📍 <span data-en="Address" data-mr="पत्ता">Address</span></div>
+    <div class="section-sub" data-en="Update your village and location details" data-mr="गाव आणि स्थान तपशील अद्यतनित करा">Update your village and location details</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="State" data-mr="राज्य">State</span></label>
+        <input type="text" class="form-input" value="Maharashtra" readonly/>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="District" data-mr="जिल्हा">District</span> <span class="required">*</span></label>
+        <select class="form-select" id="ep-district">
+          <option value="pune">Pune / पुणे</option>
+          <option value="nashik">Nashik / नाशिक</option>
+          <option value="aurangabad">Chhatrapati Sambhajinagar</option>
+          <option value="solapur">Solapur / सोलापूर</option>
+          <option value="kolhapur">Kolhapur / कोल्हापूर</option>
+          <option value="satara">Satara / सातारा</option>
+          <option value="sangli">Sangli / सांगली</option>
+          <option value="ahmednagar">Ahilyanagar / अहिल्यानगर</option>
+          <option value="nagpur">Nagpur / नागपूर</option>
+          <option value="amravati">Amravati / अमरावती</option>
+          <option value="latur">Latur / लातूर</option>
+          <option value="beed">Beed / बीड</option>
+          <option value="nanded">Nanded / नांदेड</option>
+          <option value="jalgaon">Jalgaon / जळगाव</option>
+          <option value="akola">Akola / अकोला</option>
+          <option value="buldhana">Buldhana / बुलढाणा</option>
+          <option value="yavatmal">Yavatmal / यवतमाळ</option>
+          <option value="wardha">Wardha / वर्धा</option>
+          <option value="chandrapur">Chandrapur / चंद्रपूर</option>
+          <option value="thane">Thane / ठाणे</option>
+          <option value="palghar">Palghar / पालघर</option>
+          <option value="dhule">Dhule / धुळे</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row triple">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Taluka" data-mr="तालुका">Taluka</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-taluka" placeholder="e.g. Haveli"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Village" data-mr="गाव">Village</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-village" placeholder="e.g. Khadki"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Pin Code" data-mr="पिन कोड">Pin Code</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-pincode" placeholder="411001" maxlength="6"/>
+      </div>
+    </div>
+
+    <div class="save-actions">
+      <a href="farmer-dashboard.html" class="btn-cancel">✕ <span data-en="Cancel" data-mr="रद्द करा">Cancel</span></a>
+      <button class="btn-save" onclick="savePersonal()">✅ <span data-en="Save Personal Details" data-mr="वैयक्तिक माहिती जतन करा">Save Personal Details</span></button>
+    </div>
+  </div>
+
+  <!-- ════ TAB 2: FARM ════ -->
+  <div class="form-card" id="panel2">
+    <div class="section-title">🌾 <span data-en="Farm Details" data-mr="शेत माहिती">Farm Details</span></div>
+    <div class="section-sub" data-en="Update your land, crop and irrigation details" data-mr="जमीन, पीक आणि सिंचन माहिती अद्यतनित करा">Update your land, crop and irrigation details</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Land Size (Acres)" data-mr="जमीन क्षेत्र (एकर)">Land Size (Acres)</span> <span class="required">*</span></label>
+        <input type="number" class="form-input" id="ep-landSize" placeholder="e.g. 2.5" min="0.1" step="0.1"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Land Type" data-mr="जमीन प्रकार">Land Type</span></label>
+        <select class="form-select" id="ep-landType">
+          <option value="owned">Own Land / स्वतःची जमीन</option>
+          <option value="leased">Leased Land / भाडेतत्त्वावरील</option>
+          <option value="both">Both / दोन्ही</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Main Crop" data-mr="मुख्य पीक">Main Crop</span> <span class="required">*</span></label>
+        <select class="form-select" id="ep-mainCrop">
+          <option value="sugarcane">Sugarcane / ऊस</option>
+          <option value="cotton">Cotton / कापूस</option>
+          <option value="soybean">Soybean / सोयाबीन</option>
+          <option value="wheat">Wheat / गहू</option>
+          <option value="rice">Rice / भात</option>
+          <option value="onion">Onion / कांदा</option>
+          <option value="tomato">Tomato / टोमॅटो</option>
+          <option value="grapes">Grapes / द्राक्षे</option>
+          <option value="pomegranate">Pomegranate / डाळिंब</option>
+          <option value="jowar">Jowar / ज्वारी</option>
+          <option value="bajra">Bajra / बाजरी</option>
+          <option value="tur">Tur Dal / तूर</option>
+          <option value="other">Other / इतर</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Irrigation Source" data-mr="सिंचन स्रोत">Irrigation Source</span></label>
+        <select class="form-select" id="ep-irrigation">
+          <option value="well">Well / विहीर</option>
+          <option value="borewell">Borewell / बोअरवेल</option>
+          <option value="canal">Canal / कालवा</option>
+          <option value="drip">Drip Irrigation / ठिबक</option>
+          <option value="rain">Rain-fed Only / पावसावर</option>
+          <option value="none">No Irrigation</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="form-divider"/>
+    <div class="section-title" style="font-size:1rem;margin-bottom:16px;">🐄 <span data-en="Cattle" data-mr="पशुधन">Cattle</span></div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Do you have cattle?" data-mr="जनावरे आहेत का?">Do you have cattle?</span></label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="ep-hasCattle" value="yes" id="ep-cattleYes"/>
+            <span class="radio-dot"></span>
+            <span class="radio-label" data-en="Yes" data-mr="होय">Yes</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="ep-hasCattle" value="no" id="ep-cattleNo" checked/>
+            <span class="radio-dot"></span>
+            <span class="radio-label" data-en="No" data-mr="नाही">No</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group" id="ep-cattleCountGroup" style="display:none;">
+        <label class="form-label"><span data-en="Number of Cattle" data-mr="जनावरांची संख्या">Number of Cattle</span></label>
+        <input type="number" class="form-input" id="ep-cattleCount" placeholder="e.g. 4" min="1"/>
+      </div>
+    </div>
+
+    <div class="save-actions">
+      <a href="farmer-dashboard.html" class="btn-cancel">✕ <span data-en="Cancel" data-mr="रद्द करा">Cancel</span></a>
+      <button class="btn-save" onclick="saveFarm()">✅ <span data-en="Save Farm Details" data-mr="शेत माहिती जतन करा">Save Farm Details</span></button>
+    </div>
+  </div>
+
+  <!-- ════ TAB 3: BANK ════ -->
+  <div class="form-card" id="panel3">
+    <div class="section-title">🏦 <span data-en="Bank Details" data-mr="बँक माहिती">Bank Details</span></div>
+    <div class="section-sub" data-en="Update your bank account for subsidy transfers" data-mr="अनुदान हस्तांतरणासाठी बँक खाते अद्यतनित करा">Update your bank account for subsidy transfers</div>
+
+    <div class="locked-note">
+      <span class="ln-icon">⚠️</span>
+      <span data-en="Changing bank details affects future subsidy transfers. Make sure all details are correct before saving." data-mr="बँक माहिती बदलणे भविष्यातील अनुदान हस्तांतरणावर परिणाम करते. जतन करण्यापूर्वी सर्व माहिती अचूक असल्याची खात्री करा.">Changing bank details affects future subsidy transfers. Make sure all details are correct before saving.</span>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Bank Name" data-mr="बँकेचे नाव">Bank Name</span> <span class="required">*</span></label>
+        <select class="form-select" id="ep-bankName">
+          <option>State Bank of India (SBI)</option>
+          <option>Bank of Maharashtra</option>
+          <option>Maharashtra Gramin Bank</option>
+          <option>Bank of Baroda</option>
+          <option>Union Bank of India</option>
+          <option>Central Bank of India</option>
+          <option>Canara Bank</option>
+          <option>Punjab National Bank</option>
+          <option>HDFC Bank</option>
+          <option>ICICI Bank</option>
+          <option>Axis Bank</option>
+          <option>District Co-operative Bank</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Account Holder Name" data-mr="खातेधारकाचे नाव">Account Holder Name</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-accountHolder" placeholder="As per bank records"/>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Account Number" data-mr="खाते क्रमांक">Account Number</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-accountNumber" placeholder="e.g. 12345678901" maxlength="18"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span data-en="Confirm Account Number" data-mr="खाते क्रमांक पुन्हा">Confirm Account Number</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-confirmAccount" placeholder="Re-enter account number" maxlength="18"/>
+      </div>
+    </div>
+
+    <div class="form-row single">
+      <div class="form-group">
+        <label class="form-label"><span data-en="IFSC Code" data-mr="IFSC कोड">IFSC Code</span> <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ep-ifscCode" placeholder="e.g. SBIN0001234" maxlength="11" style="text-transform:uppercase;"/>
+        <div class="form-hint" data-en="11-character code on your cheque book" data-mr="चेकबुकवरील ११ अक्षरी कोड">11-character code on your cheque book</div>
+      </div>
+    </div>
+
+    <div class="save-actions">
+      <a href="farmer-dashboard.html" class="btn-cancel">✕ <span data-en="Cancel" data-mr="रद्द करा">Cancel</span></a>
+      <button class="btn-save" onclick="saveBank()">✅ <span data-en="Save Bank Details" data-mr="बँक माहिती जतन करा">Save Bank Details</span></button>
+    </div>
+  </div>
+
+  <!-- ════ TAB 4: PASSWORD ════ -->
+  <div class="form-card" id="panel4">
+    <div class="section-title">🔒 <span data-en="Change Password" data-mr="पासवर्ड बदला">Change Password</span></div>
+    <div class="section-sub" data-en="Keep your account secure with a strong password" data-mr="मजबूत पासवर्डने खाते सुरक्षित ठेवा">Keep your account secure with a strong password</div>
+
+    <div class="form-row single">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Current Password" data-mr="सध्याचा पासवर्ड">Current Password</span> <span class="required">*</span></label>
+        <div style="position:relative;">
+          <input type="password" class="form-input" id="ep-currentPass" placeholder="Enter current password"/>
+          <span onclick="toggleVis('ep-currentPass',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1rem;">👁️</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row single">
+      <div class="form-group">
+        <label class="form-label"><span data-en="New Password" data-mr="नवीन पासवर्ड">New Password</span> <span class="required">*</span></label>
+        <div style="position:relative;">
+          <input type="password" class="form-input" id="ep-newPass" placeholder="Min 6 characters" oninput="checkStrength(this.value)"/>
+          <span onclick="toggleVis('ep-newPass',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1rem;">👁️</span>
+        </div>
+        <div class="pw-strength-bar"><div class="pw-strength-fill" id="pwFill"></div></div>
+        <div class="pw-strength-label" id="pwLabel" style="color:#aaa;"></div>
+      </div>
+    </div>
+
+    <div class="form-row single">
+      <div class="form-group">
+        <label class="form-label"><span data-en="Confirm New Password" data-mr="नवीन पासवर्ड पुन्हा">Confirm New Password</span> <span class="required">*</span></label>
+        <div style="position:relative;">
+          <input type="password" class="form-input" id="ep-confirmPass" placeholder="Re-enter new password"/>
+          <span onclick="toggleVis('ep-confirmPass',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:1rem;">👁️</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="save-actions">
+      <a href="farmer-dashboard.html" class="btn-cancel">✕ <span data-en="Cancel" data-mr="रद्द करा">Cancel</span></a>
+      <button class="btn-save btn-save-danger" onclick="savePassword()">🔒 <span data-en="Update Password" data-mr="पासवर्ड अद्यतनित करा">Update Password</span></button>
+    </div>
+  </div>
+
+</div><!-- end page-wrapper -->
+
+<!-- Toast -->
+<div id="saveToast"></div>
+
+<script src="../js/api.js"></script>
+<script src="../js/main.js"></script>
+<script>
+// ── Auth guard ──
+if (!AuthAPI.isLoggedIn()) {
+  window.location.href = 'farmer-login.html';
+}
+
+let currentLang = 'en';
+let farmerData  = {};
+
+// ── Load & populate all fields from localStorage ──
+window.addEventListener('DOMContentLoaded', () => {
+  farmerData = JSON.parse(localStorage.getItem('farmerData') || '{}');
+  if (!farmerData.name) {
+    toast(currentLang === 'mr' ? '⚠️ प्रोफाइल डेटा सापडला नाही.' : '⚠️ No profile data found. Please register first.', 'error');
+    setTimeout(() => window.location.href = 'farmer-register.html', 2000);
+    return;
+  }
+  populateAll();
+});
+
+function populateAll() {
+  const d = farmerData;
+
+  // Banner
+  document.getElementById('bannerName').textContent = (d.name || '').toUpperCase();
+  document.getElementById('bannerID').textContent   = d.farmerId || d.id || '—';
+
+  // Personal
+  setVal('ep-name',     d.name);
+  setVal('ep-mobile',   d.mobile);
+  setVal('ep-aadhaar',  d.aadhaar);
+  setOpt('ep-category', d.category);
+  setOpt('ep-district', d.district);
+  setVal('ep-taluka',   d.taluka);
+  setVal('ep-village',  d.village);
+  setVal('ep-pincode',  d.pincode);
+
+  // Farm
+  setVal('ep-landSize',  d.landSize);
+  setOpt('ep-landType',  d.landType);
+  setOpt('ep-mainCrop',  d.mainCrop);
+  setOpt('ep-irrigation',d.irrigation);
+
+  // Cattle
+  const hasCattle = d.hasCattle === 'yes';
+  document.getElementById('ep-cattleYes').checked = hasCattle;
+  document.getElementById('ep-cattleNo').checked  = !hasCattle;
+  document.getElementById('ep-cattleCountGroup').style.display = hasCattle ? 'block' : 'none';
+  if (hasCattle) setVal('ep-cattleCount', d.cattleCount);
+
+  // Bank
+  setOpt('ep-bankName',       d.bankName);
+  setVal('ep-accountHolder',  d.accountHolder);
+  setVal('ep-accountNumber',  d.accountNumber);
+  setVal('ep-confirmAccount', d.accountNumber);
+  setVal('ep-ifscCode',       (d.ifscCode||'').toUpperCase());
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el && val) el.value = val;
+}
+function setOpt(id, val) {
+  const el = document.getElementById(id);
+  if (!el || !val) return;
+  // Try exact match first, then lowercase
+  for (let opt of el.options) {
+    if (opt.value === val || opt.value.toLowerCase() === val.toLowerCase()) {
+      el.value = opt.value; return;
+    }
+  }
+}
+
+// ── Tab switch ──
+function switchTab(n) {
+  for (let i=1;i<=4;i++) {
+    document.getElementById('panel'+i).classList.toggle('active', i===n);
+    document.getElementById('tab'+i).classList.toggle('active', i===n);
+  }
+}
+
+// ── Language ──
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang === 'mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length === 0)
+      el.textContent = lang === 'mr' ? (el.dataset.mr || el.dataset.en) : el.dataset.en;
+  });
+}
+
+// ── Cattle toggle ──
+document.querySelectorAll('input[name="ep-hasCattle"]').forEach(r => {
+  r.addEventListener('change', function() {
+    document.getElementById('ep-cattleCountGroup').style.display = this.value === 'yes' ? 'block' : 'none';
+  });
+});
+
+// ── IFSC uppercase ──
+document.getElementById('ep-ifscCode').addEventListener('input', function() {
+  this.value = this.value.toUpperCase();
+});
+
+// ── Password visibility ──
+function toggleVis(id, icon) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+  icon.textContent = el.type === 'password' ? '👁️' : '🙈';
+}
+
+// ── Password strength ──
+function checkStrength(val) {
+  const fill  = document.getElementById('pwFill');
+  const label = document.getElementById('pwLabel');
+  let score = 0;
+  if (val.length >= 6)  score++;
+  if (val.length >= 10) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const levels = [
+    { pct:'20%', color:'#e53935', label:'Weak',   label_mr:'कमकुवत' },
+    { pct:'40%', color:'#e8650a', label:'Fair',   label_mr:'ठीक' },
+    { pct:'60%', color:'#f0a500', label:'Good',   label_mr:'चांगला' },
+    { pct:'80%', color:'#25a050', label:'Strong', label_mr:'मजबूत' },
+    { pct:'100%',color:'#0d5c2e', label:'Very Strong', label_mr:'अत्यंत मजबूत' },
+  ];
+  const lvl = levels[Math.max(0, score-1)] || levels[0];
+  fill.style.width  = val.length ? lvl.pct  : '0%';
+  fill.style.background = lvl.color;
+  label.textContent = val.length ? (currentLang === 'mr' ? lvl.label_mr : lvl.label) : '';
+  label.style.color = lvl.color;
+}
+
+// ── SAVE FUNCTIONS ──
+function savePersonal() {
+  const name    = document.getElementById('ep-name').value.trim();
+  const taluka  = document.getElementById('ep-taluka').value.trim();
+  const village = document.getElementById('ep-village').value.trim();
+  const pincode = document.getElementById('ep-pincode').value.trim();
+
+  if (name.length < 3)       return toast(currentLang==='mr' ? '⚠️ कृपया पूर्ण नाव प्रविष्ट करा' : '⚠️ Please enter your full name', 'error');
+  if (!taluka)                return toast(currentLang==='mr' ? '⚠️ कृपया तालुका प्रविष्ट करा' : '⚠️ Please enter taluka', 'error');
+  if (!village)               return toast(currentLang==='mr' ? '⚠️ कृपया गाव प्रविष्ट करा' : '⚠️ Please enter village', 'error');
+  if (!/^\d{6}$/.test(pincode)) return toast(currentLang==='mr' ? '⚠️ कृपया ६ अंकी पिन कोड टाका' : '⚠️ Please enter valid 6-digit pin code', 'error');
+
+  farmerData.name     = name;
+  farmerData.category = document.getElementById('ep-category').value;
+  farmerData.district = document.getElementById('ep-district').value;
+  farmerData.taluka   = taluka;
+  farmerData.village  = village;
+  farmerData.pincode  = pincode;
+  persist();
+  document.getElementById('bannerName').textContent = name.toUpperCase();
+
+  // ── Sync to backend ──
+  FarmerAPI.updatePersonal({ name, category: farmerData.category, district: farmerData.district, taluka, village, pincode })
+    .then(() => toast(currentLang==='mr' ? '✅ वैयक्तिक माहिती यशस्वीरित्या जतन केली!' : '✅ Personal details saved successfully!', 'success'))
+    .catch(() => toast(currentLang==='mr' ? '✅ स्थानिक पातळीवर जतन केले (सर्व्हर ऑफलाइन)' : '✅ Saved locally (server offline)', 'warning'));
+}
+
+function saveFarm() {
+  const landSize = document.getElementById('ep-landSize').value;
+  const mainCrop = document.getElementById('ep-mainCrop').value;
+
+  if (!landSize || parseFloat(landSize) <= 0) return toast(currentLang==='mr' ? '⚠️ कृपया जमीन क्षेत्र प्रविष्ट करा' : '⚠️ Please enter valid land size', 'error');
+  if (!mainCrop) return toast(currentLang==='mr' ? '⚠️ कृपया मुख्य पीक निवडा' : '⚠️ Please select main crop', 'error');
+
+  farmerData.landSize   = landSize;
+  farmerData.landType   = document.getElementById('ep-landType').value;
+  farmerData.mainCrop   = mainCrop;
+  farmerData.irrigation = document.getElementById('ep-irrigation').value;
+  farmerData.hasCattle  = document.querySelector('input[name="ep-hasCattle"]:checked').value;
+  farmerData.cattleCount= document.getElementById('ep-cattleCount').value || '0';
+  persist();
+
+  // ── Sync to backend ──
+  FarmerAPI.updateFarm({ landSize: farmerData.landSize, landType: farmerData.landType, mainCrop, irrigation: farmerData.irrigation, hasCattle: farmerData.hasCattle, cattleCount: farmerData.cattleCount })
+    .then(() => toast(currentLang==='mr' ? '✅ शेत माहिती यशस्वीरित्या जतन केली!' : '✅ Farm details saved successfully!', 'success'))
+    .catch(() => toast(currentLang==='mr' ? '✅ स्थानिक पातळीवर जतन केले (सर्व्हर ऑफलाइन)' : '✅ Saved locally (server offline)', 'warning'));
+}
+
+function saveBank() {
+  const bn  = document.getElementById('ep-bankName').value;
+  const ah  = document.getElementById('ep-accountHolder').value.trim();
+  const an  = document.getElementById('ep-accountNumber').value.trim();
+  const ca  = document.getElementById('ep-confirmAccount').value.trim();
+  const ifc = document.getElementById('ep-ifscCode').value.trim().toUpperCase();
+
+  if (!bn)         return toast(currentLang==='mr' ? '⚠️ बँक निवडा' : '⚠️ Please select bank', 'error');
+  if (!ah)         return toast(currentLang==='mr' ? '⚠️ खातेधारकाचे नाव टाका' : '⚠️ Enter account holder name', 'error');
+  if (an.length < 8) return toast(currentLang==='mr' ? '⚠️ वैध खाते क्रमांक टाका' : '⚠️ Enter valid account number', 'error');
+  if (an !== ca)   return toast(currentLang==='mr' ? '⚠️ खाते क्रमांक जुळत नाही' : '⚠️ Account numbers do not match', 'error');
+  if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifc)) return toast(currentLang==='mr' ? '⚠️ वैध IFSC कोड टाका' : '⚠️ Enter valid IFSC code (e.g. SBIN0001234)', 'error');
+
+  farmerData.bankName      = bn;
+  farmerData.accountHolder = ah;
+  farmerData.accountNumber = an;
+  farmerData.ifscCode      = ifc;
+  persist();
+
+  // ── Sync to backend ──
+  FarmerAPI.updateBank({ bankName: bn, accountHolder: ah, accountNumber: an, ifscCode: ifc })
+    .then(() => toast(currentLang==='mr' ? '✅ बँक माहिती यशस्वीरित्या जतन केली!' : '✅ Bank details saved successfully!', 'success'))
+    .catch(() => toast(currentLang==='mr' ? '✅ स्थानिक पातळीवर जतन केले (सर्व्हर ऑफलाइन)' : '✅ Saved locally (server offline)', 'warning'));
+}
+
+function savePassword() {
+  const curr = document.getElementById('ep-currentPass').value;
+  const nw   = document.getElementById('ep-newPass').value;
+  const conf = document.getElementById('ep-confirmPass').value;
+
+  if (!curr)         return toast(currentLang==='mr' ? '⚠️ सध्याचा पासवर्ड टाका' : '⚠️ Enter current password', 'error');
+  if (nw.length < 6) return toast(currentLang==='mr' ? '⚠️ नवीन पासवर्ड किमान ६ अक्षरांचा असावा' : '⚠️ New password must be at least 6 characters', 'error');
+  if (nw !== conf)   return toast(currentLang==='mr' ? '⚠️ नवीन पासवर्ड जुळत नाही' : '⚠️ New passwords do not match', 'error');
+  if (nw === curr)   return toast(currentLang==='mr' ? '⚠️ नवीन पासवर्ड जुना पासवर्डसारखाच आहे' : '⚠️ New password is same as old password', 'error');
+
+  // ── Call backend ──
+  FarmerAPI.changePassword({ currentPassword: curr, newPassword: nw })
+    .then(() => {
+      document.getElementById('ep-currentPass').value = '';
+      document.getElementById('ep-newPass').value = '';
+      document.getElementById('ep-confirmPass').value = '';
+      document.getElementById('pwFill').style.width = '0%';
+      document.getElementById('pwLabel').textContent = '';
+      toast(currentLang==='mr' ? '✅ पासवर्ड यशस्वीरित्या बदलला!' : '✅ Password changed successfully!', 'success');
+    })
+    .catch(err => toast('❌ ' + (err.message || (currentLang==='mr' ? 'पासवर्ड बदलता आला नाही' : 'Could not change password. Check current password.')), 'error'));
+}
+
+// ── Persist to localStorage ──
+function persist() {
+  localStorage.setItem('farmerData', JSON.stringify(farmerData));
+  // Clear AI recommendation cache so Gemini re-runs with updated profile
+  sessionStorage.removeItem('ks_gemini_cache');
+}
+
+// ── Toast helper ──
+function toast(msg, type) {
+  const el = document.getElementById('saveToast');
+  el.textContent = msg;
+  el.style.background = type === 'success' ? 'var(--green-main)' : type === 'error' ? '#e53935' : '#e8650a';
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ── Logout ──
+function doLogout() {
+  if (confirm(currentLang==='mr' ? 'लॉगआउट करायचे आहे का?' : 'Are you sure you want to logout?')) {
+    AuthAPI.logout();
+    window.location.href = 'farmer-login.html';
+  }
+}
+</script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

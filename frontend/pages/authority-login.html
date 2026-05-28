@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Authority Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --blue-dark:#0a1a2e;--blue-main:#1a3a8a;--blue-mid:#2a5aaa;
+    --ai-cyan:#00c8ff;--saffron:#e8650a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:'Baloo 2',sans-serif;
+    background:linear-gradient(135deg,#061020 0%,#0a1a2e 50%,#061428 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  body::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,200,255,0.04) 1px,transparent 1px);background-size:28px 28px;}
+  .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+  .orb1{width:400px;height:400px;background:rgba(26,58,138,0.35);top:-100px;right:-100px;}
+  .orb2{width:300px;height:300px;background:rgba(0,200,255,0.08);bottom:-80px;left:-80px;}
+
+  .login-card{
+    position:relative;z-index:1;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(0,200,255,0.15);
+    border-radius:28px;padding:48px 44px;width:100%;max-width:460px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 32px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(0,200,255,0.08);
+  }
+  .lc-logo{text-align:center;margin-bottom:36px;}
+  .lc-logo-icon{
+    width:80px;height:80px;
+    background:linear-gradient(135deg,var(--blue-main),var(--blue-mid));
+    border-radius:20px;display:flex;align-items:center;justify-content:center;
+    font-size:2.4rem;margin:0 auto 16px;
+    border:2px solid rgba(0,200,255,0.25);
+    box-shadow:0 0 32px rgba(26,58,138,0.5),0 0 0 8px rgba(26,58,138,0.1);
+  }
+  .lc-logo h1{font-family:'Yatra One',cursive;font-size:1.7rem;color:#fff;margin-bottom:4px;}
+  .lc-logo p{font-size:0.78rem;color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;letter-spacing:1px;text-transform:uppercase;}
+  .lc-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.25);
+    color:var(--ai-cyan);font-size:0.7rem;font-weight:700;
+    padding:6px 18px;border-radius:20px;margin-top:12px;
+    letter-spacing:1px;font-family:'Share Tech Mono',monospace;
+  }
+  .lc-badge::before{content:'';width:7px;height:7px;background:var(--ai-cyan);border-radius:50%;animation:blink 1.5s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .lc-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,255,0.2),transparent);margin:28px 0;}
+
+  .form-group{margin-bottom:20px;}
+  .form-group label{
+    display:flex;align-items:center;gap:6px;
+    font-size:0.72rem;font-weight:700;
+    color:rgba(255,255,255,0.5);
+    font-family:'Share Tech Mono',monospace;letter-spacing:1px;
+    text-transform:uppercase;margin-bottom:8px;
+  }
+  .form-group input{
+    width:100%;padding:14px 18px;border-radius:14px;
+    border:1px solid rgba(0,200,255,0.15);
+    background:rgba(255,255,255,0.05);
+    font-family:'Baloo 2',sans-serif;font-size:0.95rem;
+    color:#fff;outline:none;transition:all 0.25s;
+  }
+  .form-group input::placeholder{color:rgba(255,255,255,0.25);}
+  .form-group input:focus{border-color:var(--ai-cyan);background:rgba(0,200,255,0.05);box-shadow:0 0 0 4px rgba(0,200,255,0.08);}
+
+  .error-box{background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.3);border-radius:12px;padding:12px 16px;font-size:0.82rem;color:#ff9090;margin-bottom:20px;display:none;}
+
+  .btn-login{
+    width:100%;padding:16px;border-radius:14px;
+    background:linear-gradient(135deg,var(--blue-main),var(--blue-mid));
+    color:#fff;border:1px solid rgba(0,200,255,0.2);
+    font-family:'Baloo 2',sans-serif;font-size:1rem;font-weight:800;
+    cursor:pointer;transition:all 0.25s;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    box-shadow:0 8px 24px rgba(26,58,138,0.4);letter-spacing:0.5px;
+  }
+  .btn-login:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(26,58,138,0.55);background:linear-gradient(135deg,#2a4aaa,#3a6acc);}
+  .btn-login:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+  .back-link{text-align:center;margin-top:22px;}
+  .back-link a{font-size:0.78rem;color:rgba(255,255,255,0.3);text-decoration:none;transition:color 0.2s;font-family:'Share Tech Mono',monospace;}
+  .back-link a:hover{color:var(--ai-cyan);}
+  .secure-note{text-align:center;margin-top:14px;font-size:0.68rem;color:rgba(255,255,255,0.2);font-family:'Share Tech Mono',monospace;letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:6px;}
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="login-card">
+  <div class="lc-logo">
+    <div class="lc-logo-icon"><i data-lucide="building-2" class="lucide"></i></div>
+    <h1>Krushi Sahayak</h1>
+    <p>Maharashtra Govt. Agriculture Portal</p>
+    <span class="lc-badge">AUTHORITY ACCESS ONLY</span>
+  </div>
+
+  <div class="lc-divider"></div>
+
+  <div class="error-box" id="errorBox">❌ <span id="errorMsg">Invalid credentials</span></div>
+
+  <div class="form-group">
+    <label>👤 Authority Username</label>
+    <input type="text" id="username" placeholder="Enter your username" autocomplete="username"/>
+  </div>
+  <div class="form-group">
+    <label>🔒 Password</label>
+    <input type="password" id="password" placeholder="Enter your password"
+           autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()"/>
+  </div>
+
+  <button class="btn-login" id="loginBtn" onclick="doLogin()">
+    🏛️ Login to Authority Dashboard
+  </button>
+
+  <div class="back-link"><a href="farmer-login.html">← Back to Farmer Portal</a></div>
+  <div class="secure-note">🔒 SECURE GOVERNMENT ACCESS · MAHARASHTRA AGRICULTURE DEPT.</div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+  if (sessionStorage.getItem('authorityLoggedIn') === 'true') {
+    window.location.href = 'authority-dashboard.html';
+  }
+
+  async function doLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const btn      = document.getElementById('loginBtn');
+    const errBox   = document.getElementById('errorBox');
+    if (!username || !password) { showError('Please enter username and password.'); return; }
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Authenticating...';
+    errBox.style.display = 'none';
+    try {
+      await AuthAPI.authorityLogin(username, password);
+      window.location.href = 'authority-dashboard.html';
+    } catch (err) {
+      showError(err.message || 'Invalid credentials. Please try again.');
+      btn.disabled = false;
+      btn.innerHTML = '🏛️ Login to Authority Dashboard';
+    }
+  }
+
+  function showError(msg) {
+    const box = document.getElementById('errorBox');
+    document.getElementById('errorMsg').textContent = msg;
+    box.style.display = 'block';
+  }
+</script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

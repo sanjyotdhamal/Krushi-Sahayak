@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Farmer Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e; --green-main:#1a7a3c; --green-mid:#25a050;
+    --green-light:#e8f5ee; --saffron:#e8650a; --saffron-light:#fff3eb;
+    --saffron-glow:#ff8c3a; --gold:#f0a500; --cream:#fffdf7;
+    --text-dark:#1a2e1a; --text-mid:#3a5a3a;
+    --border:#d4e8d4; --input-bg:#f8fdf8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Baloo 2',sans-serif; background:var(--cream); color:var(--text-dark); min-height:100vh; }
+  body.mr { font-family:'Noto Sans Devanagari',sans-serif; }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:999;
+    background:rgba(13,92,46,0.97); backdrop-filter:blur(12px);
+    border-bottom:3px solid var(--saffron);
+    padding:0 2rem; display:flex; align-items:center; justify-content:space-between;
+    height:70px; box-shadow:0 4px 24px rgba(0,0,0,0.25);
+  }
+  .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .logo-icon { width:48px; height:48px; background:linear-gradient(135deg,var(--saffron),var(--gold)); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:26px; }
+  .logo-en { font-family:'Baloo 2',sans-serif; font-size:1.35rem; font-weight:800; color:#fff; display:block; }
+  .logo-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.72rem; color:var(--gold); display:block; }
+  .nav-right { display:flex; align-items:center; gap:10px; }
+  .lang-switch { display:flex; background:rgba(255,255,255,0.12); border-radius:25px; padding:3px; gap:2px; border:1px solid rgba(255,255,255,0.2); }
+  .lang-btn { padding:5px 14px; border-radius:20px; border:none; font-family:'Baloo 2',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.25s; color:rgba(255,255,255,0.7); background:transparent; }
+  .lang-btn.active { background:var(--saffron); color:#fff; }
+  .btn-nav { padding:8px 18px; border-radius:25px; border:2px solid rgba(255,255,255,0.6); color:#fff; background:transparent; font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:700; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px; transition:all 0.25s; }
+  .btn-nav:hover { background:rgba(255,255,255,0.1); }
+
+  /* ── SPLIT LAYOUT ── */
+  .page-wrap {
+    min-height:100vh; display:grid; grid-template-columns:1fr 1fr;
+    padding-top:70px;
+  }
+
+  /* LEFT PANEL */
+  .left-panel {
+    background:linear-gradient(160deg, var(--green-dark) 0%, #0a4020 50%, #07300f 100%);
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    padding:60px 48px; position:relative; overflow:hidden;
+  }
+  .left-panel::before {
+    content:''; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size:26px 26px;
+  }
+  .left-panel::after {
+    content:''; position:absolute; bottom:-80px; right:-80px;
+    width:320px; height:320px; border-radius:50%;
+    background:radial-gradient(circle, rgba(232,101,10,0.2) 0%, transparent 70%);
+  }
+  .left-content { position:relative; z-index:1; text-align:center; }
+  .left-logo-icon { width:80px; height:80px; background:linear-gradient(135deg,var(--saffron),var(--gold)); border-radius:20px; display:flex; align-items:center; justify-content:center; font-size:42px; margin:0 auto 24px; box-shadow:0 8px 32px rgba(232,101,10,0.4); }
+  .left-title { font-family:'Yatra One',cursive; font-size:2.4rem; color:#fff; margin-bottom:8px; line-height:1.1; }
+  .left-title .hl { color:var(--saffron-glow); }
+  .left-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:1rem; color:var(--gold); margin-bottom:20px; }
+  .left-desc { font-size:0.9rem; color:rgba(255,255,255,0.65); line-height:1.7; max-width:320px; margin:0 auto 40px; }
+
+  /* Feature pills */
+  .feature-list { display:flex; flex-direction:column; gap:12px; width:100%; max-width:300px; }
+  .feature-item { display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:12px 16px; }
+  .feature-item .fi-icon { font-size:1.4rem; flex-shrink:0; }
+  .feature-item .fi-text { font-size:0.82rem; color:rgba(255,255,255,0.8); font-weight:500; }
+  .feature-item .fi-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.68rem; color:rgba(255,255,255,0.45); display:block; }
+
+  /* RIGHT PANEL */
+  .right-panel {
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    padding:48px 48px; background:var(--cream);
+  }
+
+  /* LOGIN CARD */
+  .login-card { width:100%; max-width:420px; }
+  .login-card-title {
+    font-family:'Yatra One',cursive; font-size:1.8rem; color:var(--green-dark);
+    margin-bottom:4px;
+  }
+  .login-card-sub { font-size:0.88rem; color:#7a9a7a; margin-bottom:32px; }
+
+  /* TABS */
+  .login-tabs { display:flex; background:var(--green-light); border-radius:14px; padding:4px; gap:4px; margin-bottom:28px; }
+  .tab-btn {
+    flex:1; padding:10px; border-radius:10px; border:none;
+    font-family:'Baloo 2',sans-serif; font-size:0.88rem; font-weight:700;
+    cursor:pointer; transition:all 0.25s; color:var(--text-mid); background:transparent;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .tab-btn.active { background:#fff; color:var(--green-dark); box-shadow:0 2px 12px rgba(26,122,60,0.12); }
+
+  /* FORM */
+  .form-group { display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
+  .form-group label { font-size:0.82rem; font-weight:700; color:var(--text-mid); display:flex; align-items:center; gap:6px; }
+  .lbl-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.68rem; color:#bbb; font-weight:400; }
+  .input-wrap { position:relative; }
+  .input-wrap input {
+    width:100%; padding:13px 16px; border-radius:12px;
+    border:2px solid var(--border); background:var(--input-bg);
+    font-family:'Baloo 2',sans-serif; font-size:0.95rem; color:var(--text-dark);
+    transition:all 0.25s; outline:none;
+  }
+  .input-wrap input:focus { border-color:var(--green-main); background:#fff; box-shadow:0 0 0 4px rgba(26,122,60,0.08); }
+  .input-wrap .input-icon { position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:1.1rem; cursor:pointer; }
+
+  /* OTP panel */
+  .otp-panel { display:none; }
+  .otp-panel.show { display:block; animation:fadeIn 0.3s ease; }
+  .otp-boxes { display:flex; gap:10px; justify-content:center; margin:8px 0 4px; }
+  .otp-box { width:52px; height:56px; border-radius:12px; border:2px solid var(--border); background:var(--input-bg); text-align:center; font-family:'Baloo 2',sans-serif; font-size:1.4rem; font-weight:700; color:var(--green-dark); outline:none; transition:all 0.25s; }
+  .otp-box:focus { border-color:var(--saffron); background:#fff; box-shadow:0 0 0 4px rgba(232,101,10,0.1); }
+  .otp-sent-msg { font-size:0.78rem; color:var(--green-main); text-align:center; margin-bottom:4px; }
+  .resend-link { font-size:0.78rem; color:#bbb; text-align:center; cursor:pointer; }
+  .resend-link span { color:var(--saffron); font-weight:700; }
+
+  /* Remember + Forgot */
+  .form-extras { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+  .remember-wrap { display:flex; align-items:center; gap:8px; font-size:0.82rem; color:var(--text-mid); cursor:pointer; }
+  .remember-wrap input { width:16px; height:16px; accent-color:var(--green-main); cursor:pointer; }
+  .forgot-link { font-size:0.82rem; color:var(--saffron); font-weight:700; text-decoration:none; cursor:pointer; }
+  .forgot-link:hover { text-decoration:underline; }
+
+  /* Buttons */
+  .btn-login-main {
+    width:100%; padding:14px; border-radius:50px;
+    background:linear-gradient(135deg,var(--green-main),var(--green-dark));
+    color:#fff; border:none; font-family:'Baloo 2',sans-serif;
+    font-size:1rem; font-weight:700; cursor:pointer;
+    box-shadow:0 6px 20px rgba(26,122,60,0.3);
+    transition:all 0.25s; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .btn-login-main:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(26,122,60,0.4); }
+
+  .btn-otp-send {
+    width:100%; padding:13px; border-radius:50px;
+    background:linear-gradient(135deg,var(--saffron),#e05500);
+    color:#fff; border:none; font-family:'Baloo 2',sans-serif;
+    font-size:0.95rem; font-weight:700; cursor:pointer;
+    box-shadow:0 6px 20px rgba(232,101,10,0.3); transition:all 0.25s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-top:4px;
+  }
+  .btn-otp-send:hover { transform:translateY(-2px); }
+
+  /* Divider */
+  .or-divider { display:flex; align-items:center; gap:12px; margin:20px 0; }
+  .or-divider::before,.or-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+  .or-divider span { font-size:0.78rem; color:#bbb; font-weight:600; }
+
+  /* Register link */
+  .register-prompt { text-align:center; margin-top:20px; font-size:0.85rem; color:#7a9a7a; }
+  .register-prompt a { color:var(--green-main); font-weight:700; text-decoration:none; }
+  .register-prompt a:hover { text-decoration:underline; }
+
+  /* Authority link */
+  .authority-link {
+    text-align:center; margin-top:14px; padding:12px 20px;
+    background:var(--saffron-light); border:1px solid rgba(232,101,10,0.2);
+    border-radius:12px; font-size:0.82rem; color:var(--text-mid);
+  }
+  .authority-link a { color:var(--saffron); font-weight:700; text-decoration:none; }
+  .authority-link a:hover { text-decoration:underline; }
+
+  /* Demo credentials box */
+  /* demo-box removed */
+    background:linear-gradient(135deg,var(--green-light),#d5f0e0);
+    border:2px dashed var(--green-main); border-radius:14px;
+    padding:14px 18px; margin-bottom:22px; font-size:0.82rem; color:var(--green-dark);
+  }
+
+
+
+
+
+  /* Animations */
+  @keyframes fadeIn { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;} }
+  .login-card { animation:fadeIn 0.4s ease; }
+
+  /* Responsive */
+  @media(max-width:860px) {
+    .page-wrap { grid-template-columns:1fr; }
+    .left-panel { display:none; }
+    .right-panel { padding:32px 24px; }
+  }
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ NAVBAR ════ -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="logo-icon">🌾</div>
+    <div>
+      <span class="logo-en">Krushi Sahayak</span>
+      <span class="logo-mr">कृषी सहायक</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+      <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+    </div>
+    <a href="index.html" class="btn-nav" data-en="🏠 Home" data-mr="🏠 मुख्यपृष्ठ">🏠 Home</a>
+  </div>
+</nav>
+
+<!-- ════ SPLIT LAYOUT ════ -->
+<div class="page-wrap">
+
+  <!-- ── LEFT PANEL ── -->
+  <div class="left-panel">
+    <div class="left-content">
+      <div class="left-logo-icon">🌾</div>
+      <h1 class="left-title">Welcome to<br/><span class="hl">Krushi</span> Sahayak</h1>
+      <p class="left-mr" data-en="कृषी सहायकमध्ये आपले स्वागत" data-mr="कृषी सहायकमध्ये आपले स्वागत">कृषी सहायकमध्ये आपले स्वागत</p>
+      <p class="left-desc" data-en="Login to access AI-powered subsidy recommendations, apply for schemes, and track your applications." data-mr="AI-आधारित अनुदान शिफारसींसाठी, योजनांसाठी अर्ज करण्यासाठी आणि अर्ज ट्रॅक करण्यासाठी लॉगिन करा.">
+        Login to access AI-powered subsidy recommendations, apply for schemes, and track your applications.
+      </p>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="fi-icon">🤖</div>
+          <div class="fi-text">
+            <span data-en="AI Scheme Recommendations" data-mr="AI योजना शिफारसी">AI Scheme Recommendations</span>
+            <span class="fi-mr">तुमच्यासाठी सर्वोत्तम योजना</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="fi-icon">📄</div>
+          <div class="fi-text">
+            <span data-en="Smart Document Guidance" data-mr="स्मार्ट कागदपत्र मार्गदर्शन">Smart Document Guidance</span>
+            <span class="fi-mr">कोणती कागदपत्रे लागतात ते जाणा</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="fi-icon">📊</div>
+          <div class="fi-text">
+            <span data-en="Real-time Application Tracking" data-mr="रिअल-टाइम अर्ज ट्रॅकिंग">Real-time Application Tracking</span>
+            <span class="fi-mr">अर्जाची स्थिती तपासा</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="fi-icon">💰</div>
+          <div class="fi-text">
+            <span data-en="Direct Bank Transfer" data-mr="थेट बँक हस्तांतरण">Direct Bank Transfer</span>
+            <span class="fi-mr">अनुदान थेट बँकेत</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT PANEL ── -->
+  <div class="right-panel">
+    <div class="login-card">
+
+      <h2 class="login-card-title" data-en="👨‍🌾 Farmer Login" data-mr="👨‍🌾 शेतकरी लॉगिन">👨‍🌾 Farmer Login</h2>
+      <p class="login-card-sub" data-en="Enter your credentials to access your dashboard" data-mr="तुमच्या डॅशबोर्डमध्ये प्रवेश करण्यासाठी तपशील प्रविष्ट करा">Enter your credentials to access your dashboard</p>
+
+
+
+      <!-- Tabs -->
+      <div class="login-tabs">
+        <button class="tab-btn active" id="tab-pass" onclick="switchTab('password')">
+          🔑 <span data-en="Password Login" data-mr="पासवर्ड लॉगिन">Password Login</span>
+        </button>
+        <button class="tab-btn" id="tab-otp" onclick="switchTab('otp')">
+          📱 <span data-en="OTP Login" data-mr="OTP लॉगिन">OTP Login</span>
+        </button>
+      </div>
+
+      <!-- PASSWORD LOGIN -->
+      <div id="panel-password">
+        <div class="form-group">
+          <label>📱 <span data-en="Mobile Number" data-mr="मोबाईल नंबर">Mobile Number</span> <span class="lbl-mr">मोबाईल नंबर</span></label>
+          <div class="input-wrap">
+            <input type="tel" id="login-mobile" maxlength="10"
+              placeholder="Enter 10-digit mobile number" oninput="this.value=this.value.replace(/\D/g,'')"/>
+            <span class="input-icon">📱</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>🔑 <span data-en="Password" data-mr="पासवर्ड">Password</span> <span class="lbl-mr">पासवर्ड</span></label>
+          <div class="input-wrap">
+            <input type="password" id="login-pass" placeholder="Enter your password"/>
+            <span class="input-icon" onclick="togglePass('login-pass',this)" style="user-select:none;">👁️</span>
+          </div>
+        </div>
+        <div class="form-extras">
+          <label class="remember-wrap">
+            <input type="checkbox" id="remember"/>
+            <span data-en="Remember me" data-mr="मला लक्षात ठेवा">Remember me</span>
+          </label>
+          <a class="forgot-link" onclick="showForgot()"
+            data-en="Forgot Password?" data-mr="पासवर्ड विसरलात?">Forgot Password?</a>
+        </div>
+        <button class="btn-login-main" onclick="doLogin()">
+          🚀 <span data-en="Login to Dashboard" data-mr="डॅशबोर्डवर लॉगिन करा">Login to Dashboard</span>
+        </button>
+      </div>
+
+      <!-- OTP LOGIN -->
+      <div id="panel-otp" style="display:none;">
+        <div class="form-group">
+          <label>📱 <span data-en="Mobile Number" data-mr="मोबाईल नंबर">Mobile Number</span> <span class="lbl-mr">मोबाईल नंबर</span></label>
+          <div class="input-wrap">
+            <input type="tel" id="otp-mobile" maxlength="10"
+              placeholder="Enter 10-digit mobile number" oninput="this.value=this.value.replace(/\D/g,'')"/>
+            <span class="input-icon">📱</span>
+          </div>
+        </div>
+
+        <!-- OTP boxes (shown after send) -->
+        <div class="otp-panel" id="otp-enter-panel">
+          <p class="otp-sent-msg" data-en="✅ OTP sent to your mobile number" data-mr="✅ तुमच्या मोबाईलवर OTP पाठवला">✅ OTP sent to your mobile number</p>
+          <div class="otp-boxes">
+            <input class="otp-box" type="text" maxlength="1" id="o1" oninput="otpMove(this,'o2')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o2" oninput="otpMove(this,'o3')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o3" oninput="otpMove(this,'o4')"/>
+            <input class="otp-box" type="text" maxlength="1" id="o4" oninput="otpMove(this,null)"/>
+          </div>
+          <p class="resend-link" style="margin:8px 0 16px;">
+            <span data-en="Didn't receive? " data-mr="OTP नाही मिळाले? ">Didn't receive? </span>
+            <span onclick="resendOTP()" data-en="Resend OTP" data-mr="OTP पुन्हा पाठवा">Resend OTP</span>
+          </p>
+          <button class="btn-login-main" onclick="verifyOTP()" style="margin-top:4px;">
+            ✅ <span data-en="Verify & Login" data-mr="सत्यापित करा आणि लॉगिन करा">Verify & Login</span>
+          </button>
+        </div>
+
+        <button class="btn-otp-send" id="btnSendOtp" onclick="sendOTP()">
+          📲 <span data-en="Send OTP" data-mr="OTP पाठवा">Send OTP</span>
+        </button>
+      </div>
+
+      <!-- OR -->
+      <div class="or-divider"><span data-en="OR" data-mr="किंवा">OR</span></div>
+
+      <!-- Register -->
+      <div class="register-prompt">
+        <span data-en="New farmer? " data-mr="नवीन शेतकरी? ">New farmer? </span>
+        <a href="farmer-register.html" data-en="Register here 🌱" data-mr="येथे नोंदणी करा 🌱">Register here 🌱</a>
+      </div>
+
+      <!-- Authority login -->
+      <div class="authority-link" style="margin-top:12px;">
+        <span data-en="Are you a Govt. Authority? " data-mr="आपण सरकारी अधिकारी आहात? ">Are you a Govt. Authority? </span>
+        <a href="authority-dashboard.html" data-en="Authority Login →" data-mr="अधिकारी लॉगिन →">Authority Login →</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════ FORGOT PASSWORD MODAL ════ -->
+<div id="forgotModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; display:none; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:24px; padding:36px; max-width:400px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation:fadeIn 0.3s ease;">
+    <h3 style="font-family:'Yatra One',cursive; color:var(--green-dark); margin-bottom:8px;" data-en="🔑 Forgot Password?" data-mr="🔑 पासवर्ड विसरलात?">🔑 Forgot Password?</h3>
+    <p style="font-size:0.85rem; color:#7a9a7a; margin-bottom:20px;" data-en="Enter your registered mobile number to reset password." data-mr="पासवर्ड रीसेट करण्यासाठी नोंदणीकृत मोबाईल नंबर टाका.">Enter your registered mobile number to reset password.</p>
+    <input type="tel" id="forgot-mobile" maxlength="10"
+      placeholder="10-digit mobile number"
+      style="width:100%; padding:12px 16px; border-radius:12px; border:2px solid var(--border); font-family:'Baloo 2',sans-serif; font-size:0.92rem; outline:none; margin-bottom:16px;"/>
+    <div style="display:flex; gap:10px;">
+      <button onclick="closeForgot()" style="flex:1; padding:12px; border-radius:50px; border:2px solid var(--border); background:#fff; font-family:'Baloo 2',sans-serif; font-weight:600; cursor:pointer;" data-en="Cancel" data-mr="रद्द करा">Cancel</button>
+      <button onclick="sendReset()" style="flex:1; padding:12px; border-radius:50px; background:linear-gradient(135deg,var(--saffron),#e05500); color:#fff; border:none; font-family:'Baloo 2',sans-serif; font-weight:700; cursor:pointer;" data-en="Send Reset OTP" data-mr="रीसेट OTP पाठवा">Send Reset OTP</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/main.js"></script>
+<script>
+// ── Guard: skip login if already logged in ──
+if (AuthAPI.isLoggedIn()) { window.location.href = 'farmer-dashboard.html'; }
+
+let currentLang = 'en';
+
+// ── Language ──
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang === 'mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length === 0) el.textContent = lang === 'mr' ? el.dataset.mr : el.dataset.en;
+  });
+}
+
+// ── Tab Switch ──
+function switchTab(type) {
+  document.getElementById('panel-password').style.display = type === 'password' ? 'block' : 'none';
+  document.getElementById('panel-otp').style.display      = type === 'otp'      ? 'block' : 'none';
+  document.getElementById('tab-pass').classList.toggle('active', type === 'password');
+  document.getElementById('tab-otp').classList.toggle('active',  type === 'otp');
+}
+
+// ── Demo fill ──
+function fillDemo(type) {
+  // demo fill removed
+  showToast(currentLang === 'mr' ? '✅ डेमो तपशील भरला' : '✅ Demo credentials filled!', 'green');
+}
+
+// ── Toggle Password ──
+function togglePass(id, icon) {
+  const inp = document.getElementById(id);
+  if (inp.type === 'password') { inp.type = 'text'; icon.textContent = '🙈'; }
+  else                         { inp.type = 'password'; icon.textContent = '👁️'; }
+}
+
+// ── Login ──                              ← CHANGED: now calls AuthAPI
+async function doLogin() {
+  const mobile = document.getElementById('login-mobile').value.trim();
+  const pass   = document.getElementById('login-pass').value;
+
+  if (!/^\d{10}$/.test(mobile)) {
+    showToast(currentLang === 'mr' ? '⚠️ कृपया १० अंकी मोबाईल नंबर टाका' : '⚠️ Please enter a valid 10-digit mobile number', 'red');
+    return;
+  }
+  if (pass.length < 6) {
+    showToast(currentLang === 'mr' ? '⚠️ कृपया पासवर्ड टाका' : '⚠️ Please enter your password', 'red');
+    return;
+  }
+
+  try {
+    await AuthAPI.login(mobile, pass);
+    showToast(currentLang === 'mr' ? '✅ लॉगिन यशस्वी! डॅशबोर्डवर जात आहे...' : '✅ Login successful! Redirecting to dashboard...', 'green');
+    setTimeout(() => { window.location.href = 'farmer-dashboard.html'; }, 1500);
+  } catch (err) {
+    showToast('❌ ' + err.message, 'red');
+  }
+}
+
+// ── OTP ──                                ← CHANGED: now calls AuthAPI
+async function sendOTP() {
+  const mobile = document.getElementById('otp-mobile').value.trim();
+  if (!/^\d{10}$/.test(mobile)) {
+    showToast(currentLang === 'mr' ? '⚠️ कृपया १० अंकी मोबाईल नंबर टाका' : '⚠️ Enter valid 10-digit mobile number', 'red');
+    return;
+  }
+
+  try {
+    const res = await AuthAPI.sendOTP(mobile);
+    document.getElementById('otp-enter-panel').classList.add('show');
+    document.getElementById('btnSendOtp').style.display = 'none';
+    document.getElementById('o1').focus();
+    const hint = res.demoOTP ? ` (Demo OTP: ${res.demoOTP})` : '';
+    showToast((currentLang === 'mr' ? '📲 OTP पाठवला' : '📲 OTP sent') + hint, 'green');
+  } catch (err) {
+    showToast('❌ ' + err.message, 'red');
+  }
+}
+
+async function resendOTP() {
+  ['o1','o2','o3','o4'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('o1').focus();
+  await sendOTP();
+}
+
+function otpMove(el, nextId) {
+  el.value = el.value.replace(/\D/g,'');
+  if (el.value && nextId) document.getElementById(nextId).focus();
+}
+
+// ── Verify OTP ──                         ← CHANGED: now calls AuthAPI
+async function verifyOTP() {
+  const mobile  = document.getElementById('otp-mobile').value.trim();
+  const entered = ['o1','o2','o3','o4'].map(id => document.getElementById(id).value).join('');
+  if (entered.length !== 4) {
+    showToast(currentLang === 'mr' ? '⚠️ कृपया ४ अंकी OTP टाका' : '⚠️ Please enter the 4-digit OTP', 'red');
+    return;
+  }
+
+  try {
+    await AuthAPI.verifyOTP(mobile, entered);
+    showToast(currentLang === 'mr' ? '✅ OTP सत्यापित! डॅशबोर्डवर जात आहे...' : '✅ OTP verified! Redirecting...', 'green');
+    setTimeout(() => { window.location.href = 'farmer-dashboard.html'; }, 1500);
+  } catch (err) {
+    showToast('❌ ' + err.message, 'red');
+  }
+}
+
+// ── Forgot Password ──
+function showForgot() {
+  document.getElementById('forgotModal').style.display = 'flex';
+}
+function closeForgot() {
+  document.getElementById('forgotModal').style.display = 'none';
+}
+function sendReset() {
+  const m = document.getElementById('forgot-mobile').value.trim();
+  if (m.length !== 10) { showToast(currentLang === 'mr' ? '⚠️ मोबाईल नंबर टाका' : '⚠️ Enter mobile number', 'red'); return; }
+  closeForgot();
+  showToast(currentLang === 'mr' ? '📲 रीसेट OTP पाठवला (डेमो: 1234)' : '📲 Reset OTP sent to your mobile (Demo: 1234)', 'green');
+}
+
+// ── Toast ──
+function showToast(msg, type) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div'); t.id = 'toast';
+    t.style.cssText = `position:fixed;bottom:32px;left:50%;transform:translateX(-50%);padding:13px 28px;border-radius:50px;font-size:0.88rem;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.15);white-space:nowrap;transition:opacity 0.3s;`;
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = type === 'green' ? 'var(--green-main)' : '#c0392b';
+  t.style.color = '#fff'; t.style.opacity = '1'; t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(() => { t.style.opacity = '0'; setTimeout(()=> t.style.display='none', 300); }, 3000);
+}
+
+// Close modal on outside click
+document.getElementById('forgotModal').addEventListener('click', function(e) {
+  if (e.target === this) closeForgot();
+});
+</script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

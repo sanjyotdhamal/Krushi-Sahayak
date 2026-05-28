@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — All Schemes</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e; --green-main:#1a7a3c; --green-mid:#25a050;
+    --green-light:#e8f5ee; --saffron:#e8650a; --saffron-light:#fff3eb;
+    --saffron-glow:#ff8c3a; --gold:#f0a500; --cream:#fffdf7;
+    --text-dark:#1a2e1a; --text-mid:#3a5a3a;
+    --border:#d4e8d4; --sidebar-w:260px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Baloo 2',sans-serif; background:#f0f4f0; color:var(--text-dark); }
+  body.mr { font-family:'Noto Sans Devanagari',sans-serif; }
+
+  /* ══ SIDEBAR (same as dashboard) ══ */
+  .sidebar { position:fixed; top:0; left:0; bottom:0; width:var(--sidebar-w); background:linear-gradient(180deg,var(--green-dark) 0%,#0a4020 100%); z-index:100; display:flex; flex-direction:column; box-shadow:4px 0 24px rgba(0,0,0,0.15); transition:transform 0.3s; }
+  .sidebar-logo { padding:24px 20px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .sidebar-logo-icon { width:44px; height:44px; background:linear-gradient(135deg,var(--saffron),var(--gold)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+  .sidebar-logo-en { font-family:'Baloo 2',sans-serif; font-size:1.1rem; font-weight:800; color:#fff; display:block; line-height:1.1; }
+  .sidebar-logo-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:var(--gold); display:block; }
+  .sidebar-profile { padding:20px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; }
+  .sp-avatar { width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--saffron),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; border:2px solid rgba(255,255,255,0.3); }
+  .sp-name { font-size:0.88rem; font-weight:700; color:#fff; }
+  .sp-id   { font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:2px; }
+  .sp-badge { display:inline-block; background:rgba(37,160,80,0.3); border:1px solid rgba(37,160,80,0.5); color:#7deca0; font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:10px; margin-top:4px; }
+  .sidebar-nav { flex:1; padding:16px 12px; overflow-y:auto; }
+  .nav-section-label { font-size:0.62rem; font-weight:700; color:rgba(255,255,255,0.35); letter-spacing:1px; text-transform:uppercase; padding:8px 10px 6px; margin-top:8px; }
+  .nav-item { display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:12px; margin-bottom:3px; text-decoration:none; color:rgba(255,255,255,0.65); font-size:0.88rem; font-weight:600; transition:all 0.25s; cursor:pointer; }
+  .nav-item:hover { background:rgba(255,255,255,0.1); color:#fff; }
+  .nav-item.active { background:linear-gradient(135deg,var(--saffron),#e05500); color:#fff; box-shadow:0 4px 16px rgba(232,101,10,0.35); }
+  .nav-item .ni-icon { font-size:1.1rem; flex-shrink:0; }
+  .nav-item .ni-badge { margin-left:auto; background:var(--saffron); color:#fff; font-size:0.65rem; font-weight:800; padding:2px 7px; border-radius:10px; }
+  .nav-item .ni-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:rgba(255,255,255,0.35); display:block; line-height:1; }
+  .sidebar-footer { padding:16px 20px; border-top:1px solid rgba(255,255,255,0.1); }
+  .btn-logout { width:100%; padding:10px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.65); font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.25s; }
+  .btn-logout:hover { background:rgba(192,57,43,0.3); color:#ff9999; }
+
+  /* ══ MAIN ══ */
+  .main { margin-left:var(--sidebar-w); min-height:100vh; }
+  .topbar { background:#fff; border-bottom:2px solid var(--border); padding:0 28px; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+  .topbar-left { display:flex; align-items:center; gap:12px; }
+  .topbar-title { font-family:'Yatra One',cursive; font-size:1.2rem; color:var(--green-dark); }
+  .topbar-right { display:flex; align-items:center; gap:12px; }
+  .lang-switch { display:flex; background:var(--green-light); border-radius:25px; padding:3px; gap:2px; }
+  .lang-btn { padding:5px 14px; border-radius:20px; border:none; font-family:'Baloo 2',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer; transition:all 0.25s; color:var(--text-mid); background:transparent; }
+  .lang-btn.active { background:var(--saffron); color:#fff; }
+  .sidebar-toggle { display:none; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--green-dark); }
+
+  /* ══ PAGE ══ */
+  .page-content { padding:28px; }
+
+  /* Header */
+  .page-header { background:linear-gradient(135deg,var(--green-dark),var(--green-main)); border-radius:20px; padding:28px 32px; margin-bottom:28px; position:relative; overflow:hidden; }
+  .page-header::before { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px); background-size:22px 22px; }
+  .page-header::after  { content:'📋'; position:absolute; right:32px; top:50%; transform:translateY(-50%); font-size:5rem; opacity:0.12; }
+  .ph-title { font-family:'Yatra One',cursive; font-size:1.8rem; color:#fff; margin-bottom:4px; position:relative; z-index:1; }
+  .ph-title .hl { color:var(--gold); }
+  .ph-sub { font-size:0.88rem; color:rgba(255,255,255,0.65); position:relative; z-index:1; }
+  .ph-stats { display:flex; gap:24px; margin-top:16px; position:relative; z-index:1; flex-wrap:wrap; }
+  .ph-stat { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:10px 18px; text-align:center; }
+  .ph-stat .psn { font-family:'Yatra One',cursive; font-size:1.4rem; color:#fff; }
+  .ph-stat .psl { font-size:0.72rem; color:rgba(255,255,255,0.6); }
+
+  /* Search + Filter bar */
+  .filter-bar { background:#fff; border-radius:16px; padding:18px 20px; margin-bottom:24px; display:flex; gap:14px; align-items:center; flex-wrap:wrap; border:2px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+  .search-wrap { flex:1; min-width:200px; position:relative; }
+  .search-wrap input { width:100%; padding:11px 16px 11px 42px; border-radius:12px; border:2px solid var(--border); background:var(--cream); font-family:'Baloo 2',sans-serif; font-size:0.9rem; outline:none; transition:all 0.25s; }
+  .search-wrap input:focus { border-color:var(--green-main); background:#fff; }
+  .search-wrap .si { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:1rem; }
+  .filter-select { padding:11px 16px; border-radius:12px; border:2px solid var(--border); background:var(--cream); font-family:'Baloo 2',sans-serif; font-size:0.85rem; color:var(--text-dark); cursor:pointer; outline:none; transition:all 0.25s; }
+  .filter-select:focus { border-color:var(--green-main); }
+
+  /* Category tabs */
+  .cat-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
+  .cat-tab { padding:8px 18px; border-radius:25px; border:2px solid var(--border); background:#fff; font-family:'Baloo 2',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.25s; color:var(--text-mid); }
+  .cat-tab:hover  { border-color:var(--green-main); color:var(--green-main); }
+  .cat-tab.active { background:var(--green-main); color:#fff; border-color:var(--green-main); }
+
+  /* Scheme count */
+  .result-count { font-size:0.82rem; color:#7a9a7a; margin-bottom:16px; font-weight:600; }
+  .result-count span { color:var(--green-main); font-weight:800; }
+
+  /* Schemes grid */
+  .schemes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:20px; }
+
+  /* Scheme card */
+  .scheme-card {
+    background:#fff; border-radius:20px; border:2px solid var(--border);
+    overflow:hidden; transition:all 0.3s; cursor:pointer;
+    box-shadow:0 2px 12px rgba(0,0,0,0.04);
+    display:flex; flex-direction:column;
+  }
+  .scheme-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(26,122,60,0.13); border-color:var(--green-main); }
+
+  .sc-top { padding:20px 20px 14px; position:relative; }
+  .sc-ribbon { position:absolute; top:16px; right:16px; padding:4px 10px; border-radius:20px; font-size:0.65rem; font-weight:800; letter-spacing:0.3px; }
+  .rb-central  { background:#fff3eb; color:#e8650a; border:1px solid rgba(232,101,10,0.2); }
+  .rb-state    { background:#e8f5ee; color:#1a7a3c; border:1px solid rgba(26,122,60,0.2); }
+  .rb-mahadbt  { background:#e8f0ff; color:#3a5ab5; border:1px solid rgba(58,90,181,0.2); }
+  .rb-pmkisan  { background:#fffbe8; color:#b58a00; border:1px solid rgba(181,138,0,0.2); }
+
+  .sc-icon-row { display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+  .sc-icon { width:54px; height:54px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; flex-shrink:0; }
+  .sc-name { font-weight:800; font-size:1rem; color:var(--green-dark); line-height:1.2; }
+  .sc-name-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.72rem; color:#aaa; display:block; margin-top:2px; }
+
+  .sc-amount-row { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .sc-amount { display:inline-flex; align-items:center; gap:5px; background:linear-gradient(135deg,var(--green-light),#d5f0e0); color:var(--green-dark); font-size:0.85rem; font-weight:800; padding:5px 14px; border-radius:20px; border:1px solid rgba(26,122,60,0.15); }
+  .sc-dept { font-size:0.72rem; color:#aaa; }
+
+  .sc-desc { font-size:0.8rem; color:#6a8a6a; line-height:1.5; margin-bottom:14px; }
+
+  /* Details accordion */
+  .sc-details { border-top:2px solid var(--green-light); }
+  .sc-details-header { padding:12px 20px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; background:var(--green-light); }
+  .sc-details-header span { font-size:0.8rem; font-weight:700; color:var(--green-dark); }
+  .sc-details-header .arrow { transition:transform 0.3s; font-size:0.8rem; }
+  .sc-details-body { padding:0 20px; max-height:0; overflow:hidden; transition:all 0.35s ease; }
+  .sc-details-body.open { max-height:400px; padding:14px 20px; }
+
+  .detail-row { display:flex; gap:10px; margin-bottom:10px; font-size:0.8rem; }
+  .detail-row .dr-icon { font-size:1rem; flex-shrink:0; margin-top:1px; }
+  .detail-row .dr-label { font-weight:700; color:var(--text-mid); min-width:90px; }
+  .detail-row .dr-val   { color:var(--text-dark); line-height:1.5; }
+
+  /* Tags */
+  .sc-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .sc-tag { padding:3px 10px; border-radius:20px; font-size:0.68rem; font-weight:700; background:#f0f4f0; color:#7a9a7a; border:1px solid #e0e8e0; }
+
+  /* Card footer */
+  .sc-footer { padding:14px 20px; border-top:2px solid var(--green-light); display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto; }
+  .btn-apply { padding:10px 22px; border-radius:25px; background:linear-gradient(135deg,var(--green-main),var(--green-dark)); color:#fff; border:none; font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.25s; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 4px 14px rgba(26,122,60,0.25); }
+  .btn-apply:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(26,122,60,0.35); }
+  .btn-details { padding:10px 16px; border-radius:25px; border:2px solid var(--border); background:#fff; color:var(--text-mid); font-family:'Baloo 2',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.25s; }
+  .btn-details:hover { border-color:var(--green-main); color:var(--green-main); }
+
+  /* No results */
+  .no-results { text-align:center; padding:60px 20px; color:#aaa; }
+  .no-results .nr-icon { font-size:4rem; margin-bottom:16px; }
+  .no-results h3 { font-size:1.1rem; color:var(--text-mid); margin-bottom:8px; }
+
+  /* Animations */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;} }
+  .scheme-card { animation:fadeUp 0.4s ease forwards; opacity:0; }
+
+  /* Responsive */
+  @media(max-width:860px) { .sidebar{transform:translateX(-100%);} .sidebar.open{transform:translateX(0);} .main{margin-left:0;} .sidebar-toggle{display:block;} }
+  @media(max-width:600px) { .schemes-grid{grid-template-columns:1fr;} .filter-bar{flex-direction:column;} .page-content{padding:16px;} }
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-logo" href="index.html">
+    <div class="sidebar-logo-icon">🌾</div>
+    <div>
+      <span class="sidebar-logo-en">Krushi Sahayak</span>
+      <span class="sidebar-logo-mr">कृषी सहायक</span>
+    </div>
+  </a>
+  <div class="sidebar-profile">
+    <div class="sp-avatar">👨‍🌾</div>
+    <div>
+      <div class="sp-name" id="sb-name">—</div>
+      <div class="sp-id"  id="sb-id">—</div>
+      <span class="sp-badge">✅ Verified Farmer</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">MAIN MENU</div>
+    <a class="nav-item" href="farmer-dashboard.html"><span class="ni-icon"><i data-lucide="home" class="lucide"></i></span><span><span>Dashboard</span><span class="ni-mr">डॅशबोर्ड</span></span></a>
+    <a class="nav-item active" href="schemes.html"><span class="ni-icon"><i data-lucide="clipboard-list" class="lucide"></i></span><span><span>View All Schemes</span><span class="ni-mr">सर्व सरकारी योजना</span></span><span class="ni-badge">32</span></a>
+    <a class="nav-item" href="ai-recommendation.html"><span class="ni-icon"><i data-lucide="bot" class="lucide"></i></span><span><span>AI Recommendation</span><span class="ni-mr">AI शिफारस</span></span></a>
+    <a class="nav-item" href="apply-scheme.html"><span class="ni-icon"><i data-lucide="file-pen-line" class="lucide"></i></span><span><span>Apply for Scheme</span><span class="ni-mr">अर्ज करा</span></span></a>
+    <div class="nav-section-label" style="margin-top:12px;">TRACK & MANAGE</div>
+    <a class="nav-item" href="tracking.html"><span class="ni-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span><span><span>My Applications</span><span class="ni-mr">माझे अर्ज</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="notifications.html"><span class="ni-icon"><i data-lucide="bell" class="lucide"></i></span><span><span>Notifications</span><span class="ni-mr">सूचना</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="edit-profile.html"><span class="ni-icon"><i data-lucide="user-pen" class="lucide"></i></span><span><span>Edit Profile</span><span class="ni-mr">प्रोफाइल संपादित करा</span></span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()"><i data-lucide="log-out" class="lucide"></i> <span>Logout</span></button>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" data-en="📋 All Government Schemes" data-mr="📋 सर्व सरकारी योजना">📋 All Government Schemes</div>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="ph-title" data-en="🌾 Maharashtra Farmer <span class='hl'>Subsidy Schemes</span>" data-mr="🌾 महाराष्ट्र शेतकरी <span class='hl'>अनुदान योजना</span>">🌾 Maharashtra Farmer <span class="hl">Subsidy Schemes</span></h1>
+      <p class="ph-sub" data-en="Real government schemes | Source: MahaDBT, Agriculture Dept., Govt. of Maharashtra" data-mr="वास्तविक सरकारी योजना | स्रोत: महाDBT, कृषी विभाग, महाराष्ट्र शासन">Real government schemes | Source: MahaDBT, Agriculture Dept., Govt. of Maharashtra</p>
+      <div class="ph-stats">
+        <div class="ph-stat"><div class="psn" id="ph-total">32</div><div class="psl" data-en="Total Schemes" data-mr="एकूण योजना">Total Schemes</div></div>
+        <div class="ph-stat"><div class="psn" id="ph-mahadbt">0</div><div class="psl" data-en="MahaDBT Schemes" data-mr="महाDBT योजना">MahaDBT Schemes</div></div>
+        <div class="ph-stat"><div class="psn" id="ph-central">0</div><div class="psl" data-en="Central Schemes" data-mr="केंद्रीय योजना">Central Schemes</div></div>
+        <div class="ph-stat"><div class="psn" id="ph-state">0</div><div class="psl" data-en="State Schemes" data-mr="राज्य योजना">State Schemes</div></div>
+      </div>
+    </div>
+
+    <!-- Search + Filter -->
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <span class="si">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search schemes... e.g. drip, tractor, solar" oninput="filterSchemes()"/>
+      </div>
+      <select class="filter-select" id="filterType" onchange="filterSchemes()">
+        <option value="all" data-en="All Types" data-mr="सर्व प्रकार">All Types</option>
+        <option value="central" data-en="Central Govt." data-mr="केंद्र सरकार">Central Govt.</option>
+        <option value="state" data-en="State Govt." data-mr="राज्य सरकार">State Govt.</option>
+        <option value="mahadbt" data-en="MahaDBT" data-mr="महाDBT">MahaDBT</option>
+      </select>
+      <select class="filter-select" id="filterCat" onchange="filterSchemes()">
+        <option value="all" data-en="All Categories" data-mr="सर्व श्रेणी">All Categories</option>
+        <option value="irrigation" data-en="Irrigation" data-mr="सिंचन">Irrigation</option>
+        <option value="equipment" data-en="Equipment" data-mr="उपकरणे">Equipment</option>
+        <option value="income" data-en="Income Support" data-mr="उत्पन्न सहाय्य">Income Support</option>
+        <option value="livestock" data-en="Livestock" data-mr="पशुपालन">Livestock</option>
+        <option value="water" data-en="Water Conservation" data-mr="जल संधारण">Water Conservation</option>
+        <option value="insurance" data-en="Insurance" data-mr="विमा">Insurance</option>
+        <option value="solar" data-en="Solar Energy" data-mr="सौर ऊर्जा">Solar Energy</option>
+      </select>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="cat-tabs">
+      <button class="cat-tab active" onclick="setTab('all',this)" data-en="🌾 All Schemes" data-mr="🌾 सर्व योजना">🌾 All Schemes</button>
+      <button class="cat-tab" onclick="setTab('irrigation',this)" data-en="💧 Irrigation" data-mr="💧 सिंचन">💧 Irrigation</button>
+      <button class="cat-tab" onclick="setTab('equipment',this)" data-en="🚜 Equipment" data-mr="🚜 उपकरणे">🚜 Equipment</button>
+      <button class="cat-tab" onclick="setTab('income',this)" data-en="💰 Income Support" data-mr="💰 उत्पन्न सहाय्य">💰 Income Support</button>
+      <button class="cat-tab" onclick="setTab('livestock',this)" data-en="🐄 Livestock" data-mr="🐄 पशुपालन">🐄 Livestock</button>
+      <button class="cat-tab" onclick="setTab('water',this)" data-en="🏞️ Water Conservation" data-mr="🏞️ जल संधारण">🏞️ Water Conservation</button>
+      <button class="cat-tab" onclick="setTab('solar',this)" data-en="☀️ Solar" data-mr="☀️ सौर">☀️ Solar</button>
+      <button class="cat-tab" onclick="setTab('insurance',this)" data-en="🛡️ Insurance" data-mr="🛡️ विमा">🛡️ Insurance</button>
+    </div>
+
+    <div class="result-count" id="resultCount">Showing <span id="countNum">32</span> schemes</div>
+
+    <!-- ════ SCHEMES GRID ════ -->
+    <div class="schemes-grid" id="schemesGrid">
+      <!-- Cards injected by JS -->
+    </div>
+
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+
+let currentLang = 'en';
+let activeTab   = 'all';
+
+// ════ REAL MAHARASHTRA SCHEMES DATA ════
+const SCHEMES = [
+  {
+    id:1, icon:'💧', category:'irrigation', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#e8f5ee,#c5e8d5)',
+    name:'Drip Irrigation Subsidy (ठिबक सिंचन)',
+    nameMr:'ठिबक सिंचन अनुदान',
+    amount:'Up to ₹80,000',
+    amountMr:'₹८०,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for installation of drip irrigation system to conserve water and increase crop yield. Available through MahaDBT portal.',
+    descMr:'पाणी वाचवण्यासाठी आणि पीक उत्पादन वाढवण्यासाठी ठिबक सिंचन प्रणाली बसवण्यासाठी अनुदान. महाDBT पोर्टलद्वारे उपलब्ध.',
+    eligibility:'All farmers with min 0.5 acre land. SC/ST get 90% subsidy, others 55%.',
+    eligibilityMr:'किमान ०.५ एकर जमीन असलेले सर्व शेतकरी. SC/ST ला ९०% अनुदान, इतरांना ५५%.',
+    documents:'7/12 Utara, Aadhaar, Bank Passbook, Caste Certificate (if applicable), Land map',
+    documentsMr:'७/१२ उतारा, आधार, बँक पासबुक, जात प्रमाणपत्र, जमीन नकाशा',
+    tags:['Irrigation','MahaDBT','Water Saving','All Farmers'],
+  },
+  {
+    id:2, icon:'🚿', category:'irrigation', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#e8f5ff,#c5d8f5)',
+    name:'Sprinkler Irrigation Subsidy (तुषार सिंचन)',
+    nameMr:'तुषार सिंचन अनुदान',
+    amount:'Up to ₹45,000',
+    amountMr:'₹४५,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Financial assistance for sprinkler irrigation to small and marginal farmers. Helps in uniform water distribution.',
+    descMr:'लहान आणि अल्पभूधारक शेतकऱ्यांसाठी तुषार सिंचनासाठी आर्थिक सहाय्य. एकसमान पाणी वितरणास मदत करते.',
+    eligibility:'Small & marginal farmers with land up to 5 acres. Priority to women farmers.',
+    eligibilityMr:'५ एकरपर्यंत जमीन असलेले लहान आणि अल्पभूधारक शेतकरी. महिला शेतकऱ्यांना प्राधान्य.',
+    documents:'7/12, Aadhaar, Bank details, Land measurement certificate',
+    documentsMr:'७/१२, आधार, बँक तपशील, जमीन मोजणी प्रमाणपत्र',
+    tags:['Irrigation','Small Farmers','MahaDBT'],
+  },
+  {
+    id:3, icon:'🚜', category:'equipment', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#fff3eb,#ffe0c5)',
+    name:'Tractor Purchase Subsidy (ट्रॅक्टर अनुदान)',
+    nameMr:'ट्रॅक्टर खरेदी अनुदान',
+    amount:'Up to ₹1,50,000',
+    amountMr:'₹१,५०,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for purchase of tractor for agricultural operations. Helps mechanize farming and reduce labor cost.',
+    descMr:'शेती कामांसाठी ट्रॅक्टर खरेदीसाठी अनुदान. शेती यांत्रिकीकरण आणि मजुरी खर्च कमी करण्यास मदत करते.',
+    eligibility:'Farmers with min 2 acres land. Not purchased tractor in last 10 years. Income below ₹2 lakh.',
+    eligibilityMr:'किमान २ एकर जमीन. गेल्या १० वर्षांत ट्रॅक्टर खरेदी न केलेले. उत्पन्न ₹२ लाखांपेक्षा कमी.',
+    documents:'7/12, Aadhaar, Income Certificate, Bank Account, Tractor quotation',
+    documentsMr:'७/१२, आधार, उत्पन्न दाखला, बँक खाते, ट्रॅक्टर कोटेशन',
+    tags:['Equipment','Mechanization','MahaDBT'],
+  },
+  {
+    id:4, icon:'☀️', category:'solar', type:'state',
+    color:'background:linear-gradient(135deg,#fffbe8,#f5eac0)',
+    name:'Atal Solar Agriculture Pump Scheme (मुख्यमंत्री सौर कृषी पंप)',
+    nameMr:'मुख्यमंत्री सौर कृषी पंप योजना',
+    amount:'90% Subsidy — Up to ₹2,20,000',
+    amountMr:'९०% अनुदान — ₹२,२०,००० पर्यंत',
+    dept:'MSEDCL / Energy Dept., Maharashtra',
+    deptMr:'MSEDCL / ऊर्जा विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'90% subsidy on solar agricultural pumps (3HP, 5HP, 7.5HP). Replaces costly electric pumps. Free electricity for irrigation.',
+    descMr:'सौर कृषी पंपांवर ९०% अनुदान (3HP, 5HP, 7.5HP). महागड्या विद्युत पंपांची जागा घेते. सिंचनासाठी मोफत वीज.',
+    eligibility:'Farmers with no permanent electricity connection or power shortage areas. Min 0.5 acre land.',
+    eligibilityMr:'कायमस्वरूपी वीज जोडणी नसलेले शेतकरी. किमान ०.५ एकर जमीन.',
+    documents:'7/12, Aadhaar, 8A (land record), Electricity bill or NO-connection certificate',
+    documentsMr:'७/१२, आधार, ८अ (जमीन नोंदणी), वीज बिल किंवा जोडणी नसल्याचे प्रमाणपत्र',
+    tags:['Solar','Energy','Free Electricity','Popular'],
+  },
+  {
+    id:5, icon:'🌾', category:'income', type:'central',
+    color:'background:linear-gradient(135deg,#fff8e8,#fcecc0)',
+    name:'PM Kisan Samman Nidhi (पीएम किसान)',
+    nameMr:'पीएम किसान सन्मान निधी',
+    amount:'₹6,000 per year (3 installments)',
+    amountMr:'₹६,००० प्रतिवर्ष (३ हप्त्यांमध्ये)',
+    dept:'Ministry of Agriculture, Govt. of India',
+    deptMr:'कृषी मंत्रालय, भारत सरकार',
+    ribbon:'rb-central', ribbonText:'Central Govt.',
+    desc:'Direct income support of ₹6000/year to all landholding farmers. Paid in 3 installments of ₹2000 directly to bank account.',
+    descMr:'सर्व जमीनधारक शेतकऱ्यांना ₹६०००/वर्ष थेट उत्पन्न सहाय्य. बँक खात्यात ₹२००० च्या ३ हप्त्यांमध्ये दिले जाते.',
+    eligibility:'All landholding farmer families. Excludes government employees and income tax payers.',
+    eligibilityMr:'सर्व जमीनधारक शेतकरी कुटुंब. सरकारी कर्मचारी आणि आयकर भरणाऱ्यांना लागू नाही.',
+    documents:'Aadhaar, Bank Account linked to Aadhaar, 7/12 land record',
+    documentsMr:'आधार, आधारशी जोडलेले बँक खाते, ७/१२ जमीन नोंदणी',
+    tags:['Income Support','Central','Direct Benefit','Most Popular'],
+  },
+  {
+    id:6, icon:'🏞️', category:'water', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#e8fff0,#c0f5d5)',
+    name:'Farm Pond Scheme (शेत तलाव / मागेल त्याला शेततळे)',
+    nameMr:'मागेल त्याला शेततळे योजना',
+    amount:'Up to ₹75,000',
+    amountMr:'₹७५,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Construction of farm pond for water harvesting. Stores rainwater for irrigation during dry seasons. Popular in drought-prone areas.',
+    descMr:'पाणी साठवणुकीसाठी शेत तलाव बांधणी. कोरड्या हंगामात सिंचनासाठी पावसाचे पाणी साठवते. दुष्काळग्रस्त भागात लोकप्रिय.',
+    eligibility:'Farmers in drought-prone districts. Min 0.6 acres land. Own contribution 10%.',
+    eligibilityMr:'दुष्काळग्रस्त जिल्ह्यातील शेतकरी. किमान ०.६ एकर जमीन. स्वतःचे योगदान १०%.',
+    documents:'7/12, Aadhaar, Village Panchayat NOC, Soil testing report',
+    documentsMr:'७/१२, आधार, ग्रामपंचायत NOC, मातीचा अहवाल',
+    tags:['Water Conservation','Drought','MahaDBT'],
+  },
+  {
+    id:7, icon:'🐄', category:'livestock', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#fff0f0,#f5c8c8)',
+    name:'Cattle Shed Construction (गोठा बांधणी)',
+    nameMr:'गोठा बांधणी अनुदान',
+    amount:'Up to ₹70,000',
+    amountMr:'₹७०,००० पर्यंत',
+    dept:'Animal Husbandry Dept., Maharashtra',
+    deptMr:'पशुसंवर्धन विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Financial aid for construction of permanent cattle shed. Improves animal health and milk productivity. For dairy farmers.',
+    descMr:'कायमस्वरूपी गोठा बांधण्यासाठी आर्थिक सहाय्य. प्राण्यांचे आरोग्य आणि दूध उत्पादन सुधारते. दुग्ध व्यवसाय करणाऱ्यांसाठी.',
+    eligibility:'Farmers with minimum 2 cattle (cow/buffalo). Benefited once per lifetime.',
+    eligibilityMr:'किमान २ जनावरे असलेले शेतकरी (गाय/म्हैस). आयुष्यात एकदाच लाभ.',
+    documents:'7/12, Aadhaar, Cattle ownership proof, Bank passbook, Caste certificate',
+    documentsMr:'७/१२, आधार, जनावर मालकीचा पुरावा, बँक पासबुक, जात प्रमाणपत्र',
+    tags:['Livestock','Dairy','Animal Husbandry'],
+  },
+  {
+    id:8, icon:'🌱', category:'income', type:'central',
+    color:'background:linear-gradient(135deg,#e8ffe8,#c0f0c0)',
+    name:'PM Fasal Bima Yojana (पीएम पीक विमा)',
+    nameMr:'प्रधानमंत्री पीक विमा योजना',
+    amount:'Crop loss compensation up to ₹2,00,000',
+    amountMr:'पीक नुकसान भरपाई ₹२,००,००० पर्यंत',
+    dept:'Agriculture Ministry, Govt. of India',
+    deptMr:'कृषी मंत्रालय, भारत सरकार',
+    ribbon:'rb-central', ribbonText:'Central Govt.',
+    desc:'Crop insurance against natural calamities, pest attacks, and weather events. Premium is only 2% for Kharif and 1.5% for Rabi crops.',
+    descMr:'नैसर्गिक आपत्ती, कीड आणि हवामानाविरुद्ध पीक विमा. प्रीमियम खरीप पिकांसाठी फक्त २% आणि रब्बीसाठी १.५%.',
+    eligibility:'All farmers growing notified crops. Loanee farmers compulsorily enrolled.',
+    eligibilityMr:'अधिसूचित पिके घेणारे सर्व शेतकरी. कर्जदार शेतकऱ्यांची अनिवार्य नोंदणी.',
+    documents:'7/12, Aadhaar, Bank account, Crop sowing declaration',
+    documentsMr:'७/१२, आधार, बँक खाते, पीक पेरणी घोषणापत्र',
+    tags:['Insurance','Risk Cover','Central','Popular'],
+  },
+  {
+    id:9, icon:'🔧', category:'equipment', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#f0f0ff,#d5d5f5)',
+    name:'Power Thresher / Combine Harvester Subsidy',
+    nameMr:'पॉवर थ्रेशर / कंबाइन हार्वेस्टर अनुदान',
+    amount:'Up to ₹1,00,000',
+    amountMr:'₹१,००,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for purchase of thresher and combine harvester for post-harvest operations. Reduces crop wastage.',
+    descMr:'काढणीनंतरच्या ऑपरेशनसाठी थ्रेशर आणि कंबाइन हार्वेस्टर खरेदीसाठी अनुदान. पीक नुकसान कमी करते.',
+    eligibility:'Farmers with min 3 acres land. SC/ST farmers get extra 10% benefit.',
+    eligibilityMr:'किमान ३ एकर जमीन असलेले शेतकरी. SC/ST शेतकऱ्यांना अतिरिक्त १०% लाभ.',
+    documents:'7/12, Aadhaar, Income Certificate, Equipment quotation',
+    documentsMr:'७/१२, आधार, उत्पन्न दाखला, उपकरण कोटेशन',
+    tags:['Equipment','Post-Harvest','MahaDBT'],
+  },
+  {
+    id:10, icon:'💊', category:'income', type:'state',
+    color:'background:linear-gradient(135deg,#e8f5ff,#c5dcf5)',
+    name:'Shetkari Sanman Yojana (शेतकरी सन्मान)',
+    nameMr:'शेतकरी सन्मान योजना',
+    amount:'₹12,000 per year',
+    amountMr:'₹१२,००० प्रतिवर्ष',
+    dept:'Agriculture Dept., Govt. of Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र शासन',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Maharashtra State additional income support over and above PM Kisan. Total combined support becomes ₹12,000/year.',
+    descMr:'पीएम किसानच्या वरच्या महाराष्ट्र शासनाचे अतिरिक्त उत्पन्न सहाय्य. एकूण सहाय्य ₹१२,०००/वर्ष होते.',
+    eligibility:'Farmers registered in PM Kisan scheme. Maharashtra state domicile required.',
+    eligibilityMr:'पीएम किसान योजनेत नोंदणीकृत शेतकरी. महाराष्ट्र राज्याचे अधिवास आवश्यक.',
+    documents:'PM Kisan registration, Aadhaar, 7/12, Domicile certificate',
+    documentsMr:'पीएम किसान नोंदणी, आधार, ७/१२, अधिवास प्रमाणपत्र',
+    tags:['Income Support','State','Top-up'],
+  },
+  {
+    id:11, icon:'🌊', category:'water', type:'state',
+    color:'background:linear-gradient(135deg,#e8fffc,#c0f0ea)',
+    name:'Jalyukt Shivar Yojana (जलयुक्त शिवार)',
+    nameMr:'जलयुक्त शिवार अभियान',
+    amount:'Free (Govt. funded)',
+    amountMr:'मोफत (शासन निधी)',
+    dept:'Water Conservation Dept., Maharashtra',
+    deptMr:'जलसंधारण विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Watershed development scheme for drought-free Maharashtra. Includes desilting, nala bunding, contour trenches.',
+    descMr:'दुष्काळमुक्त महाराष्ट्रासाठी पाणलोट विकास योजना. गाळ काढणे, नाला बंडिंग, समपातळी खंदक.',
+    eligibility:'Village-level application through Gram Sabha. Available in drought-prone districts.',
+    eligibilityMr:'ग्रामसभेद्वारे गाव-स्तरीय अर्ज. दुष्काळग्रस्त जिल्ह्यांमध्ये उपलब्ध.',
+    documents:'Gram Sabha resolution, Village map, Talathi 7/12 records',
+    documentsMr:'ग्रामसभा ठराव, गाव नकाशा, तलाठी ७/१२ नोंदणी',
+    tags:['Water Conservation','Drought-Free','Village Level'],
+  },
+  {
+    id:12, icon:'🌿', category:'equipment', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#f0ffe8,#d5f5c0)',
+    name:'Rotavator / Power Weeder Subsidy',
+    nameMr:'रोटाव्हेटर / पॉवर वीडर अनुदान',
+    amount:'Up to ₹55,000',
+    amountMr:'₹५५,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy on rotavator and power weeder for soil preparation and weed control. Reduces manual labor cost significantly.',
+    descMr:'मातीची तयारी आणि तण नियंत्रणासाठी रोटाव्हेटर आणि पॉवर वीडरवर अनुदान. हाताने होणाऱ्या मजुरी खर्चात लक्षणीय घट.',
+    eligibility:'All categories of farmers. Small farmers get higher subsidy percentage.',
+    eligibilityMr:'सर्व श्रेणीचे शेतकरी. लहान शेतकऱ्यांना जास्त अनुदान टक्केवारी.',
+    documents:'7/12, Aadhaar, Bank account, Quotation from registered dealer',
+    documentsMr:'७/१२, आधार, बँक खाते, नोंदणीकृत डीलरकडून कोटेशन',
+    tags:['Equipment','Soil Preparation','MahaDBT'],
+  },
+  {
+    id:13, icon:'🏗️', category:'water', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#fff8e0,#f5e8b0)',
+    name:'Irrigation Well Construction Subsidy',
+    nameMr:'सिंचन विहीर बांधकाम अनुदान',
+    amount:'Up to ₹1,25,000',
+    amountMr:'₹१,२५,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Financial assistance for construction of new irrigation well or deepening existing well for agricultural water supply.',
+    descMr:'कृषी पाणी पुरवठ्यासाठी नवीन सिंचन विहीर बांधण्यासाठी किंवा विद्यमान विहीर खोल करण्यासाठी आर्थिक सहाय्य.',
+    eligibility:'SC/ST farmers get 100% subsidy. Others get 50%. Max land 10 acres.',
+    eligibilityMr:'SC/ST शेतकऱ्यांना १००% अनुदान. इतरांना ५०%. जास्तीत जास्त १० एकर जमीन.',
+    documents:'7/12, Caste Certificate, Hydrogeology report, Bank account',
+    documentsMr:'७/१२, जात प्रमाणपत्र, भूजल विज्ञान अहवाल, बँक खाते',
+    tags:['Water','Well Construction','SC/ST Priority'],
+  },
+  {
+    id:14, icon:'🛡️', category:'insurance', type:'central',
+    color:'background:linear-gradient(135deg,#ffe8ff,#f5c0f5)',
+    name:'PM Kisan Maan Dhan Yojana (किसान पेन्शन)',
+    nameMr:'पीएम किसान मानधन योजना',
+    amount:'₹3,000/month pension after 60 years',
+    amountMr:'वयाच्या ६० नंतर ₹३,०००/महिना पेन्शन',
+    dept:'Ministry of Agriculture, Govt. of India',
+    deptMr:'कृषी मंत्रालय, भारत सरकार',
+    ribbon:'rb-central', ribbonText:'Central Govt.',
+    desc:'Pension scheme for small and marginal farmers. Contribution ₹55–200/month. Equal contribution by Govt. Guaranteed ₹3000/month post retirement.',
+    descMr:'लहान आणि अल्पभूधारक शेतकऱ्यांसाठी पेन्शन योजना. योगदान ₹५५-२०० / महिना. शासनाचे समान योगदान. सेवानिवृत्तीनंतर हमीभावाने ₹३०००/महिना.',
+    eligibility:'Farmers aged 18–40 years with land up to 2 hectares.',
+    eligibilityMr:'१८-४० वर्षे वयाचे, २ हेक्टरपर्यंत जमीन असलेले शेतकरी.',
+    documents:'Aadhaar, Bank account, 7/12 land record, Age proof',
+    documentsMr:'आधार, बँक खाते, ७/१२ जमीन नोंदणी, वयाचा पुरावा',
+    tags:['Insurance','Pension','Central','Long-term'],
+  },
+  {
+    id:15, icon:'🌻', category:'income', type:'state',
+    color:'background:linear-gradient(135deg,#ffe8e8,#f5c0c0)',
+    name:'Namo Shetkari Maha Samman Nidhi',
+    nameMr:'नमो शेतकरी महासन्मान निधी',
+    amount:'₹6,000 per year (extra)',
+    amountMr:'₹६,००० प्रतिवर्ष (अतिरिक्त)',
+    dept:'Maharashtra Government',
+    deptMr:'महाराष्ट्र शासन',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Maharashtra state scheme providing additional ₹6000/year on top of PM Kisan. Total ₹12,000/year income support for registered farmers.',
+    descMr:'पीएम किसानच्या वरच्या अतिरिक्त ₹६०००/वर्ष देणारी महाराष्ट्र राज्य योजना. नोंदणीकृत शेतकऱ्यांसाठी एकूण ₹१२,०००/वर्ष उत्पन्न सहाय्य.',
+    eligibility:'All PM Kisan enrolled Maharashtra farmers automatically enrolled.',
+    eligibilityMr:'सर्व पीएम किसान नोंदणीकृत महाराष्ट्र शेतकरी आपोआप नोंदणी.',
+    documents:'PM Kisan registration confirmation, Aadhaar-linked bank account',
+    documentsMr:'पीएम किसान नोंदणी पुष्टी, आधारशी जोडलेले बँक खाते',
+    tags:['Income','State','New 2023','Auto-enroll'],
+  },
+  {
+    id:16, icon:'🐐', category:'livestock', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#f5ffe8,#ddf5c0)',
+    name:'Goat / Sheep Rearing Subsidy (शेळी-मेंढी पालन)',
+    nameMr:'शेळी-मेंढी पालन अनुदान',
+    amount:'Up to ₹50,000',
+    amountMr:'₹५०,००० पर्यंत',
+    dept:'Animal Husbandry Dept., Maharashtra',
+    deptMr:'पशुसंवर्धन विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for purchase of goats/sheep for rearing. Helps landless and small farmers develop alternative income source.',
+    descMr:'शेळ्या/मेंढ्या पालनासाठी खरेदी अनुदान. भूमिहीन आणि लहान शेतकऱ्यांना पर्यायी उत्पन्न स्रोत विकसित करण्यास मदत.',
+    eligibility:'Priority to SC/ST, women and BPL farmers. Max 10 animals per beneficiary.',
+    eligibilityMr:'SC/ST, महिला आणि दारिद्र्यरेषेखालील शेतकऱ्यांना प्राधान्य. प्रति लाभार्थी जास्तीत जास्त १० जनावरे.',
+    documents:'Aadhaar, BPL/Caste Certificate, Bank account, Land/Residence proof',
+    documentsMr:'आधार, BPL/जात प्रमाणपत्र, बँक खाते, जमीन/निवास पुरावा',
+    tags:['Livestock','SC/ST','Women','Landless'],
+  },
+  {
+    id:17, icon:'☀️', category:'solar', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#fffde8,#f5f0c0)',
+    name:'Rooftop Solar Scheme for Farmers',
+    nameMr:'शेतकऱ्यांसाठी छतावर सौर योजना',
+    amount:'Subsidy up to ₹78,000',
+    amountMr:'₹७८,००० पर्यंत अनुदान',
+    dept:'MNRE / MSEDCL, Maharashtra',
+    deptMr:'MNRE / MSEDCL, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Install rooftop solar panels on farm / home. Excess power can be sold to MSEDCL. Reduces electricity bills to zero.',
+    descMr:'शेत/घरावर सौर पॅनेल बसवा. अतिरिक्त वीज MSEDCL ला विकता येते. वीज बिल शून्यावर येते.',
+    eligibility:'Farmers and rural households. Roof space min 10 sq meters. Grid connectivity required.',
+    eligibilityMr:'शेतकरी आणि ग्रामीण घरे. किमान १० चौ.मी. छत जागा. ग्रिड कनेक्टिव्हिटी आवश्यक.',
+    documents:'Electricity bill, Aadhaar, Bank account, Property documents',
+    documentsMr:'वीज बिल, आधार, बँक खाते, मालमत्ता कागदपत्रे',
+    tags:['Solar','Electricity','Rooftop','Sell Power'],
+  },
+  {
+    id:18, icon:'🌾', category:'income', type:'state',
+    color:'background:linear-gradient(135deg,#e8f5ee,#c5e8d5)',
+    name:'Kisan Credit Card (किसान क्रेडिट कार्ड)',
+    nameMr:'किसान क्रेडिट कार्ड',
+    amount:'Loan up to ₹3,00,000 @ 4% interest',
+    amountMr:'४% व्याजदरावर ₹३,००,००० पर्यंत कर्ज',
+    dept:'NABARD / All Banks, Govt. of India',
+    deptMr:'NABARD / सर्व बँका, भारत सरकार',
+    ribbon:'rb-central', ribbonText:'Central Govt.',
+    desc:'Short-term crop loan at subsidized 4% interest rate. Can be used for seeds, fertilizers, pesticides and farm expenses.',
+    descMr:'सवलतीच्या ४% व्याजदराने अल्पकालीन पीक कर्ज. बियाणे, खते, कीटकनाशके आणि शेती खर्चासाठी वापरता येते.',
+    eligibility:'All farmers including tenant farmers and sharecroppers. No land ceiling.',
+    eligibilityMr:'भाडेकरू शेतकरी आणि वाटणीदार शेतकऱ्यांसह सर्व शेतकरी. जमीन मर्यादा नाही.',
+    documents:'7/12, Aadhaar, Bank account, 2 passport photos, Income proof',
+    documentsMr:'७/१२, आधार, बँक खाते, २ पासपोर्ट फोटो, उत्पन्न पुरावा',
+    tags:['Credit','Loan','4% Interest','KCC'],
+  },
+  {
+    id:19, icon:'🏠', category:'equipment', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#f5e8ff,#e0c5f5)',
+    name:'Greenhouse / Polyhouse Subsidy (हरितगृह)',
+    nameMr:'हरितगृह / पॉलीहाऊस अनुदान',
+    amount:'Up to ₹1,40,000',
+    amountMr:'₹१,४०,००० पर्यंत',
+    dept:'Horticulture Dept., Maharashtra',
+    deptMr:'फलोत्पादन विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for construction of greenhouse / polyhouse for protected cultivation. Ideal for flowers, vegetables, and exotic crops.',
+    descMr:'संरक्षित लागवडीसाठी हरितगृह / पॉलीहाऊस बांधणीसाठी अनुदान. फुले, भाजीपाला आणि विदेशी पिकांसाठी आदर्श.',
+    eligibility:'All farmers. Min 0.2 acres. Priority to SC/ST and women farmers.',
+    eligibilityMr:'सर्व शेतकरी. किमान ०.२ एकर. SC/ST आणि महिला शेतकऱ्यांना प्राधान्य.',
+    documents:'7/12, Aadhaar, Bank account, Site plan, Quotation',
+    documentsMr:'७/१२, आधार, बँक खाते, साइट प्लॅन, कोटेशन',
+    tags:['Horticulture','Protected Farming','MahaDBT'],
+  },
+  {
+    id:20, icon:'🌿', category:'income', type:'state',
+    color:'background:linear-gradient(135deg,#e8ffe8,#b8f0b8)',
+    name:'Organic Farming Scheme (सेंद्रिय शेती)',
+    nameMr:'सेंद्रिय शेती अनुदान योजना',
+    amount:'Up to ₹40,000',
+    amountMr:'₹४०,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Financial support for farmers switching to organic farming. Includes cost of organic inputs, certification and training.',
+    descMr:'सेंद्रिय शेतीकडे वळणाऱ्या शेतकऱ्यांसाठी आर्थिक सहाय्य. सेंद्रिय निविष्ठा, प्रमाणीकरण आणि प्रशिक्षण खर्चाचा समावेश.',
+    eligibility:'All farmers willing to convert to organic farming for min 3 years.',
+    eligibilityMr:'किमान ३ वर्षे सेंद्रिय शेतीकडे वळण्यास तयार असलेले सर्व शेतकरी.',
+    documents:'7/12, Aadhaar, Bank account, Organic farming plan',
+    documentsMr:'७/१२, आधार, बँक खाते, सेंद्रिय शेती योजना',
+    tags:['Organic','Premium Price','Eco-Friendly'],
+  },
+  {
+    id:21, icon:'♻️', category:'energy', type:'state',
+    color:'background:linear-gradient(135deg,#e8fff0,#b8f0c8)',
+    name:'Biogas Plant Subsidy (बायोगॅस संयंत्र)',
+    nameMr:'बायोगॅस संयंत्र अनुदान',
+    amount:'Up to ₹40,000',
+    amountMr:'₹४०,००० पर्यंत',
+    dept:'MNRE / Energy Dept., Maharashtra',
+    deptMr:'MNRE / ऊर्जा विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Subsidy for setting up biogas plants using cattle dung. Provides free cooking gas and organic slurry as fertilizer.',
+    descMr:'गोठ्यातील शेण वापरून बायोगॅस प्लांट उभारण्यासाठी अनुदान. मोफत स्वयंपाकाचा गॅस आणि सेंद्रिय स्लरी खत म्हणून मिळते.',
+    eligibility:'Farmers with min 2 cattle. SC/ST get higher subsidy.',
+    eligibilityMr:'किमान २ जनावरे असलेले शेतकरी. SC/ST ला जास्त अनुदान.',
+    documents:'Aadhaar, Cattle proof, 7/12, Bank account',
+    documentsMr:'आधार, जनावर पुरावा, ७/१२, बँक खाते',
+    tags:['Energy','Clean Cooking','Cattle','Eco'],
+  },
+  {
+    id:22, icon:'🥛', category:'livestock', type:'state',
+    color:'background:linear-gradient(135deg,#fff8f0,#f5e0c0)',
+    name:'Dairy Development Scheme (दुग्ध व्यवसाय)',
+    nameMr:'दुग्ध व्यवसाय विकास योजना',
+    amount:'Up to ₹2,50,000',
+    amountMr:'₹२,५०,००० पर्यंत',
+    dept:'Animal Husbandry & Dairy Dept.',
+    deptMr:'पशुसंवर्धन व दुग्ध विकास विभाग',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Financial assistance for setting up dairy units with HF/Jersey cows. Includes purchase of animals, shed construction and equipment.',
+    descMr:'HF/जर्सी गायींसह डेअरी युनिट स्थापन करण्यासाठी आर्थिक सहाय्य. जनावर खरेदी, गोठा बांधणी आणि उपकरणांचा समावेश.',
+    eligibility:'Farmers with agricultural land. Experience in cattle rearing preferred.',
+    eligibilityMr:'शेतजमीन असलेले शेतकरी. जनावरे पाळण्याचा अनुभव पसंत.',
+    documents:'7/12, Aadhaar, Bank account, Project report, Cattle proof',
+    documentsMr:'७/१२, आधार, बँक खाते, प्रकल्प अहवाल, जनावर पुरावा',
+    tags:['Dairy','Livestock','Regular Income'],
+  },
+  {
+    id:23, icon:'🐔', category:'livestock', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#fff5e0,#f5e8b0)',
+    name:'Poultry Farming Subsidy (कुक्कुटपालन)',
+    nameMr:'कुक्कुटपालन अनुदान',
+    amount:'Up to ₹1,00,000',
+    amountMr:'₹१,००,००० पर्यंत',
+    dept:'Animal Husbandry Dept., Maharashtra',
+    deptMr:'पशुसंवर्धन विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for establishing poultry farm (broiler/layer). Includes shed construction, equipment and initial bird purchase.',
+    descMr:'कुक्कुटपालन (ब्रॉयलर/लेयर) सुरू करण्यासाठी अनुदान. शेड बांधणी, उपकरणे आणि प्रारंभिक पक्षी खरेदीचा समावेश.',
+    eligibility:'Farmers and rural youth. Min 18 years age. SC/ST get extra 25% subsidy.',
+    eligibilityMr:'शेतकरी आणि ग्रामीण तरुण. किमान १८ वर्षे वय. SC/ST ला अतिरिक्त २५% अनुदान.',
+    documents:'Aadhaar, Bank account, Land/Rent proof, Project report',
+    documentsMr:'आधार, बँक खाते, जमीन/भाडे पुरावा, प्रकल्प अहवाल',
+    tags:['Poultry','Livestock','Rural Income'],
+  },
+  {
+    id:24, icon:'🍇', category:'horticulture', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#f5e8ff,#e0c5f5)',
+    name:'Horticulture Development Scheme (फलोत्पादन)',
+    nameMr:'फलोत्पादन विकास योजना',
+    amount:'Up to ₹1,00,000',
+    amountMr:'₹१,००,००० पर्यंत',
+    dept:'Horticulture Dept., Maharashtra',
+    deptMr:'फलोत्पादन विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for establishment and rejuvenation of orchards — grapes, pomegranate, mango, banana, orange. Includes drip + mulching.',
+    descMr:'द्राक्षे, डाळिंब, आंबा, केळी, संत्रा यांच्या बागा लावण्यासाठी व पुनरुज्जीवनासाठी अनुदान. ठिबक + मल्चिंग समाविष्ट.',
+    eligibility:'Farmers with min 0.2 acres. Valid 7/12 with horticulture crop record.',
+    eligibilityMr:'किमान ०.२ एकर असलेले शेतकरी. फलपिकाची नोंद असलेला ७/१२.',
+    documents:'7/12, Aadhaar, Bank account, Crop certificate',
+    documentsMr:'७/१२, आधार, बँक खाते, पीक प्रमाणपत्र',
+    tags:['Horticulture','Fruits','High Value','MahaDBT'],
+  },
+  {
+    id:25, icon:'🐟', category:'livestock', type:'state',
+    color:'background:linear-gradient(135deg,#e8f0ff,#c5d5f5)',
+    name:'Fishery Development Scheme (मत्स्यव्यवसाय)',
+    nameMr:'मत्स्यव्यवसाय विकास योजना',
+    amount:'Up to ₹1,50,000',
+    amountMr:'₹१,५०,००० पर्यंत',
+    dept:'Fisheries Dept., Maharashtra',
+    deptMr:'मत्स्यव्यवसाय विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Financial assistance for fish pond construction, fingerling purchase, feed and equipment for inland fish farming.',
+    descMr:'अंतर्देशीय मत्स्यपालनासाठी मासळी तलाव बांधणी, फिंगरलिंग खरेदी, खाद्य आणि उपकरणांसाठी आर्थिक सहाय्य.',
+    eligibility:'Farmers with water body or land for pond. Fishing community gets priority.',
+    eligibilityMr:'जलस्रोत किंवा तलावासाठी जमीन असलेले शेतकरी. मच्छीमार समाजाला प्राधान्य.',
+    documents:'7/12, Aadhaar, Water body lease/ownership, Bank account, Project report',
+    documentsMr:'७/१२, आधार, जलस्रोत भाडे/मालकी, बँक खाते, प्रकल्प अहवाल',
+    tags:['Fishery','Aquaculture','Water Body','Income'],
+  },
+  {
+    id:26, icon:'🌸', category:'horticulture', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#ffe8f5,#f5c0e0)',
+    name:'Floriculture Development Scheme (फुलशेती)',
+    nameMr:'फुलशेती विकास योजना',
+    amount:'Up to ₹60,000',
+    amountMr:'₹६०,००० पर्यंत',
+    dept:'Horticulture Dept., Maharashtra',
+    deptMr:'फलोत्पादन विभाग, महाराष्ट्र',
+    ribbon:'rb-mahadbt', ribbonText:'MahaDBT',
+    desc:'Subsidy for commercial flower cultivation — rose, marigold, gerbera, lily. High demand in urban markets.',
+    descMr:'व्यावसायिक फुल लागवडीसाठी अनुदान — गुलाब, झेंडू, जरबेरा, लिली. शहरी बाजारात जास्त मागणी.',
+    eligibility:'All farmers with agricultural land. Women farmers get extra 10% subsidy.',
+    eligibilityMr:'शेतजमीन असलेले सर्व शेतकरी. महिला शेतकऱ्यांना अतिरिक्त १०% अनुदान.',
+    documents:'7/12, Aadhaar, Bank account, Crop declaration',
+    documentsMr:'७/१२, आधार, बँक खाते, पीक घोषणापत्र',
+    tags:['Floriculture','Horticulture','Women Farmers','High Value'],
+  },
+  {
+    id:27, icon:'🌞', category:'solar', type:'central',
+    color:'background:linear-gradient(135deg,#fff8e0,#f5e8a0)',
+    name:'PM KUSUM Solar Scheme (पीएम कुसुम)',
+    nameMr:'पीएम कुसुम सौर योजना',
+    amount:'90% subsidy on solar pump',
+    amountMr:'सौर पंपावर ९०% अनुदान',
+    dept:'MNRE, Govt. of India',
+    deptMr:'MNRE, भारत सरकार',
+    ribbon:'rb-central', ribbonText:'Central Govt.',
+    desc:'Solar pump + solar power plant for farmers. Excess power sold to DISCOMs. Farmers earn additional income from solar power.',
+    descMr:'शेतकऱ्यांसाठी सौर पंप + सौर ऊर्जा संयंत्र. अतिरिक्त वीज DISCOMs ला विकता येते. शेतकऱ्यांना सौरऊर्जेतून अतिरिक्त उत्पन्न.',
+    eligibility:'All farmers with agricultural land and existing water source. Grid connectivity needed.',
+    eligibilityMr:'शेतजमीन आणि विद्यमान पाण्याचा स्रोत असलेले सर्व शेतकरी. ग्रिड कनेक्टिव्हिटी आवश्यक.',
+    documents:'7/12, Aadhaar, Electricity connection details, Bank account',
+    documentsMr:'७/१२, आधार, वीज कनेक्शन तपशील, बँक खाते',
+    tags:['Solar','Central','Sell Power','Income'],
+  },
+  {
+    id:28, icon:'🔆', category:'energy', type:'state',
+    color:'background:linear-gradient(135deg,#fffde8,#f5f0a0)',
+    name:'Solar Fencing Subsidy (सौर कुंपण)',
+    nameMr:'सौर कुंपण अनुदान',
+    amount:'Up to ₹90,000',
+    amountMr:'₹९०,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Solar electric fencing to protect crops from wild animals. Eco-friendly and effective crop protection.',
+    descMr:'जंगली प्राण्यांपासून पिकांचे संरक्षण करण्यासाठी सौर विद्युत कुंपण. पर्यावरण-अनुकूल आणि प्रभावी पीक संरक्षण.',
+    eligibility:'Farmers in forest-fringe areas or areas with wild animal menace.',
+    eligibilityMr:'जंगलालगत किंवा जंगली प्राण्यांचा त्रास असलेल्या भागातील शेतकरी.',
+    documents:'7/12, Aadhaar, Bank account, Field map, Forest dept. certificate',
+    documentsMr:'७/१२, आधार, बँक खाते, शेत नकाशा, वन विभाग प्रमाणपत्र',
+    tags:['Solar','Crop Protection','Forest Areas'],
+  },
+  {
+    id:29, icon:'🌊', category:'water', type:'mahadbt',
+    color:'background:linear-gradient(135deg,#e0f8ff,#b8eaf5)',
+    name:'Watershed Development (पाणलोट विकास)',
+    nameMr:'पाणलोट क्षेत्र विकास योजना',
+    amount:'₹5,000 per hectare',
+    amountMr:'₹५,००० प्रति हेक्टर',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Watershed management works — check dams, nala bunding, contour bunds. Recharges groundwater and prevents soil erosion.',
+    descMr:'पाणलोट व्यवस्थापन कामे — चेकडॅम, नाला बंडिंग, समतल बांध. भूजल पुनर्भरण आणि माती धूप रोखते.',
+    eligibility:'Farmer groups in degraded watershed areas. Group of min 10 farmers.',
+    eligibilityMr:'खराब झालेल्या पाणलोट भागातील शेतकरी गट. किमान १० शेतकऱ्यांचा गट.',
+    documents:'7/12, Aadhaar, Gram Panchayat NOC, Soil test, Group registration',
+    documentsMr:'७/१२, आधार, ग्रामपंचायत NOC, मातीचा अहवाल, गट नोंदणी',
+    tags:['Water Conservation','Group','Groundwater','Soil'],
+  },
+  {
+    id:30, icon:'🎯', category:'social', type:'state',
+    color:'background:linear-gradient(135deg,#e8f5ff,#c0d8f5)',
+    name:'SC/ST Farmer Special Assistance (SC/ST विशेष)',
+    nameMr:'SC/ST शेतकरी विशेष सहाय्य योजना',
+    amount:'Up to ₹50,000',
+    amountMr:'₹५०,००० पर्यंत',
+    dept:'Social Justice Dept., Maharashtra',
+    deptMr:'समाज न्याय विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Special financial assistance for SC/ST farmers for purchase of agricultural inputs, tools and equipment.',
+    descMr:'SC/ST शेतकऱ्यांसाठी कृषी निविष्ठा, साधने आणि उपकरणे खरेदीसाठी विशेष आर्थिक सहाय्य.',
+    eligibility:'SC/ST category farmers only. Min 0.1 acre agricultural land.',
+    eligibilityMr:'फक्त SC/ST प्रवर्गातील शेतकरी. किमान ०.१ एकर शेतजमीन.',
+    documents:'Aadhaar, Caste Certificate, 7/12, Bank account, Income Certificate',
+    documentsMr:'आधार, जात प्रमाणपत्र, ७/१२, बँक खाते, उत्पन्न दाखला',
+    tags:['SC/ST','Social Justice','Priority','Special'],
+  },
+  {
+    id:31, icon:'📜', category:'social', type:'state',
+    color:'background:linear-gradient(135deg,#e8f0ff,#c5d5f5)',
+    name:'Leased Land Farmer Support (भाडेपट्टा शेतकरी)',
+    nameMr:'भाडेपट्टा शेतकरी सहाय्य योजना',
+    amount:'Up to ₹25,000',
+    amountMr:'₹२५,००० पर्यंत',
+    dept:'Agriculture Dept., Maharashtra',
+    deptMr:'कृषी विभाग, महाराष्ट्र',
+    ribbon:'rb-state', ribbonText:'State Govt.',
+    desc:'Financial support for farmers who cultivate leased land. Helps tenant farmers access government schemes without land ownership.',
+    descMr:'भाडेपट्ट्याची जमीन कसणाऱ्या शेतकऱ्यांसाठी आर्थिक सहाय्य. जमीन मालकीशिवाय भाडेकरू शेतकऱ्यांना सरकारी योजना मिळण्यास मदत.',
+    eligibility:'Tenant/leased farmers with valid lease agreement for min 3 years.',
+    eligibilityMr:'किमान ३ वर्षांचा वैध भाडेकरार असलेले भाडेकरू शेतकरी.',
+    documents:'Lease Agreement, Aadhaar, Bank account, 7/12 of land owner',
+    documentsMr:'भाडेकरार, आधार, बँक खाते, जमीन मालकाचा ७/१२',
+    tags:['Leased Land','Tenant Farmers','Social Justice'],
+  },
+  {
+    id:32, icon:'💊', category:'insurance', type:'central',
+    color:'background:linear-gradient(135deg,#f0e8ff,#d5c0f5)',
+    name:'Soil Health Card Scheme (मृद आरोग्य कार्ड)',
+    nameMr:'मृद आरोग्य कार्ड योजना',
+    amount:'Free soil testing + recommendations',
+    amountMr:'मोफत माती परीक्षण + शिफारसी',
+    dept:'Ministry of Agriculture, Govt. of India',
+    deptMr:'कृषी मंत्रालय, भारत सरकार',
+    ribbon:'rb-central', ribbonText:'Central Govt.',
+    desc:'Free soil testing for every farmer every 2 years. Provides crop-wise fertilizer recommendations to reduce input costs.',
+    descMr:'दर २ वर्षांनी प्रत्येक शेतकऱ्यासाठी मोफत माती परीक्षण. निविष्ठा खर्च कमी करण्यासाठी पीकनिहाय खत शिफारसी.',
+    eligibility:'All farmers. Free of cost. Apply at nearest Krishi Kendra.',
+    eligibilityMr:'सर्व शेतकरी. मोफत. नजीकच्या कृषी केंद्रात अर्ज करा.',
+    documents:'Aadhaar, 7/12 land record, Soil sample',
+    documentsMr:'आधार, ७/१२ जमीन नोंदणी, माती नमुना',
+    tags:['Free','Soil','Central','All Farmers'],
+  },
+];
+
+// ════ RENDER ════
+function renderSchemes(list) {
+  const grid = document.getElementById('schemesGrid');
+  document.getElementById('countNum').textContent = list.length;
+
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="no-results" style="grid-column:1/-1;">
+      <div class="nr-icon">🔍</div>
+      <h3>${currentLang==='mr'?'कोणतीही योजना आढळली नाही':'No schemes found'}</h3>
+      <p>${currentLang==='mr'?'वेगळा शोध किंवा फिल्टर वापरून पहा':'Try a different search or filter'}</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map((s, idx) => `
+    <div class="scheme-card" style="animation-delay:${idx*0.05}s" onclick="toggleDetails(${s.id})">
+      <div class="sc-top">
+        <span class="sc-ribbon ${s.ribbon}">${s.ribbonText}</span>
+        <div class="sc-icon-row">
+          <div class="sc-icon" style="${s.color}">${s.icon}</div>
+          <div>
+            <div class="sc-name">${currentLang==='mr'?s.nameMr:s.name}</div>
+          </div>
+        </div>
+        <div class="sc-amount-row">
+          <span class="sc-amount">💰 ${currentLang==='mr'?s.amountMr:s.amount}</span>
+        </div>
+        <div class="sc-dept" style="font-size:0.72rem;color:#aaa;margin-bottom:8px;">🏛️ ${currentLang==='mr'?s.deptMr:s.dept}</div>
+        <div class="sc-desc">${currentLang==='mr'?s.descMr:s.desc}</div>
+        <div class="sc-tags">${s.tags.map(t=>`<span class="sc-tag">${t}</span>`).join('')}</div>
+      </div>
+
+      <!-- Expandable Details -->
+      <div class="sc-details">
+        <div class="sc-details-header" onclick="event.stopPropagation();toggleDetails(${s.id})">
+          <span data-id="dtl-lbl-${s.id}">${currentLang==='mr'?'📋 पात्रता आणि कागदपत्रे पहा':'📋 View Eligibility & Documents'}</span>
+          <span class="arrow" data-id="dtl-arr-${s.id}">▼</span>
+        </div>
+        <div class="sc-details-body" id="dtl-body-${s.id}">
+          <div class="detail-row">
+            <span class="dr-icon">✅</span>
+            <span class="dr-label">${currentLang==='mr'?'पात्रता:':'Eligibility:'}</span>
+            <span class="dr-val">${currentLang==='mr'?s.eligibilityMr:s.eligibility}</span>
+          </div>
+          <div class="detail-row">
+            <span class="dr-icon">📄</span>
+            <span class="dr-label">${currentLang==='mr'?'कागदपत्रे:':'Documents:'}</span>
+            <span class="dr-val">${currentLang==='mr'?s.documentsMr:s.documents}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc-footer">
+        <button class="btn-details" onclick="event.stopPropagation();toggleDetails(${s.id})">
+          ${currentLang==='mr'?'📋 तपशील':'📋 Details'}
+        </button>
+        <a class="btn-apply" href="apply-scheme.html?scheme=${s.id}" onclick="event.stopPropagation()">
+          📝 ${currentLang==='mr'?'अर्ज करा':'Apply Now'}
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Toggle details
+const openDetails = new Set();
+function toggleDetails(id) {
+  const body = document.getElementById(`dtl-body-${id}`);
+  const arr  = document.querySelector(`[data-id="dtl-arr-${id}"]`);
+  if (!body) return;
+  if (openDetails.has(id)) {
+    body.classList.remove('open');
+    if (arr) arr.style.transform = '';
+    openDetails.delete(id);
+  } else {
+    body.classList.add('open');
+    if (arr) arr.style.transform = 'rotate(180deg)';
+    openDetails.add(id);
+  }
+}
+
+// Filter
+function getFiltered() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const type   = document.getElementById('filterType').value;
+  const cat    = document.getElementById('filterCat').value;
+  return SCHEMES.filter(s => {
+    const matchTab    = activeTab === 'all' || s.category === activeTab;
+    const matchSearch = !search || s.name.toLowerCase().includes(search) || s.nameMr.includes(search) || s.desc.toLowerCase().includes(search) || s.tags.some(t=>t.toLowerCase().includes(search));
+    const matchType   = type === 'all' || s.type === type;
+    const matchCat    = cat  === 'all' || s.category === cat;
+    return matchTab && matchSearch && matchType && matchCat;
+  });
+}
+function filterSchemes() { renderSchemes(getFiltered()); }
+
+function setTab(cat, btn) {
+  activeTab = cat;
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterSchemes();
+}
+
+// Language
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang === 'mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length === 0) el.textContent = lang === 'mr' ? el.dataset.mr : el.dataset.en;
+  });
+  filterSchemes(); // re-render in new language
+}
+
+function doLogout() {
+  if (confirm(currentLang==='mr'?'लॉगआउट करायचे आहे का?':'Are you sure you want to logout?')) {
+    AuthAPI.logout();
+  }
+}
+
+// Load farmer data
+window.addEventListener('DOMContentLoaded', () => {
+  // Auth guard
+  if (!AuthAPI.isLoggedIn()) { window.location.href = 'farmer-login.html'; return; }
+
+  const data = JSON.parse(localStorage.getItem('farmerData') || '{}');
+  if (data.name) document.getElementById('sb-name').textContent = data.name;
+  const id = data.farmerId || data.id || 'KS-2026-00001';
+  document.getElementById('sb-id').textContent = id;
+
+  renderSchemes(SCHEMES);
+
+  // Update real stats from SCHEMES array
+  const mahadbt = SCHEMES.filter(s => s.type === 'mahadbt').length;
+  const central = SCHEMES.filter(s => s.type === 'central').length;
+  const state   = SCHEMES.filter(s => s.type === 'state').length;
+  document.getElementById('ph-total').textContent   = SCHEMES.length;
+  document.getElementById('ph-mahadbt').textContent = mahadbt;
+  document.getElementById('ph-central').textContent = central;
+  document.getElementById('ph-state').textContent   = state;
+});
+</script>
+<script src="../js/main.js"></script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

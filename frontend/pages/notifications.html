@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Notifications</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e;--green-main:#1a7a3c;--green-mid:#25a050;
+    --green-light:#e8f5ee;--saffron:#e8650a;--saffron-light:#fff3eb;
+    --gold:#f0a500;--cream:#fffdf7;--text-dark:#1a2e1a;--text-mid:#3a5a3a;
+    --border:#d4e8d4;--sidebar-w:260px;
+    --ai-cyan:#00c8ff;--ai-dark:#050f08;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Baloo 2',sans-serif;background:#f0f4f0;color:var(--text-dark);}
+  body.mr{font-family:'Noto Sans Devanagari',sans-serif;}
+
+  /* ══ SIDEBAR ══ */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:linear-gradient(180deg,var(--green-dark) 0%,#0a4020 100%);z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.15);transition:transform 0.3s;}
+  .sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .sidebar-logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--saffron),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .sidebar-logo-en{font-family:'Baloo 2',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;display:block;}
+  .sidebar-logo-mr{font-family:'Noto Sans Devanagari',sans-serif;font-size:0.65rem;color:var(--gold);display:block;}
+  .sidebar-profile{padding:20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:12px;}
+  .sp-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--gold));display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
+  .sp-name{font-size:0.88rem;font-weight:700;color:#fff;}
+  .sp-id{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:2px;}
+  .sp-badge{display:inline-block;background:rgba(37,160,80,0.3);border:1px solid rgba(37,160,80,0.5);color:#7deca0;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:4px;}
+  .sidebar-nav{flex:1;padding:16px 12px;overflow-y:auto;}
+  .nav-section-label{font-size:0.62rem;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase;padding:8px 10px 6px;margin-top:8px;}
+  .nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;margin-bottom:3px;text-decoration:none;color:rgba(255,255,255,0.65);font-size:0.88rem;font-weight:600;transition:all 0.25s;}
+  .nav-item:hover{background:rgba(255,255,255,0.1);color:#fff;}
+  .nav-item.active{background:linear-gradient(135deg,var(--saffron),#e05500);color:#fff;box-shadow:0 4px 16px rgba(232,101,10,0.35);}
+  .nav-item .ni-icon{font-size:1.1rem;flex-shrink:0;}
+  .nav-item .ni-badge{margin-left:auto;background:var(--saffron);color:#fff;font-size:0.65rem;font-weight:800;padding:2px 7px;border-radius:10px;}
+  .nav-item .ni-mr{font-family:'Noto Sans Devanagari',sans-serif;font-size:0.65rem;color:rgba(255,255,255,0.35);display:block;line-height:1;}
+  .sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.1);}
+  .btn-logout{width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.65);font-family:'Baloo 2',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.25s;}
+  .btn-logout:hover{background:rgba(192,57,43,0.3);color:#ff9999;}
+
+  /* ══ MAIN ══ */
+  .main{margin-left:var(--sidebar-w);min-height:100vh;}
+  .topbar{background:#fff;border-bottom:2px solid var(--border);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+  .topbar-left{display:flex;align-items:center;gap:12px;}
+  .topbar-title{font-family:'Yatra One',cursive;font-size:1.2rem;color:var(--green-dark);}
+  .topbar-right{display:flex;align-items:center;gap:12px;}
+  .lang-switch{display:flex;background:var(--green-light);border-radius:25px;padding:3px;gap:2px;}
+  .lang-btn{padding:5px 14px;border-radius:20px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.25s;color:var(--text-mid);background:transparent;}
+  .lang-btn.active{background:var(--saffron);color:#fff;}
+  .sidebar-toggle{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--green-dark);}
+  .page-content{padding:28px;}
+
+  /* ══ NOTIF HEADER ══ */
+  .notif-header{
+    background:linear-gradient(135deg,var(--ai-dark),#0a1f12);
+    border-radius:24px;padding:28px 32px;margin-bottom:24px;
+    display:flex;align-items:center;justify-content:space-between;
+    position:relative;overflow:hidden;border:1px solid rgba(0,200,255,0.1);
+    flex-wrap:wrap;gap:20px;
+  }
+  .notif-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,200,255,0.03) 1px,transparent 1px);background-size:22px 22px;}
+
+  /* Bell animation */
+  .bell-wrap{position:relative;flex-shrink:0;z-index:1;}
+  .bell-icon{
+    width:80px;height:80px;border-radius:50%;
+    background:linear-gradient(135deg,rgba(232,101,10,0.2),rgba(232,101,10,0.1));
+    border:2px solid rgba(232,101,10,0.3);
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.2rem;
+    animation:bellRing 4s ease-in-out infinite;
+  }
+  @keyframes bellRing{
+    0%,100%{transform:rotate(0);}
+    5%{transform:rotate(12deg);}
+    10%{transform:rotate(-10deg);}
+    15%{transform:rotate(8deg);}
+    20%{transform:rotate(-6deg);}
+    25%{transform:rotate(0);}
+  }
+  .bell-badge{
+    position:absolute;top:-4px;right:-4px;
+    width:28px;height:28px;border-radius:50%;
+    background:var(--saffron);color:#fff;font-weight:800;font-size:0.82rem;
+    display:flex;align-items:center;justify-content:center;
+    border:3px solid var(--ai-dark);
+    animation:badgePop 0.5s ease;
+  }
+  @keyframes badgePop{from{transform:scale(0);}70%{transform:scale(1.2);}to{transform:scale(1);}}
+
+  /* Ripple rings around bell */
+  .bell-ripple{position:absolute;inset:-16px;border-radius:50%;border:2px solid rgba(232,101,10,0.2);animation:rippleOut 2.5s ease-in-out infinite;}
+  .bell-ripple:nth-child(2){inset:-32px;animation-delay:0.6s;border-color:rgba(232,101,10,0.1);}
+  @keyframes rippleOut{0%{transform:scale(0.8);opacity:1;}100%{transform:scale(1.4);opacity:0;}}
+
+  .nh-info{flex:1;position:relative;z-index:1;}
+  .nh-label{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--ai-cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+  .nh-title{font-family:'Yatra One',cursive;font-size:1.7rem;color:#fff;margin-bottom:6px;}
+  .nh-title .hl{color:var(--saffron-glow,#ff8c3a);}
+  .nh-sub{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+  .nh-pills{display:flex;gap:10px;flex-wrap:wrap;}
+  .nh-pill{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:25px;padding:6px 16px;font-size:0.75rem;color:rgba(255,255,255,0.7);font-weight:600;display:flex;align-items:center;gap:6px;}
+  .nh-pill .np-num{color:#fff;font-weight:800;}
+
+  .nh-actions{display:flex;flex-direction:column;gap:8px;position:relative;z-index:1;}
+  .btn-mark-all{padding:10px 18px;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);font-family:'Baloo 2',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+  .btn-mark-all:hover{background:rgba(255,255,255,0.15);color:#fff;}
+
+  /* ══ FILTER TABS ══ */
+  .filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .ftab{padding:8px 18px;border-radius:25px;border:2px solid var(--border);background:#fff;font-family:'Baloo 2',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.25s;color:var(--text-mid);display:flex;align-items:center;gap:6px;}
+  .ftab:hover{border-color:var(--green-main);color:var(--green-main);}
+  .ftab.active{background:var(--green-main);color:#fff;border-color:var(--green-main);}
+  .ftab .ftab-count{background:rgba(255,255,255,0.3);padding:1px 7px;border-radius:10px;font-size:0.7rem;}
+  .ftab.active .ftab-count{background:rgba(255,255,255,0.25);}
+
+  /* ══ LAYOUT ══ */
+  .notif-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
+
+  /* ══ NOTIFICATION LIST ══ */
+  .notif-list{display:flex;flex-direction:column;gap:4px;}
+
+  /* Date separator */
+  .date-sep{display:flex;align-items:center;gap:12px;margin:16px 0 8px;padding:0 4px;}
+  .date-sep::before,.date-sep::after{content:'';flex:1;height:1px;background:var(--border);}
+  .date-sep span{font-size:0.72rem;font-weight:700;color:#aaa;white-space:nowrap;background:#f0f4f0;padding:0 8px;}
+
+  /* Notification card */
+  .notif-card{
+    background:#fff;border-radius:18px;border:2px solid var(--border);
+    padding:18px 20px;transition:all 0.3s;cursor:pointer;
+    display:flex;gap:14px;align-items:flex-start;
+    animation:notifSlide 0.4s ease forwards;opacity:0;
+    position:relative;overflow:hidden;
+  }
+  @keyframes notifSlide{from{opacity:0;transform:translateX(-16px);}to{opacity:1;transform:none;}}
+  .notif-card:hover{box-shadow:0 8px 28px rgba(26,122,60,0.1);border-color:var(--green-main);transform:translateX(4px);}
+  .notif-card.unread{border-left:4px solid var(--saffron);background:linear-gradient(135deg,#fffdf7,#fff);}
+  .notif-card.unread::before{content:'';position:absolute;top:12px;right:14px;width:10px;height:10px;background:var(--saffron);border-radius:50%;animation:unreadPulse 2s infinite;}
+  @keyframes unreadPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.6;}}
+
+  /* Icon circle */
+  .nc-icon-wrap{flex-shrink:0;}
+  .nc-icon{
+    width:50px;height:50px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+    position:relative;
+  }
+  /* Glow for special types */
+  .nc-icon.type-money {background:linear-gradient(135deg,#e8f5ee,#c5e8d5);box-shadow:0 4px 14px rgba(26,122,60,0.2);}
+  .nc-icon.type-alert {background:linear-gradient(135deg,#fff3eb,#ffe0c5);box-shadow:0 4px 14px rgba(232,101,10,0.2);}
+  .nc-icon.type-ai    {background:linear-gradient(135deg,#e8f0ff,#c5d5f5);box-shadow:0 4px 14px rgba(42,74,176,0.2);}
+  .nc-icon.type-info  {background:linear-gradient(135deg,#fffbe8,#f5eac0);box-shadow:0 4px 14px rgba(240,165,0,0.15);}
+  .nc-icon.type-warn  {background:linear-gradient(135deg,#ffe8e8,#f5c0c0);box-shadow:0 4px 14px rgba(192,57,43,0.2);}
+
+  .nc-body{flex:1;min-width:0;}
+  .nc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:5px;}
+  .nc-title{font-weight:800;font-size:0.92rem;color:var(--text-dark);line-height:1.3;}
+  .nc-time{font-size:0.68rem;color:#bbb;font-family:'Share Tech Mono',monospace;white-space:nowrap;margin-top:2px;flex-shrink:0;}
+  .nc-msg{font-size:0.82rem;color:#6a8a6a;line-height:1.5;margin-bottom:8px;}
+
+  /* Amount pill */
+  .nc-amount-pill{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);color:var(--green-dark);font-size:0.78rem;font-weight:800;padding:4px 12px;border-radius:20px;border:1px solid rgba(26,122,60,0.15);margin-bottom:8px;}
+
+  /* AI comment */
+  .nc-ai-comment{
+    background:linear-gradient(135deg,#f0f8ff,#e8f0ff);
+    border:1px solid rgba(0,150,255,0.15);border-left:3px solid var(--ai-cyan);
+    border-radius:0 10px 10px 0;padding:8px 12px;
+    font-size:0.75rem;color:#3a5a8a;line-height:1.5;
+    display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;
+  }
+
+  /* Action buttons */
+  .nc-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .nc-btn{padding:6px 14px;border-radius:20px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.25s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+  .nc-btn-primary{background:var(--green-main);color:#fff;box-shadow:0 3px 10px rgba(26,122,60,0.25);}
+  .nc-btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(26,122,60,0.35);}
+  .nc-btn-secondary{background:var(--saffron-light);color:var(--saffron);border:1px solid rgba(232,101,10,0.2);}
+  .nc-btn-secondary:hover{background:var(--saffron);color:#fff;}
+  .nc-btn-plain{background:#f0f4f0;color:#7a9a7a;}
+  .nc-btn-plain:hover{background:var(--border);color:var(--text-mid);}
+
+  /* ══ RIGHT COLUMN ══ */
+  .notif-right{display:flex;flex-direction:column;gap:20px;}
+
+  /* AI Summary card */
+  .ai-summary-card{
+    background:linear-gradient(160deg,var(--ai-dark),#0a2015);
+    border-radius:20px;border:1px solid rgba(0,200,255,0.15);overflow:hidden;
+  }
+  .asc-header{padding:18px 20px;border-bottom:1px solid rgba(0,200,255,0.1);display:flex;align-items:center;gap:12px;background:rgba(0,200,255,0.05);}
+  .asc-bot{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#0a2a4a,#1a4a7a);border:2px solid var(--ai-cyan);display:flex;align-items:center;justify-content:center;font-size:1.2rem;animation:aiGlow 3s infinite;}
+  @keyframes aiGlow{0%,100%{box-shadow:0 0 14px rgba(0,200,255,0.3);}50%{box-shadow:0 0 28px rgba(0,200,255,0.6);}}
+  .asc-title-wrap .asc-title{font-weight:800;color:#fff;font-size:0.9rem;}
+  .asc-title-wrap .asc-sub{font-size:0.62rem;color:var(--ai-cyan);font-family:'Share Tech Mono',monospace;}
+  .online-dot{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:0.65rem;color:#7deca0;font-weight:700;}
+  .online-dot::before{content:'';width:7px;height:7px;background:#25a050;border-radius:50%;animation:livePulse 1.5s infinite;}
+  @keyframes livePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.5);opacity:0.5;}}
+  .asc-body{padding:18px 20px;}
+  .asc-msg{font-size:0.82rem;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:16px;}
+  .asc-msg strong{color:var(--ai-cyan);}
+
+  /* Mini stat chips */
+  .asc-chips{display:flex;flex-direction:column;gap:8px;}
+  .asc-chip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:10px 14px;}
+  .asc-chip .aci-icon{font-size:1.1rem;flex-shrink:0;}
+  .asc-chip .aci-text{font-size:0.78rem;color:rgba(255,255,255,0.65);flex:1;line-height:1.4;}
+  .asc-chip .aci-val{font-size:0.78rem;font-weight:800;color:#fff;white-space:nowrap;}
+
+  /* Notification settings */
+  .notif-settings-card{background:#fff;border-radius:18px;border:2px solid var(--border);padding:20px;}
+  .nsc-title{font-family:'Yatra One',cursive;font-size:1rem;color:var(--green-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .nsc-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+  .nsc-item:last-child{border-bottom:none;padding-bottom:0;}
+  .nsc-label{font-size:0.82rem;color:var(--text-dark);display:flex;align-items:center;gap:8px;}
+  /* Toggle switch */
+  .toggle-wrap{position:relative;width:40px;height:22px;flex-shrink:0;}
+  .toggle-wrap input{opacity:0;width:0;height:0;}
+  .toggle-slider{position:absolute;inset:0;background:#ddd;border-radius:22px;cursor:pointer;transition:0.3s;}
+  .toggle-slider::before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:0.3s;}
+  input:checked + .toggle-slider{background:var(--green-main);}
+  input:checked + .toggle-slider::before{transform:translateX(18px);}
+
+  /* Weather widget */
+  .weather-card{background:linear-gradient(135deg,#1a3a6e,#0a2040);border-radius:18px;padding:20px;color:#fff;}
+  .wc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .wc-title{font-family:'Yatra One',cursive;font-size:0.95rem;}
+  .wc-label{font-size:0.65rem;color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+  .wc-main{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .wc-temp{font-family:'Yatra One',cursive;font-size:2.8rem;color:#fff;}
+  .wc-icon{font-size:3rem;}
+  .wc-desc{font-size:0.82rem;color:rgba(255,255,255,0.6);}
+  .wc-desc strong{color:#fff;font-size:1rem;}
+  .wc-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .wc-chip{background:rgba(255,255,255,0.1);border-radius:10px;padding:6px 12px;font-size:0.72rem;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:5px;}
+  .wc-alert{background:rgba(232,101,10,0.2);border:1px solid rgba(232,101,10,0.3);border-radius:12px;padding:10px 14px;margin-top:12px;font-size:0.75rem;color:#ffaa70;display:flex;gap:8px;align-items:flex-start;line-height:1.5;}
+
+  /* Animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  .notif-header,.notif-layout{animation:fadeUp 0.5s ease forwards;}
+
+  /* Responsive */
+  @media(max-width:1000px){.notif-layout{grid-template-columns:1fr;}}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;}.sidebar-toggle{display:block;}}
+  @media(max-width:500px){.page-content{padding:14px;}.notif-card{flex-direction:column;}.nc-top{flex-direction:column;gap:4px;}}
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-logo" href="index.html">
+    <div class="sidebar-logo-icon">🌾</div>
+    <div><span class="sidebar-logo-en">Krushi Sahayak</span><span class="sidebar-logo-mr">कृषी सहायक</span></div>
+  </a>
+  <div class="sidebar-profile">
+    <div class="sp-avatar">👨‍🌾</div>
+    <div>
+      <div class="sp-name" id="sb-name">—</div>
+      <div class="sp-id" id="sb-id">—</div>
+      <span class="sp-badge">✅ Verified Farmer</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">MAIN MENU</div>
+    <a class="nav-item" href="farmer-dashboard.html"><span class="ni-icon"><i data-lucide="home" class="lucide"></i></span><span><span>Dashboard</span><span class="ni-mr">डॅशबोर्ड</span></span></a>
+    <a class="nav-item" href="schemes.html"><span class="ni-icon"><i data-lucide="clipboard-list" class="lucide"></i></span><span><span>View All Schemes</span><span class="ni-mr">सर्व योजना</span></span><span class="ni-badge">32</span></a>
+    <a class="nav-item" href="ai-recommendation.html"><span class="ni-icon"><i data-lucide="bot" class="lucide"></i></span><span><span>AI Recommendation</span><span class="ni-mr">AI शिफारस</span></span></a>
+    <a class="nav-item" href="apply-scheme.html"><span class="ni-icon"><i data-lucide="file-pen-line" class="lucide"></i></span><span><span>Apply for Scheme</span><span class="ni-mr">अर्ज करा</span></span></a>
+    <div class="nav-section-label" style="margin-top:12px;">TRACK & MANAGE</div>
+    <a class="nav-item" href="tracking.html"><span class="ni-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span><span><span>My Applications</span><span class="ni-mr">माझे अर्ज</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item active" href="notifications.html"><span class="ni-icon"><i data-lucide="bell" class="lucide"></i></span><span><span>Notifications</span><span class="ni-mr">सूचना</span></span><span class="ni-badge" id="sb-notif-count">0</span></a>
+    <a class="nav-item" href="edit-profile.html"><span class="ni-icon"><i data-lucide="user-pen" class="lucide"></i></span><span><span>Edit Profile</span><span class="ni-mr">प्रोफाइल</span></span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()"><i data-lucide="log-out" class="lucide"></i> <span>Logout</span></button>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" data-en="🔔 Notifications" data-mr="🔔 सूचना">🔔 Notifications</div>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ══ HEADER ══ -->
+    <div class="notif-header">
+      <div class="bell-wrap">
+        <div class="bell-ripple"></div>
+        <div class="bell-ripple"></div>
+        <div class="bell-icon">🔔</div>
+        <div class="bell-badge" id="unreadBadge">8</div>
+      </div>
+
+      <div class="nh-info">
+        <div class="nh-label" data-en="NOTIFICATION CENTER — AI POWERED" data-mr="सूचना केंद्र — AI संचालित">NOTIFICATION CENTER — AI POWERED</div>
+        <h1 class="nh-title" data-en="Your <span class='hl'>Smart</span> Alerts" data-mr="तुमचे <span class='hl'>स्मार्ट</span> अलर्ट">Your <span class="hl">Smart</span> Alerts</h1>
+        <p class="nh-sub" data-en="AI monitors your applications 24/7 and sends instant alerts on approvals, transfers, deadlines & new schemes." data-mr="AI तुमचे अर्ज २४/७ निरीक्षण करते आणि मंजुरी, हस्तांतरण, मुदत आणि नवीन योजनांवर त्वरित सतर्क करते.">AI monitors your applications 24/7 and sends instant alerts.</p>
+        <div class="nh-pills">
+          <div class="nh-pill">🟠 Unread <span class="np-num" id="pill-unread">5</span></div>
+          <div class="nh-pill">💰 Money <span class="np-num">2</span></div>
+          <div class="nh-pill">🤖 AI Tips <span class="np-num">3</span></div>
+          <div class="nh-pill">⚠️ Alerts <span class="np-num">1</span></div>
+        </div>
+      </div>
+
+      <div class="nh-actions">
+        <button class="btn-mark-all" onclick="markAllRead()">✅ <span data-en="Mark All Read" data-mr="सर्व वाचले म्हणून चिन्हांकित करा">Mark All Read</span></button>
+        <button class="btn-mark-all" onclick="clearAll()" style="border-color:rgba(192,57,43,0.3);color:#ff9090;">🗑️ <span data-en="Clear All" data-mr="सर्व साफ करा">Clear All</span></button>
+      </div>
+    </div>
+
+    <!-- ══ FILTER TABS ══ -->
+    <div class="filter-tabs">
+      <button class="ftab active" onclick="filterNotifs('all',this)" data-en="🔔 All" data-mr="🔔 सर्व">🔔 All <span class="ftab-count" id="fc-all">8</span></button>
+      <button class="ftab" onclick="filterNotifs('money',this)" data-en="💰 Money" data-mr="💰 पैसे">💰 Money <span class="ftab-count" id="fc-money">2</span></button>
+      <button class="ftab" onclick="filterNotifs('ai',this)" data-en="🤖 AI Tips" data-mr="🤖 AI टिप्स">🤖 AI Tips <span class="ftab-count" id="fc-ai">3</span></button>
+      <button class="ftab" onclick="filterNotifs('status',this)" data-en="📊 Status Updates" data-mr="📊 स्थिती">📊 Status <span class="ftab-count" id="fc-status">2</span></button>
+      <button class="ftab" onclick="filterNotifs('alert',this)" data-en="⚠️ Alerts" data-mr="⚠️ इशारे">⚠️ Alerts <span class="ftab-count" id="fc-alert">1</span></button>
+    </div>
+
+    <!-- ══ LAYOUT ══ -->
+    <div class="notif-layout">
+
+      <!-- LEFT: Notifications -->
+      <div>
+        <div class="notif-list" id="notifList">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="notif-right">
+
+        <!-- AI Summary -->
+        <div class="ai-summary-card">
+          <div class="asc-header">
+            <div class="asc-bot">🤖</div>
+            <div class="asc-title-wrap">
+              <div class="asc-title" data-en="Krushi AI Assistant" data-mr="कृषी AI सहाय्यक">Krushi AI Assistant</div>
+              <div class="asc-sub">NOTIFICATION ANALYSER</div>
+            </div>
+            <div class="online-dot" data-en="Online" data-mr="ऑनलाइन">Online</div>
+          </div>
+          <div class="asc-body">
+            <div class="asc-msg" id="aiSummaryMsg">
+              You have <strong>5 unread</strong> notifications. Most important: <strong>₹45,000 has been credited</strong> to your SBI account! Also, <strong>3 new schemes</strong> matching your profile were announced this week.
+            </div>
+            <div class="asc-chips">
+              <div class="asc-chip">
+                <span class="aci-icon">💰</span>
+                <span class="aci-text" data-en="Total received this month" data-mr="या महिन्यात एकूण मिळाले">Total received this month</span>
+                <span class="aci-val">₹45,000</span>
+              </div>
+              <div class="asc-chip">
+                <span class="aci-icon">📋</span>
+                <span class="aci-text" data-en="Applications in progress" data-mr="प्रगतीत अर्ज">Applications in progress</span>
+                <span class="aci-val">2 active</span>
+              </div>
+              <div class="asc-chip">
+                <span class="aci-icon">🎯</span>
+                <span class="aci-text" data-en="New matching schemes" data-mr="नवीन जुळणाऱ्या योजना">New matching schemes</span>
+                <span class="aci-val">3 new</span>
+              </div>
+              <div class="asc-chip">
+                <span class="aci-icon">⚠️</span>
+                <span class="aci-text" data-en="Action required" data-mr="कृती आवश्यक">Action required</span>
+                <span class="aci-val" style="color:#ffaa70;">1 urgent</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weather Alert -->
+        <div class="weather-card">
+          <div class="wc-header">
+            <div>
+              <div class="wc-title" data-en="🌤️ Farm Weather" data-mr="🌤️ शेत हवामान">🌤️ Farm Weather</div>
+              <div class="wc-label" id="wc-loc">SOLAPUR, MAHARASHTRA</div>
+            </div>
+            <div style="font-size:0.65rem;color:rgba(255,255,255,0.3);font-family:'Share Tech Mono',monospace;">TODAY</div>
+          </div>
+          <div class="wc-main">
+            <div class="wc-icon">⛅</div>
+            <div>
+              <div class="wc-temp">32°C</div>
+              <div class="wc-desc"><strong>Partly Cloudy</strong></div>
+              <div class="wc-desc" style="margin-top:2px;" data-en="Good day for field work" data-mr="शेत कामासाठी चांगला दिवस">Good day for field work</div>
+            </div>
+          </div>
+          <div class="wc-row">
+            <div class="wc-chip">💧 Humidity: 65%</div>
+            <div class="wc-chip">💨 Wind: 12 km/h</div>
+            <div class="wc-chip">🌧️ Rain: 20%</div>
+          </div>
+          <div class="wc-alert">
+            <span>⚠️</span>
+            <span data-en="AI Advisory: Moderate heat expected this week. Water your Sugarcane crops in early morning or evening to reduce evaporation loss." data-mr="AI सल्ला: या आठवड्यात मध्यम उष्णता अपेक्षित. बाष्पीभवन कमी करण्यासाठी सकाळी लवकर किंवा संध्याकाळी ऊस पिकांना पाणी द्या.">AI Advisory: Moderate heat expected this week. Water your Sugarcane crops in early morning or evening.</span>
+          </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="notif-settings-card">
+          <div class="nsc-title" data-en="⚙️ Alert Settings" data-mr="⚙️ अलर्ट सेटिंग्ज">⚙️ Alert Settings</div>
+          <div class="nsc-item">
+            <span class="nsc-label">💰 <span data-en="Money Transfers" data-mr="पैसे हस्तांतरण">Money Transfers</span></span>
+            <label class="toggle-wrap"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="nsc-item">
+            <span class="nsc-label">📊 <span data-en="Application Status" data-mr="अर्जाची स्थिती">Application Status</span></span>
+            <label class="toggle-wrap"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="nsc-item">
+            <span class="nsc-label">🤖 <span data-en="AI Scheme Tips" data-mr="AI योजना टिप्स">AI Scheme Tips</span></span>
+            <label class="toggle-wrap"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="nsc-item">
+            <span class="nsc-label">🌦️ <span data-en="Weather Alerts" data-mr="हवामान इशारे">Weather Alerts</span></span>
+            <label class="toggle-wrap"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
+          </div>
+          <div class="nsc-item">
+            <span class="nsc-label">📅 <span data-en="Deadline Reminders" data-mr="मुदत स्मरणपत्रे">Deadline Reminders</span></span>
+            <label class="toggle-wrap"><input type="checkbox"/><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+if (!AuthAPI.isLoggedIn()) { window.location.href = 'farmer-login.html'; }
+let currentLang = 'en';
+let activeFilter = 'all';
+let REAL_NOTIFICATIONS = [];
+
+// ════ NOTIFICATIONS DATA ════
+const NOTIFICATIONS = [
+  {
+    id:1, type:'money', unread:true,
+    icon:'💰', iconType:'type-money',
+    date:'today',
+    titleEn:'₹45,000 Credited to Your Bank! 🎉',
+    titleMr:'₹४५,००० बँकेत जमा! 🎉',
+    msgEn:'Drip Irrigation Subsidy (KS-APP-2024-001) approved amount of ₹45,000 has been successfully transferred to your SBI bank account ending XXXX2341.',
+    msgMr:'ठिबक सिंचन अनुदान (KS-APP-2024-001) मंजूर रक्कम ₹४५,००० तुमच्या SBI बँक खाते XXXX2341 मध्ये यशस्वीरीत्या हस्तांतरित झाली.',
+    amount:'₹45,000',
+    aiEn:'🤖 Great news! This was processed 8 days faster than the district average. Check your SBI passbook or SMS for confirmation.',
+    aiMr:'🤖 छान बातमी! हे जिल्ह्याच्या सरासरीपेक्षा ८ दिवस आधी प्रक्रिया केले गेले. पुष्टीसाठी SBI पासबुक किंवा SMS तपासा.',
+    time:'2 hours ago',
+    timeMr:'२ तासांपूर्वी',
+    actions:[
+      { label:'📊 View Application', labelMr:'📊 अर्ज पहा', href:'tracking.html', style:'primary' },
+      { label:'📋 Download Receipt', labelMr:'📋 पावती डाउनलोड करा', href:'#', style:'secondary' },
+    ]
+  },
+  {
+    id:2, type:'ai', unread:true,
+    icon:'🤖', iconType:'type-ai',
+    date:'today',
+    titleEn:'🎯 AI Found 3 New Schemes For You!',
+    titleMr:'🎯 AI ने तुमच्यासाठी ३ नवीन योजना शोधल्या!',
+    msgEn:'Based on your updated farm profile — Solar Rooftop Scheme, Sheep Rearing Subsidy, and Kisan Credit Card perfectly match your land, crop and category.',
+    msgMr:'तुमच्या अद्यतनित शेत प्रोफाइलवर आधारित — सौर छत योजना, मेंढी पालन अनुदान आणि किसान क्रेडिट कार्ड तुमची जमीन, पीक आणि श्रेणीशी पूर्णपणे जुळतात.',
+    amount:null,
+    aiEn:'🤖 Combined potential benefit from these 3 schemes: up to ₹1,28,000. Apply while the deadline is open!',
+    aiMr:'🤖 या ३ योजनांमधून एकत्रित संभाव्य लाभ: ₹१,२८,०००पर्यंत. मुदत उघडी असताना अर्ज करा!',
+    time:'5 hours ago',
+    timeMr:'५ तासांपूर्वी',
+    actions:[
+      { label:'🤖 See AI Recommendations', labelMr:'🤖 AI शिफारसी पहा', href:'ai-recommendation.html', style:'primary' },
+    ]
+  },
+  {
+    id:3, type:'alert', unread:true,
+    icon:'⚠️', iconType:'type-warn',
+    date:'today',
+    titleEn:'⚠️ Action Required: PM Kisan Aadhaar Link',
+    titleMr:'⚠️ कृती आवश्यक: PM Kisan आधार लिंक',
+    msgEn:'Your PM Kisan application (KS-APP-2024-003) is pending because your Aadhaar is not linked to your SBI bank account. Please link it within 7 days to avoid rejection.',
+    msgMr:'तुमचा PM Kisan अर्ज (KS-APP-2024-003) प्रलंबित आहे कारण तुमचे आधार SBI बँक खात्याशी जोडलेले नाही. नाकारणे टाळण्यासाठी ७ दिवसांत लिंक करा.',
+    amount:null,
+    aiEn:'🤖 Urgent! Visit your SBI branch or use YONO app to link Aadhaar. Takes only 5 minutes. Deadline: 7 days from now.',
+    aiMr:'🤖 तातडीचे! आधार लिंक करण्यासाठी SBI शाखेत जा किंवा YONO अॅप वापरा. फक्त ५ मिनिटे लागतात. मुदत: आत्तापासून ७ दिवस.',
+    time:'6 hours ago',
+    timeMr:'६ तासांपूर्वी',
+    actions:[
+      { label:'📋 How to Link Aadhaar', labelMr:'📋 आधार कसे जोडावे', href:'#', style:'secondary' },
+      { label:'📊 View Application', labelMr:'📊 अर्ज पहा', href:'tracking.html', style:'plain' },
+    ]
+  },
+  {
+    id:4, type:'status', unread:true,
+    icon:'🔍', iconType:'type-alert',
+    date:'yesterday',
+    titleEn:'Solar Pump Application Under Field Review',
+    titleMr:'सौर पंप अर्ज फील्ड समीक्षेत',
+    msgEn:'MSEDCL engineer has been assigned for field visit to your farm in Solapur. Expected visit date: within next 5–7 working days.',
+    msgMr:'MSEDCL इंजिनियर सोलापुरातील तुमच्या शेतावर फील्ड भेटीसाठी नियुक्त केला आहे. अपेक्षित भेट तारीख: पुढील ५–७ कामकाजाच्या दिवसांत.',
+    amount:null,
+    aiEn:'🤖 Keep your farm accessible. Clear the area near your water source where the solar pump will be installed. Engineer contact will be shared 24hrs before visit.',
+    aiMr:'🤖 शेत प्रवेशयोग्य ठेवा. सौर पंप बसवल्या जाणाऱ्या पाण्याच्या स्रोताजवळील क्षेत्र साफ करा.',
+    time:'Yesterday, 3:45 PM',
+    timeMr:'काल, दुपारी ३:४५',
+    actions:[
+      { label:'📊 Track Application', labelMr:'📊 अर्ज ट्रॅक करा', href:'tracking.html', style:'primary' },
+    ]
+  },
+  {
+    id:5, type:'ai', unread:true,
+    icon:'📅', iconType:'type-info',
+    date:'yesterday',
+    titleEn:'⏰ Deadline Alert: Tractor Subsidy Closes in 12 Days',
+    titleMr:'⏰ मुदत इशारा: ट्रॅक्टर अनुदान १२ दिवसांत बंद',
+    msgEn:'MahaDBT Tractor Purchase Subsidy scheme deadline is March 31, 2024. AI predicts this scheme is 84% match for your farm. Apply now before it closes!',
+    msgMr:'MahaDBT ट्रॅक्टर खरेदी अनुदान योजनेची मुदत ३१ मार्च २०२४ आहे. AI अंदाज करते की ही योजना तुमच्या शेतासाठी ८४% जुळते. बंद होण्यापूर्वी अर्ज करा!',
+    amount:null,
+    aiEn:'🤖 You need only 4 documents: 7/12, Aadhaar, Income Certificate, and Tractor Quotation. You already have 2 of them from your profile!',
+    aiMr:'🤖 तुम्हाला फक्त ४ कागदपत्रे लागतात: ७/१२, आधार, उत्पन्न दाखला, ट्रॅक्टर कोटेशन. तुमच्या प्रोफाइलमधून तुमच्याकडे आधीच २ आहेत!',
+    time:'Yesterday, 10:00 AM',
+    timeMr:'काल, सकाळी १०:००',
+    actions:[
+      { label:'📝 Apply Now', labelMr:'📝 अर्ज करा', href:'apply-scheme.html', style:'primary' },
+      { label:'📋 View Scheme', labelMr:'📋 योजना पहा', href:'schemes.html', style:'secondary' },
+    ]
+  },
+  {
+    id:6, type:'money', unread:false,
+    icon:'🏦', iconType:'type-money',
+    date:'2days',
+    titleEn:'Bank Account Linked Successfully',
+    titleMr:'बँक खाते यशस्वीरीत्या लिंक केले',
+    msgEn:'Your SBI bank account (XXXX2341) has been successfully verified and linked for direct subsidy transfer via DBT.',
+    msgMr:'तुमचे SBI बँक खाते (XXXX2341) DBT द्वारे थेट अनुदान हस्तांतरणासाठी यशस्वीरीत्या सत्यापित आणि लिंक केले आहे.',
+    amount:null,
+    aiEn:'🤖 All future subsidy amounts will be directly credited to this account. No middlemen, no delay.',
+    aiMr:'🤖 भविष्यातील सर्व अनुदान रक्कम थेट या खात्यात जमा होईल. कोणतेही मध्यस्थ नाही, कोणताही विलंब नाही.',
+    time:'2 days ago',
+    timeMr:'२ दिवसांपूर्वी',
+    actions:[]
+  },
+  {
+    id:7, type:'ai', unread:false,
+    icon:'🌾', iconType:'type-ai',
+    date:'2days',
+    titleEn:'Sugarcane Season Advisory from AI',
+    titleMr:'AI कडून ऊस हंगाम सल्ला',
+    msgEn:"Based on Solapur district's current weather patterns, AI recommends starting drip irrigation 30% more frequently this week to maximize your Sugarcane yield during the dry spell.",
+    msgMr:'सोलापूर जिल्ह्याच्या सध्याच्या हवामानाच्या नमुन्यांवर आधारित, AI कोरड्या काळात ऊस उत्पादन वाढवण्यासाठी या आठवड्यात ३०% जास्त वेळा ठिबक सिंचन सुरू करण्याची शिफारस करते.',
+    amount:null,
+    aiEn:'🤖 Optimizing your water schedule can increase yield by 15–20%. Your drip irrigation system (just subsidized!) is perfect for this.',
+    aiMr:'🤖 पाणी वेळापत्रक अनुकूलित केल्याने उत्पादन १५–२०% वाढू शकते. तुमची ठिबक सिंचन प्रणाली (नुकतेच अनुदान!) यासाठी परिपूर्ण आहे.',
+    time:'2 days ago, 9:00 AM',
+    timeMr:'२ दिवसांपूर्वी, सकाळी ९:००',
+    actions:[
+      { label:'💧 View Drip Scheme', labelMr:'💧 ठिबक योजना पहा', href:'schemes.html', style:'secondary' },
+    ]
+  },
+  {
+    id:8, type:'status', unread:false,
+    icon:'✅', iconType:'type-money',
+    date:'week',
+    titleEn:'Registration Verified — Profile 100% Complete',
+    titleMr:'नोंदणी सत्यापित — प्रोफाइल १००% पूर्ण',
+    msgEn:'Welcome to Krushi Sahayak! Your farmer registration has been verified. Farmer ID: KS-2024-45231. You are now eligible to apply for all 18 Maharashtra government schemes.',
+    msgMr:'कृषी सहायकमध्ये आपले स्वागत आहे! तुमची शेतकरी नोंदणी सत्यापित झाली. शेतकरी ID: KS-2024-45231. तुम्ही आता सर्व ४८ महाराष्ट्र सरकारी योजनांसाठी अर्ज करण्यास पात्र आहात.',
+    amount:null,
+    aiEn:'🤖 Your profile is complete! AI has already identified 6 schemes that match your profile. Check the AI Recommendations page!',
+    aiMr:'🤖 तुमचे प्रोफाइल पूर्ण! AI ने आधीच तुमच्या प्रोफाइलशी जुळणाऱ्या ६ योजना ओळखल्या आहेत.',
+    time:'1 week ago',
+    timeMr:'१ आठवड्यापूर्वी',
+    actions:[
+      { label:'🤖 View AI Matches', labelMr:'🤖 AI जुळणी पहा', href:'ai-recommendation.html', style:'primary' },
+    ]
+  },
+];
+
+// ════ RENDER ════
+function renderNotifs(list) {
+  const container = document.getElementById('notifList');
+  if (list.length === 0) {
+    container.innerHTML = `<div style="background:#fff;border-radius:20px;border:2px solid var(--border);padding:48px;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">🔔</div><h3 style="color:var(--text-mid);">${currentLang==='mr'?'कोणतीही सूचना नाही':'No notifications here'}</h3></div>`;
+    return;
+  }
+
+  // Group by date
+  const groups = { today:[], yesterday:[], '2days':[], week:[] };
+  list.forEach(n => { if(groups[n.date]) groups[n.date].push(n); });
+
+  const dateLabels = {
+    today:     { en:'Today', mr:'आज' },
+    yesterday: { en:'Yesterday', mr:'काल' },
+    '2days':   { en:'2 Days Ago', mr:'२ दिवसांपूर्वी' },
+    week:      { en:'This Week', mr:'या आठवड्यात' },
+  };
+
+  let html = '';
+  let delay = 0;
+  Object.entries(groups).forEach(([key, items]) => {
+    if (!items.length) return;
+    html += `<div class="date-sep"><span>${currentLang==='mr'?dateLabels[key].mr:dateLabels[key].en}</span></div>`;
+    items.forEach(n => {
+      const actions = n.actions.map(a => `<a class="nc-btn nc-btn-${a.style}" href="${a.href}">${currentLang==='mr'?a.labelMr:a.label}</a>`).join('');
+      html += `
+      <div class="notif-card ${n.unread?'unread':''}" style="animation-delay:${delay*0.1}s" id="nc-${n.id}" onclick="markRead(${n.id})">
+        <div class="nc-icon-wrap">
+          <div class="nc-icon ${n.iconType}">${n.icon}</div>
+        </div>
+        <div class="nc-body">
+          <div class="nc-top">
+            <div class="nc-title">${currentLang==='mr'?n.titleMr:n.titleEn}</div>
+            <div class="nc-time">${currentLang==='mr'?n.timeMr:n.time}</div>
+          </div>
+          <div class="nc-msg">${currentLang==='mr'?n.msgMr:n.msgEn}</div>
+          ${n.amount ? `<div class="nc-amount-pill">💰 ${n.amount} ${currentLang==='mr'?'जमा झाले':'Credited'}</div>` : ''}
+          ${n.aiEn ? `<div class="nc-ai-comment"><span style="flex-shrink:0;">🤖</span><span>${currentLang==='mr'?n.aiMr:n.aiEn}</span></div>` : ''}
+          ${actions ? `<div class="nc-actions">${actions}</div>` : ''}
+        </div>
+      </div>`;
+      delay++;
+    });
+  });
+  container.innerHTML = html;
+}
+
+// ════ FILTER ════
+function filterNotifs(type, btn) {
+  activeFilter = type;
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = type === 'all' ? NOTIFICATIONS : NOTIFICATIONS.filter(n => n.type === type);
+  renderNotifs(filtered);
+}
+
+// ════ MARK READ ════
+function markRead(id) {
+  const n = NOTIFICATIONS.find(x => x.id === id);
+  if (n && n.unread) {
+    n.unread = false;
+    updateUnreadCount();
+    const card = document.getElementById('nc-'+id);
+    if (card) card.classList.remove('unread');
+  }
+}
+
+function markAllRead() {
+  REAL_NOTIFICATIONS.forEach(n => n.unread = false);
+  updateUnreadCount();
+  renderNotifs(activeFilter==='all'?REAL_NOTIFICATIONS:REAL_NOTIFICATIONS.filter(n=>n.type===activeFilter));
+  NotifyAPI.markAllRead().catch(()=>{});                         // ← CHANGED: sync to backend
+  showToast(currentLang==='mr'?'✅ सर्व सूचना वाचल्या म्हणून चिन्हांकित केल्या':'✅ All notifications marked as read','green');
+}
+
+function clearAll() {
+  if (confirm(currentLang==='mr'?'सर्व सूचना साफ करायच्या आहेत का?':'Clear all notifications?')) {
+    NOTIFICATIONS.forEach(n => n.unread = false);
+    document.getElementById('notifList').innerHTML = `<div style="background:#fff;border-radius:20px;border:2px solid var(--border);padding:48px;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">✅</div><h3 style="color:var(--text-mid);">${currentLang==='mr'?'सर्व सूचना साफ केल्या':'All caught up!'}</h3></div>`;
+    updateUnreadCount();
+    showToast(currentLang==='mr'?'🗑️ सर्व सूचना साफ केल्या':'🗑️ All notifications cleared','green');
+  }
+}
+
+function updateUnreadCount() {
+  const count = REAL_NOTIFICATIONS.filter(n=>n.unread).length;
+  document.getElementById('unreadBadge').textContent = count;
+  document.getElementById('pill-unread').textContent = count;
+  const sb = document.getElementById('sb-notif-count');
+  if (sb) sb.textContent = count;
+}
+
+// ════ AI SUMMARY ════
+function updateAISummary() {
+  const msgs = {
+    en:`You have <strong>${REAL_NOTIFICATIONS.filter(n=>n.unread).length} unread</strong> notifications.`,
+    mr:`तुमच्याकडे <strong>${REAL_NOTIFICATIONS.filter(n=>n.unread).length} न वाचलेल्या</strong> सूचना आहेत.`
+  };
+  const el = document.getElementById('aiSummaryMsg');
+  if (el) el.innerHTML = msgs[currentLang];
+}
+
+// ════ LANGUAGE ════
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang==='mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length===0) el.textContent = lang==='mr'?el.dataset.mr:el.dataset.en;
+  });
+  renderNotifs(activeFilter==='all'?REAL_NOTIFICATIONS:REAL_NOTIFICATIONS.filter(n=>n.type===activeFilter));
+  updateAISummary();
+}
+
+function doLogout() {                        // ← CHANGED: now calls AuthAPI
+  if (confirm(currentLang==='mr'?'लॉगआउट करायचे आहे का?':'Are you sure you want to logout?')) {
+    AuthAPI.logout();
+  }
+}
+
+function showToast(msg, type) {
+  let t = document.getElementById('toast');
+  if (!t) { t=document.createElement('div');t.id='toast';t.style.cssText=`position:fixed;bottom:28px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:50px;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.15);white-space:nowrap;transition:opacity 0.3s;`;document.body.appendChild(t); }
+  t.textContent=msg; t.style.background=type==='green'?'var(--green-main)':'#c0392b'; t.style.color='#fff'; t.style.opacity='1'; t.style.display='block';
+  clearTimeout(t._t); t._t=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.style.display='none',300);},3000);
+}
+
+// ════ INIT ════
+// ── Convert backend notification to display format ──
+function convertNotif(n, index) {
+  const typeMap = { success:'ic-green', info:'ic-blue', warning:'ic-orange', error:'ic-red' };
+  const iconMap = { success:'✅', info:'📋', warning:'⚠️', error:'❌' };
+  const now = new Date();
+  const created = new Date(n.createdAt);
+  const diffDays = Math.floor((now - created) / (1000*60*60*24));
+  const dateKey = diffDays === 0 ? 'today' : diffDays === 1 ? 'yesterday' : diffDays === 2 ? '2days' : 'week';
+  const timeStr = created.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+  return {
+    id:       index + 1,
+    _id:      n._id,
+    type:     n.type || 'info',
+    icon:     iconMap[n.type] || '📋',
+    iconType: typeMap[n.type] || 'ic-blue',
+    titleEn:  n.title    || 'Notification',
+    titleMr:  n.title_mr || n.title || 'सूचना',
+    msgEn:    n.msg      || '',
+    msgMr:    n.msg_mr   || n.msg || '',
+    time:     timeStr,
+    timeMr:   timeStr,
+    date:     dateKey,
+    unread:   !n.isRead,
+    amount:   null,
+    aiEn:     null,
+    aiMr:     null,
+    actions:  n.link ? [{ label:'View →', labelMr:'पहा →', href: n.link, style:'primary' }] : [],
+  };
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  const d = AuthAPI.getFarmer() || {};
+  if (d.name)     document.getElementById('sb-name').textContent = d.name;
+  if (d.farmerId) document.getElementById('sb-id').textContent   = d.farmerId;
+  if (d.district) document.getElementById('wc-loc').textContent  = (d.district + ', MAHARASHTRA').toUpperCase();
+
+  // ── Load real notifications from backend ──
+  try {
+    const real = await NotifyAPI.getAll();
+    const notifs = real && real.notifications ? real.notifications : (Array.isArray(real) ? real : []);
+    if (notifs.length > 0) {
+      // Convert backend format to display format
+      NOTIFICATIONS.length = 0;
+      notifs.forEach((n, i) => NOTIFICATIONS.push(convertNotif(n, i)));
+      const unread = NOTIFICATIONS.filter(n => n.unread).length;
+      document.getElementById('unreadBadge').textContent = unread;
+      document.getElementById('pill-unread').textContent = unread;
+      const sb = document.getElementById('sb-notif-count');
+      if (sb) sb.textContent = unread;
+    }
+  } catch (err) {
+    console.warn('Notifications load failed:', err.message);
+  }
+
+  renderNotifs(NOTIFICATIONS);
+  updateAISummary();
+});
+</script>
+<script src="../js/main.js"></script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

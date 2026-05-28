@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Farmer Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e; --green-main:#1a7a3c; --green-mid:#25a050;
+    --green-light:#e8f5ee; --saffron:#e8650a; --saffron-light:#fff3eb;
+    --saffron-glow:#ff8c3a; --gold:#f0a500; --cream:#fffdf7;
+    --text-dark:#1a2e1a; --text-mid:#3a5a3a;
+    --border:#d4e8d4; --sidebar-w:260px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Baloo 2',sans-serif; background:#f0f4f0; color:var(--text-dark); }
+  body.mr { font-family:'Noto Sans Devanagari',sans-serif; }
+
+  /* ══ SIDEBAR ══ */
+  .sidebar {
+    position:fixed; top:0; left:0; bottom:0;
+    width:var(--sidebar-w);
+    background:linear-gradient(180deg, var(--green-dark) 0%, #0a4020 100%);
+    z-index:100; display:flex; flex-direction:column;
+    box-shadow:4px 0 24px rgba(0,0,0,0.15);
+    transition:transform 0.3s;
+  }
+  .sidebar-logo {
+    padding:24px 20px; border-bottom:1px solid rgba(255,255,255,0.1);
+    display:flex; align-items:center; gap:12px; text-decoration:none;
+  }
+  .sidebar-logo-icon { width:44px; height:44px; background:linear-gradient(135deg,var(--saffron),var(--gold)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+  .sidebar-logo-en { font-family:'Baloo 2',sans-serif; font-size:1.1rem; font-weight:800; color:#fff; display:block; line-height:1.1; }
+  .sidebar-logo-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:var(--gold); display:block; }
+
+  /* Farmer mini profile in sidebar */
+  .sidebar-profile {
+    padding:20px; border-bottom:1px solid rgba(255,255,255,0.1);
+    display:flex; align-items:center; gap:12px;
+  }
+  .sp-avatar {
+    width:46px; height:46px; border-radius:50%;
+    background:linear-gradient(135deg,var(--saffron),var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem; flex-shrink:0;
+    border:2px solid rgba(255,255,255,0.3);
+  }
+  .sp-name { font-size:0.88rem; font-weight:700; color:#fff; line-height:1.2; }
+  .sp-id   { font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:2px; }
+  .sp-badge { display:inline-block; background:rgba(37,160,80,0.3); border:1px solid rgba(37,160,80,0.5); color:#7deca0; font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:10px; margin-top:4px; }
+
+  /* Nav items */
+  .sidebar-nav { flex:1; padding:16px 12px; overflow-y:auto; }
+  .nav-section-label { font-size:0.62rem; font-weight:700; color:rgba(255,255,255,0.35); letter-spacing:1px; text-transform:uppercase; padding:8px 10px 6px; margin-top:8px; }
+  .nav-item {
+    display:flex; align-items:center; gap:12px;
+    padding:11px 14px; border-radius:12px; margin-bottom:3px;
+    text-decoration:none; color:rgba(255,255,255,0.65);
+    font-size:0.88rem; font-weight:600; transition:all 0.25s; cursor:pointer;
+  }
+  .nav-item:hover { background:rgba(255,255,255,0.1); color:#fff; }
+  .nav-item.active { background:linear-gradient(135deg,var(--saffron),#e05500); color:#fff; box-shadow:0 4px 16px rgba(232,101,10,0.35); }
+  .nav-item .ni-icon { font-size:1.1rem; flex-shrink:0; }
+  .nav-item .ni-badge { margin-left:auto; background:var(--saffron); color:#fff; font-size:0.65rem; font-weight:800; padding:2px 7px; border-radius:10px; }
+  .nav-item .ni-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:rgba(255,255,255,0.35); display:block; line-height:1; }
+
+  .sidebar-footer { padding:16px 20px; border-top:1px solid rgba(255,255,255,0.1); }
+  .btn-logout { width:100%; padding:10px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.65); font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.25s; }
+  .btn-logout:hover { background:rgba(192,57,43,0.3); border-color:rgba(192,57,43,0.5); color:#ff9999; }
+
+  /* ══ MAIN CONTENT ══ */
+  .main { margin-left:var(--sidebar-w); min-height:100vh; display:flex; flex-direction:column; }
+
+  /* Top bar */
+  .topbar {
+    background:#fff; border-bottom:2px solid var(--border);
+    padding:0 28px; height:64px; display:flex; align-items:center;
+    justify-content:space-between; position:sticky; top:0; z-index:50;
+    box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  }
+  .topbar-left { display:flex; align-items:center; gap:12px; }
+  .topbar-title { font-family:'Yatra One',cursive; font-size:1.2rem; color:var(--green-dark); }
+  .topbar-right { display:flex; align-items:center; gap:12px; }
+  .lang-switch { display:flex; background:var(--green-light); border-radius:25px; padding:3px; gap:2px; }
+  .lang-btn { padding:5px 14px; border-radius:20px; border:none; font-family:'Baloo 2',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer; transition:all 0.25s; color:var(--text-mid); background:transparent; }
+  .lang-btn.active { background:var(--saffron); color:#fff; }
+  .topbar-notif { position:relative; cursor:pointer; font-size:1.3rem; }
+  .notif-dot { position:absolute; top:-2px; right:-2px; width:10px; height:10px; background:var(--saffron); border-radius:50%; border:2px solid #fff; }
+
+  /* ══ PAGE CONTENT ══ */
+  .page-content { padding:28px; flex:1; }
+
+  /* Welcome banner */
+  .welcome-banner {
+    background:linear-gradient(135deg, var(--green-dark) 0%, var(--green-main) 60%, #2dbe64 100%);
+    border-radius:20px; padding:28px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:28px; position:relative; overflow:hidden;
+    box-shadow:0 8px 32px rgba(26,122,60,0.25);
+  }
+  .welcome-banner::before { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px); background-size:22px 22px; }
+  .welcome-banner::after  { content:'🌾'; position:absolute; right:32px; top:50%; transform:translateY(-50%); font-size:5rem; opacity:0.15; }
+  .wb-left { position:relative; z-index:1; }
+  .wb-greeting { font-size:0.85rem; color:rgba(255,255,255,0.65); margin-bottom:4px; }
+  .wb-name { font-family:'Yatra One',cursive; font-size:1.9rem; color:#fff; margin-bottom:4px; }
+  .wb-name .hl { color:var(--gold); }
+  .wb-meta { font-size:0.8rem; color:rgba(255,255,255,0.6); display:flex; gap:16px; flex-wrap:wrap; }
+  .wb-meta span { display:flex; align-items:center; gap:5px; }
+  .wb-right { position:relative; z-index:1; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+  .wb-id-badge { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); border-radius:12px; padding:8px 16px; color:#fff; font-size:0.82rem; font-weight:700; }
+  .wb-ai-btn {
+    padding:10px 20px; border-radius:50px;
+    background:linear-gradient(135deg,var(--saffron),#e05500);
+    color:#fff; border:none; font-family:'Baloo 2',sans-serif;
+    font-size:0.85rem; font-weight:700; cursor:pointer;
+    box-shadow:0 4px 16px rgba(232,101,10,0.4);
+    transition:all 0.25s; text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+  }
+  .wb-ai-btn:hover { transform:translateY(-2px); }
+
+  /* Stats row */
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px; }
+  .stat-card {
+    background:#fff; border-radius:16px; padding:20px;
+    border:2px solid var(--border); transition:all 0.3s;
+    display:flex; align-items:center; gap:16px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.04);
+  }
+  .stat-card:hover { transform:translateY(-4px); box-shadow:0 8px 28px rgba(26,122,60,0.12); border-color:var(--green-main); }
+  .stat-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; flex-shrink:0; }
+  .si1 { background:linear-gradient(135deg,#e8f5ee,#c5e8d5); }
+  .si2 { background:linear-gradient(135deg,#fff3eb,#ffe0c5); }
+  .si3 { background:linear-gradient(135deg,#e8f0ff,#c5d5f5); }
+  .si4 { background:linear-gradient(135deg,#fffbe8,#f5eac0); }
+  .stat-info .stat-num { font-family:'Yatra One',cursive; font-size:1.6rem; color:var(--green-dark); line-height:1; }
+  .stat-info .stat-lbl { font-size:0.75rem; color:#7a9a7a; margin-top:3px; }
+  .stat-info .stat-mr  { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:#bbb; display:block; }
+
+  /* Main grid */
+  .main-grid { display:grid; grid-template-columns:1fr 380px; gap:20px; }
+
+  /* Action cards */
+  .section-title { font-family:'Yatra One',cursive; font-size:1.15rem; color:var(--green-dark); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .action-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .action-card {
+    background:#fff; border-radius:18px; padding:22px 20px;
+    border:2px solid var(--border); cursor:pointer; text-decoration:none;
+    transition:all 0.3s; display:flex; flex-direction:column; align-items:flex-start; gap:10px;
+    position:relative; overflow:hidden;
+  }
+  .action-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--grad,linear-gradient(90deg,var(--green-main),var(--saffron))); }
+  .action-card:hover { transform:translateY(-5px); box-shadow:0 12px 36px rgba(26,122,60,0.13); border-color:var(--green-main); }
+  .ac-icon { width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; }
+  .ac1 .ac-icon { background:linear-gradient(135deg,#e8f5ee,#c5e8d5); }
+  .ac2 .ac-icon { background:linear-gradient(135deg,#fff3eb,#ffe0c5); }
+  .ac3 .ac-icon { background:linear-gradient(135deg,#e8f0ff,#c5d5f5); }
+  .ac4 .ac-icon { background:linear-gradient(135deg,#f5ffe8,#ddf5c0); }
+  .ac5 .ac-icon { background:linear-gradient(135deg,#fff8e8,#fcecc0); }
+  .ac6 .ac-icon { background:linear-gradient(135deg,#ffe8f5,#f5c0de); }
+  .ac-title { font-weight:700; font-size:0.92rem; color:var(--green-dark); }
+  .ac-mr    { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.68rem; color:#aaa; display:block; margin-top:1px; }
+  .ac-desc  { font-size:0.78rem; color:#7a9a7a; line-height:1.4; }
+  .ac-arrow { margin-top:auto; font-size:0.8rem; color:var(--green-main); font-weight:700; }
+
+  /* Right column */
+  .right-col { display:flex; flex-direction:column; gap:20px; }
+
+  /* Application status */
+  .status-card { background:#fff; border-radius:18px; padding:20px; border:2px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+  .app-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+  .app-item:last-child { border-bottom:none; padding-bottom:0; }
+  .app-scheme-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+  .app-info { flex:1; min-width:0; }
+  .app-name { font-size:0.82rem; font-weight:700; color:var(--text-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .app-id-sm { font-size:0.68rem; color:#aaa; }
+  .app-status { padding:4px 10px; border-radius:20px; font-size:0.68rem; font-weight:700; white-space:nowrap; }
+  .st-approved  { background:#e8f5ee; color:#1a7a3c; }
+  .st-review    { background:#fff3eb; color:#e8650a; }
+  .st-submitted { background:#e8f0ff; color:#3a5ab5; }
+  .st-rejected  { background:#ffe8e8; color:#c0392b; }
+
+  /* Notification panel */
+  .notif-card { background:#fff; border-radius:18px; padding:20px; border:2px solid var(--border); box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+  .notif-item { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+  .notif-item:last-child { border-bottom:none; padding-bottom:0; }
+  .notif-dot-col { display:flex; flex-direction:column; align-items:center; padding-top:4px; }
+  .ndot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .nd-green  { background:var(--green-main); }
+  .nd-orange { background:var(--saffron); }
+  .nd-blue   { background:#3a7bd5; }
+  .nd-red    { background:#c0392b; }
+  .notif-text { font-size:0.8rem; color:var(--text-dark); line-height:1.4; flex:1; }
+  .notif-time { font-size:0.68rem; color:#bbb; margin-top:3px; display:block; }
+
+  /* AI suggestion strip */
+  .ai-strip {
+    background:linear-gradient(135deg,#0d5c2e,#1a7a3c);
+    border-radius:16px; padding:18px 22px;
+    display:flex; align-items:center; gap:16px; margin-bottom:20px;
+    position:relative; overflow:hidden; cursor:pointer; text-decoration:none;
+    transition:transform 0.25s;
+  }
+  .ai-strip:hover { transform:translateY(-2px); }
+  .ai-strip::after { content:'✨'; position:absolute; right:24px; font-size:2.5rem; opacity:0.25; }
+  .ai-strip-icon { width:52px; height:52px; background:rgba(255,255,255,0.15); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; flex-shrink:0; }
+  .ai-strip-text .ast { font-family:'Yatra One',cursive; font-size:1rem; color:#fff; }
+  .ai-strip-text .asd { font-size:0.78rem; color:rgba(255,255,255,0.65); margin-top:3px; }
+  .ai-strip-arrow { margin-left:auto; background:var(--saffron); color:#fff; padding:8px 16px; border-radius:25px; font-size:0.8rem; font-weight:700; flex-shrink:0; }
+
+  /* Profile summary card */
+  .profile-card { background:#fff; border-radius:18px; padding:20px; border:2px solid var(--border); margin-bottom:20px; }
+  .profile-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.82rem; }
+  .profile-row:last-child { border-bottom:none; padding-bottom:0; }
+  .pr-key   { color:#7a9a7a; font-weight:600; display:flex; align-items:center; gap:6px; }
+  .pr-val   { color:var(--text-dark); font-weight:700; text-align:right; }
+  .edit-profile-btn { width:100%; margin-top:14px; padding:10px; border-radius:50px; border:2px solid var(--green-main); background:#fff; color:var(--green-main); font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.25s; }
+  .edit-profile-btn:hover { background:var(--green-main); color:#fff; }
+
+  /* Mobile sidebar toggle */
+  .sidebar-toggle { display:none; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--green-dark); }
+
+  /* Animations */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;} }
+  .welcome-banner,.stats-grid,.ai-strip,.main-grid { animation:fadeUp 0.5s ease forwards; }
+  .stats-grid { animation-delay:0.1s; }
+  .ai-strip   { animation-delay:0.15s; }
+  .main-grid  { animation-delay:0.2s; }
+
+  /* Responsive */
+  @media(max-width:1100px) { .main-grid { grid-template-columns:1fr; } }
+  @media(max-width:860px) {
+    .sidebar { transform:translateX(-100%); }
+    .sidebar.open { transform:translateX(0); }
+    .main { margin-left:0; }
+    .sidebar-toggle { display:block; }
+    .stats-grid { grid-template-columns:1fr 1fr; }
+    .action-grid { grid-template-columns:1fr 1fr; }
+  }
+  @media(max-width:500px) {
+    .stats-grid { grid-template-columns:1fr 1fr; }
+    .action-grid { grid-template-columns:1fr; }
+    .welcome-banner { flex-direction:column; gap:16px; }
+    .wb-right { align-items:flex-start; }
+  }
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-logo" href="index.html">
+    <div class="sidebar-logo-icon">🌾</div>
+    <div>
+      <span class="sidebar-logo-en">Krushi Sahayak</span>
+      <span class="sidebar-logo-mr">कृषी सहायक</span>
+    </div>
+  </a>
+
+  <!-- Farmer profile -->
+  <div class="sidebar-profile">
+    <div class="sp-avatar">👨‍🌾</div>
+    <div>
+      <div class="sp-name" id="sb-name">—</div>
+      <div class="sp-id"  id="sb-id">—</div>
+      <span class="sp-badge" data-en="✅ Verified Farmer" data-mr="✅ सत्यापित शेतकरी">✅ Verified Farmer</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label" data-en="MAIN MENU" data-mr="मुख्य मेनू">MAIN MENU</div>
+
+    <a class="nav-item active" href="farmer-dashboard.html">
+      <span class="ni-icon"><i data-lucide="home" class="lucide"></i></span>
+      <span>
+        <span data-en="Dashboard" data-mr="डॅशबोर्ड">Dashboard</span>
+        <span class="ni-mr">डॅशबोर्ड</span>
+      </span>
+    </a>
+    <a class="nav-item" href="schemes.html">
+      <span class="ni-icon"><i data-lucide="clipboard-list" class="lucide"></i></span>
+      <span>
+        <span data-en="View All Schemes" data-mr="सर्व योजना">View All Schemes</span>
+        <span class="ni-mr">सर्व सरकारी योजना</span>
+      </span>
+      <span class="ni-badge">32</span>
+    </a>
+    <a class="nav-item" href="ai-recommendation.html">
+      <span class="ni-icon"><i data-lucide="bot" class="lucide"></i></span>
+      <span>
+        <span data-en="AI Recommendation" data-mr="AI शिफारस">AI Recommendation</span>
+        <span class="ni-mr">AI-आधारित सुचवणी</span>
+      </span>
+    </a>
+    <a class="nav-item" href="apply-scheme.html">
+      <span class="ni-icon"><i data-lucide="file-pen-line" class="lucide"></i></span>
+      <span>
+        <span data-en="Apply for Scheme" data-mr="योजनेसाठी अर्ज">Apply for Scheme</span>
+        <span class="ni-mr">अर्ज करा</span>
+      </span>
+    </a>
+
+    <div class="nav-section-label" style="margin-top:12px;" data-en="TRACK & MANAGE" data-mr="ट्रॅक आणि व्यवस्थापन">TRACK & MANAGE</div>
+
+    <a class="nav-item" href="tracking.html">
+      <span class="ni-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span>
+      <span>
+        <span data-en="My Applications" data-mr="माझे अर्ज">My Applications</span>
+        <span class="ni-mr">अर्जाची स्थिती</span>
+      </span>
+      <span class="ni-badge">0</span>
+    </a>
+    <a class="nav-item" href="notifications.html">
+      <span class="ni-icon"><i data-lucide="bell" class="lucide"></i></span>
+      <span>
+        <span data-en="Notifications" data-mr="सूचना">Notifications</span>
+        <span class="ni-mr">अद्यतने</span>
+      </span>
+      <span class="ni-badge">0</span>
+    </a>
+    <a class="nav-item" href="edit-profile.html">
+      <span class="ni-icon"><i data-lucide="user-pen" class="lucide"></i></span>
+      <span>
+        <span data-en="Edit Profile" data-mr="प्रोफाइल संपादित करा">Edit Profile</span>
+        <span class="ni-mr">माहिती बदला</span>
+      </span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()">
+      <i data-lucide="log-out" class="lucide"></i> <span data-en="Logout" data-mr="बाहेर पडा">Logout</span>
+    </button>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title" data-en="🌾 Farmer Dashboard" data-mr="🌾 शेतकरी डॅशबोर्ड">🌾 Farmer Dashboard</div>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+      <div class="topbar-notif" onclick="window.location.href='notifications.html'">
+        <i data-lucide="bell" class="lucide"></i><span class="notif-dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="page-content">
+
+    <!-- Welcome banner -->
+    <div class="welcome-banner">
+      <div class="wb-left">
+        <div class="wb-greeting" id="wb-greeting" data-en="Good Morning 🌅" data-mr="सुप्रभात 🌅">Good Morning 🌅</div>
+        <div class="wb-name"><span class="hl" id="wb-name">Ramesh Patil</span> <span data-en="Ji 🙏" data-mr="जी 🙏">Ji 🙏</span></div>
+        <div class="wb-meta">
+          <span>📍 <span id="wb-village">Solapur, Maharashtra</span></span>
+          <span>🌾 <span id="wb-crop">Sugarcane Farmer</span></span>
+          <span>📐 <span id="wb-land">2–5 Acres</span></span>
+        </div>
+      </div>
+      <div class="wb-right">
+        <div class="wb-id-badge">🪪 ID: <span id="wb-id">KS-2024-45231</span></div>
+        <a href="ai-recommendation.html" class="wb-ai-btn">
+          🤖 <span data-en="Get AI Suggestions" data-mr="AI सुचवणी मिळवा">Get AI Suggestions</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon si1"><i data-lucide="clipboard-list" class="lucide"></i></div>
+        <div class="stat-info">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-lbl" data-en="Applications" data-mr="अर्ज">Applications<span class="stat-mr">एकूण अर्ज</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si2"><i data-lucide="check-circle-2" class="lucide"></i></div>
+        <div class="stat-info">
+          <div class="stat-num" id="stat-approved">0</div>
+          <div class="stat-lbl" data-en="Approved" data-mr="मंजूर">Approved<span class="stat-mr">मंजूर अर्ज</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si3"><i data-lucide="clock" class="lucide"></i></div>
+        <div class="stat-info">
+          <div class="stat-num" id="stat-review">0</div>
+          <div class="stat-lbl" data-en="Under Review" data-mr="समीक्षाधीन">Under Review<span class="stat-mr">प्रक्रियाधीन</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon si4"><i data-lucide="banknote" class="lucide"></i></div>
+        <div class="stat-info">
+          <div class="stat-num" id="stat-money">₹0</div>
+          <div class="stat-lbl" data-en="Received" data-mr="मिळाले">Received<span class="stat-mr">अनुदान मिळाले</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Strip -->
+    <a class="ai-strip" href="ai-recommendation.html">
+      <div class="ai-strip-icon">🤖</div>
+      <div class="ai-strip-text">
+        <div class="ast" data-en="🎯 AI Found 5 New Schemes For You!" data-mr="🎯 AI ने तुमच्यासाठी ५ नवीन योजना शोधल्या!">🎯 AI Found 5 New Schemes For You!</div>
+        <div class="asd" data-en="Based on your land, crop & location — Click to see recommendations" data-mr="तुमची जमीन, पीक आणि स्थानावर आधारित — शिफारसी पाहण्यासाठी क्लिक करा">Based on your land, crop & location — Click to see recommendations</div>
+      </div>
+      <div class="ai-strip-arrow" data-en="View →" data-mr="पहा →">View →</div>
+    </a>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+
+      <!-- LEFT: Quick Actions -->
+      <div>
+        <div class="section-title" data-en="⚡ Quick Actions" data-mr="⚡ द्रुत क्रिया">⚡ Quick Actions</div>
+        <div class="action-grid">
+          <a class="action-card ac1" href="schemes.html">
+            <div class="ac-icon"><i data-lucide="clipboard-list" class="lucide"></i></div>
+            <div>
+              <div class="ac-title" data-en="View All Schemes" data-mr="सर्व योजना पहा">View All Schemes</div>
+              <span class="ac-mr">सर्व सरकारी योजना</span>
+              <div class="ac-desc" data-en="Browse 18 govt schemes available for you" data-mr="तुमच्यासाठी उपलब्ध १८ सरकारी योजना पाहा">Browse 18 govt schemes available for you</div>
+            </div>
+            <div class="ac-arrow" data-en="Browse →" data-mr="पाहा →">Browse →</div>
+          </a>
+
+          <a class="action-card ac2" href="ai-recommendation.html">
+            <div class="ac-icon"><i data-lucide="bot" class="lucide"></i></div>
+            <div>
+              <div class="ac-title" data-en="AI Recommendation" data-mr="AI शिफारस">AI Recommendation</div>
+              <span class="ac-mr">AI-आधारित सुचवणी</span>
+              <div class="ac-desc" data-en="Get schemes matched to your farm profile" data-mr="तुमच्या शेत प्रोफाइलशी जुळणाऱ्या योजना">Get schemes matched to your farm profile</div>
+            </div>
+            <div class="ac-arrow" data-en="Get →" data-mr="मिळवा →">Get →</div>
+          </a>
+
+          <a class="action-card ac3" href="tracking.html">
+            <div class="ac-icon"><i data-lucide="bar-chart-3" class="lucide"></i></div>
+            <div>
+              <div class="ac-title" data-en="My Applications" data-mr="माझे अर्ज">My Applications</div>
+              <span class="ac-mr">अर्जाची स्थिती</span>
+              <div class="ac-desc" data-en="Track status of all your submitted applications" data-mr="सबमिट केलेल्या अर्जांची स्थिती ट्रॅक करा">Track status of all your submitted applications</div>
+            </div>
+            <div class="ac-arrow" data-en="Track →" data-mr="ट्रॅक करा →">Track →</div>
+          </a>
+
+          <a class="action-card ac4" href="apply-scheme.html">
+            <div class="ac-icon"><i data-lucide="file-pen-line" class="lucide"></i></div>
+            <div>
+              <div class="ac-title" data-en="Apply for Scheme" data-mr="योजनेसाठी अर्ज">Apply for Scheme</div>
+              <span class="ac-mr">नवीन अर्ज करा</span>
+              <div class="ac-desc" data-en="Start a new subsidy application with AI guidance" data-mr="AI मार्गदर्शनासह नवीन अनुदान अर्ज सुरू करा">Start a new subsidy application with AI guidance</div>
+            </div>
+            <div class="ac-arrow" data-en="Apply →" data-mr="अर्ज करा →">Apply →</div>
+          </a>
+
+          <a class="action-card ac5" href="notifications.html">
+            <div class="ac-icon"><i data-lucide="bell" class="lucide"></i></div>
+            <div>
+              <div class="ac-title" data-en="Notifications" data-mr="सूचना">Notifications</div>
+              <span class="ac-mr">अद्यतने आणि सूचना</span>
+              <div class="ac-desc" data-en="View latest updates on your applications" data-mr="तुमच्या अर्जांवरील ताज्या अद्यतने पाहा">View latest updates on your applications</div>
+            </div>
+            <div class="ac-arrow" data-en="View →" data-mr="पहा →">View →</div>
+          </a>
+
+          <a class="action-card ac6" href="edit-profile.html">
+            <div class="ac-icon"><i data-lucide="user-pen" class="lucide"></i></div>
+            <div>
+              <div class="ac-title" data-en="Edit Profile" data-mr="प्रोफाइल संपादित करा">Edit Profile</div>
+              <span class="ac-mr">माहिती अद्यतनित करा</span>
+              <div class="ac-desc" data-en="Update your personal and farm details" data-mr="तुमचे वैयक्तिक आणि शेती तपशील अद्यतनित करा">Update your personal and farm details</div>
+            </div>
+            <div class="ac-arrow" data-en="Edit →" data-mr="संपादित करा →">Edit →</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Status + Notifications -->
+      <div class="right-col">
+
+        <!-- Profile summary -->
+        <div class="profile-card">
+          <div class="section-title" style="margin-bottom:12px;" data-en="👤 My Profile" data-mr="👤 माझे प्रोफाइल">👤 My Profile</div>
+          <div class="profile-row">
+            <span class="pr-key">📍 <span data-en="District" data-mr="जिल्हा">District</span></span>
+            <span class="pr-val" id="pr-district">Solapur</span>
+          </div>
+          <div class="profile-row">
+            <span class="pr-key">🌾 <span data-en="Crop" data-mr="पीक">Crop</span></span>
+            <span class="pr-val" id="pr-crop">Sugarcane</span>
+          </div>
+          <div class="profile-row">
+            <span class="pr-key">📐 <span data-en="Land" data-mr="जमीन">Land</span></span>
+            <span class="pr-val" id="pr-land">2–5 Acres</span>
+          </div>
+          <div class="profile-row">
+            <span class="pr-key">💧 <span data-en="Water" data-mr="पाणी">Water</span></span>
+            <span class="pr-val" id="pr-water">Well / Bore</span>
+          </div>
+          <div class="profile-row">
+            <span class="pr-key">🏦 <span data-en="Bank" data-mr="बँक">Bank</span></span>
+            <span class="pr-val" id="pr-bank">SBI</span>
+          </div>
+          <button class="edit-profile-btn" onclick="window.location.href='edit-profile.html'" data-en="<i data-lucide="user-pen" class="lucide"></i> Edit Profile" data-mr="<i data-lucide="user-pen" class="lucide"></i> प्रोफाइल संपादित करा"><i data-lucide="user-pen" class="lucide"></i> Edit Profile</button>
+        </div>
+
+        <!-- Recent Applications -->
+        <div class="status-card">
+          <div class="section-title" style="margin-bottom:12px;" data-en="📊 Recent Applications" data-mr="📊 अलीकडील अर्ज">📊 Recent Applications</div>
+          <div id="recent-apps-list">
+            <div style="text-align:center;padding:20px;color:#aaa;font-size:0.85rem;">Loading applications...</div>
+          </div>
+          <a href="tracking.html" style="display:block;text-align:center;margin-top:14px;font-size:0.82rem;color:var(--green-main);font-weight:700;text-decoration:none;" data-en="View all applications →" data-mr="सर्व अर्ज पहा →">View all applications →</a>
+        </div>
+
+        <!-- Notifications -->
+        <div class="notif-card">
+          <div class="section-title" style="margin-bottom:12px;" data-en="🔔 Notifications" data-mr="🔔 सूचना">🔔 Notifications</div>
+          <div id="recent-notifs-list">
+            <div style="text-align:center;padding:20px;color:#aaa;font-size:0.85rem;">Loading notifications...</div>
+          </div>
+          <a href="notifications.html" style="display:block;text-align:center;margin-top:14px;font-size:0.82rem;color:var(--green-main);font-weight:700;text-decoration:none;" data-en="View all notifications →" data-mr="सर्व सूचना पहा →">View all notifications →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+let currentLang = 'en';
+
+// ── Load farmer data ──
+window.addEventListener('DOMContentLoaded', async () => {
+  // ── Auth Guard ──
+  if (!AuthAPI.isLoggedIn()) {
+    window.location.href = 'farmer-login.html'; return;
+  }
+
+  // ── Load farmerData ──
+  const data = JSON.parse(localStorage.getItem('farmerData') || '{}');
+  const name     = data.name     || '';
+  const district = data.district || '';
+  const crop     = data.mainCrop || data.crop || 'Sugarcane';
+  const land     = data.landSize || data.land || '2–5 Acres';
+  const water    = data.irrigation || data.water || 'Well / Bore';
+  const bank     = data.bankName || data.bank || 'State Bank of India (SBI)';
+  const id       = data.farmerId || data.id  || '';
+  const village  = data.village  || '';
+
+  // Set greeting
+  const hr = new Date().getHours();
+  const greeting = hr < 12 ? {en:'Good Morning 🌅', mr:'सुप्रभात 🌅'}
+                 : hr < 17 ? {en:'Good Afternoon ☀️', mr:'शुभ दुपार ☀️'}
+                 :            {en:'Good Evening 🌙', mr:'शुभ संध्याकाळ 🌙'};
+  document.getElementById('wb-greeting').dataset.en = greeting.en;
+  document.getElementById('wb-greeting').dataset.mr = greeting.mr;
+  document.getElementById('wb-greeting').textContent = greeting.en;
+
+  // Fill profile values
+  document.getElementById('wb-name').textContent    = name;
+  document.getElementById('wb-id').textContent      = id;
+  document.getElementById('wb-village').textContent = village + ', Maharashtra';
+  document.getElementById('wb-crop').textContent    = crop + ' Farmer';
+  document.getElementById('wb-land').textContent    = land;
+  document.getElementById('sb-name').textContent    = name;
+  document.getElementById('sb-id').textContent      = id;
+  document.getElementById('pr-district').textContent = district;
+  document.getElementById('pr-crop').textContent    = crop;
+  document.getElementById('pr-land').textContent    = land;
+  document.getElementById('pr-water').textContent   = water;
+  document.getElementById('pr-bank').textContent    = bank;
+
+  // ── Load real applications from backend ──
+  try {
+    const apps = await ApplicationAPI.getMyApplications();
+    updateStats(apps);
+    renderRecentApps(apps);
+  } catch(err) {
+    // Server offline — show zeros
+    updateStats([]);
+    document.getElementById('recent-apps-list').innerHTML =
+      `<div style="text-align:center;padding:16px;color:#aaa;font-size:0.82rem;">No applications yet. <a href="apply-scheme.html" style="color:var(--green-main);font-weight:700;">Apply now →</a></div>`;
+  }
+
+  // ── Load real notifications ──
+  try {
+    const notifs = await NotifyAPI.getAll();
+    renderRecentNotifs(notifs);
+  } catch(err) {
+    document.getElementById('recent-notifs-list').innerHTML =
+      `<div style="text-align:center;padding:16px;color:#aaa;font-size:0.82rem;">No notifications yet.</div>`;
+  }
+});
+
+// ── Update stat cards from real data ──
+function updateStats(apps) {
+  const total    = apps.length;
+  const approved = apps.filter(a => a.status === 'approved').length;
+  const review   = apps.filter(a => ['under_review','submitted','pending'].includes(a.status)).length;
+
+  // Calculate money received from approved apps
+  let money = 0;
+  apps.filter(a => a.status === 'approved').forEach(a => {
+    const amt = parseInt((a.schemeAmount || '0').replace(/[^0-9]/g, ''));
+    if (amt) money += amt;
+  });
+  const moneyStr = money >= 100000 ? '₹' + (money/100000).toFixed(1) + 'L'
+                 : money >= 1000   ? '₹' + Math.round(money/1000) + 'K'
+                 : money > 0       ? '₹' + money
+                 : '₹0';
+
+  document.getElementById('stat-total').textContent    = total;
+  document.getElementById('stat-approved').textContent = approved;
+  document.getElementById('stat-review').textContent   = review;
+  document.getElementById('stat-money').textContent    = moneyStr;
+
+  // Update sidebar badge
+  const badge = document.querySelector('.nav-item[href="tracking.html"] .ni-badge');
+  if (badge) badge.textContent = total;
+}
+
+// ── Render recent applications (latest 3) ──
+function renderRecentApps(apps) {
+  const list = document.getElementById('recent-apps-list');
+  if (!apps || apps.length === 0) {
+    list.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:0.82rem;">No applications yet. <a href="apply-scheme.html" style="color:var(--green-main);font-weight:700;">Apply now →</a></div>`;
+    return;
+  }
+
+  const ICONS = { drip:'💧', solar:'☀️', pmkisan:'🌾', tractor:'🚜', cattle:'🐄', pond:'🏞️' };
+  const COLORS = { drip:'#e8f5ee', solar:'#fff3eb', pmkisan:'#e8f0ff', tractor:'#fff3eb', cattle:'#fff0f0', pond:'#e8f5ee' };
+
+  list.innerHTML = apps.slice(0, 3).map(app => {
+    const icon  = ICONS[app.schemeId]  || '📋';
+    const color = COLORS[app.schemeId] || '#f0f4f0';
+    const statusMap = {
+      approved:     '<span class="app-status st-approved">✅ Approved</span>',
+      rejected:     '<span class="app-status st-rejected" style="background:#ffe8e8;color:#c0392b;">❌ Rejected</span>',
+      under_review: '<span class="app-status st-review">⏳ Review</span>',
+      submitted:    '<span class="app-status st-submitted">📤 Submitted</span>',
+      pending:      '<span class="app-status st-submitted">📤 Submitted</span>',
+    };
+    const statusHTML = statusMap[app.status] || statusMap.pending;
+    return `
+      <div class="app-item">
+        <div class="app-scheme-icon" style="background:${color};">${icon}</div>
+        <div class="app-info">
+          <div class="app-name">${app.schemeName || 'Scheme'}</div>
+          <div class="app-id-sm">${app.appId || app._id}</div>
+        </div>
+        ${statusHTML}
+      </div>`;
+  }).join('');
+}
+
+// ── Render recent notifications (latest 3) ──
+function renderRecentNotifs(notifs) {
+  const list = document.getElementById('recent-notifs-list');
+  if (!notifs || notifs.length === 0) {
+    list.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:0.82rem;">No notifications yet.</div>`;
+    return;
+  }
+
+  const dotColor = { success:'nd-green', info:'nd-blue', warning:'nd-orange', error:'nd-red' };
+
+  list.innerHTML = notifs.slice(0, 3).map(n => {
+    const dot = dotColor[n.type] || 'nd-blue';
+    const time = new Date(n.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    return `
+      <div class="notif-item">
+        <div class="notif-dot-col"><div class="ndot ${dot}"></div></div>
+        <div class="notif-text">
+          <span>${n.msg || n.title}</span>
+          <span class="notif-time">${time}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Language ──
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang === 'mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length === 0) el.textContent = lang === 'mr' ? el.dataset.mr : el.dataset.en;
+  });
+}
+
+// ── Sidebar toggle (mobile) ──
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ── Logout ──
+function doLogout() {
+  if (confirm(currentLang === 'mr' ? 'तुम्हाला खरोखर लॉगआउट करायचे आहे का?' : 'Are you sure you want to logout?')) {
+    AuthAPI.logout();
+    window.location.href = 'farmer-login.html';
+  }
+}
+</script>
+<script src="../js/main.js"></script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

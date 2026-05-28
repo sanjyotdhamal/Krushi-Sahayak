@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Authority Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e;--green-main:#1a7a3c;--green-mid:#25a050;
+    --green-light:#e8f5ee;--saffron:#e8650a;--saffron-light:#fff3eb;
+    --gold:#f0a500;--text-dark:#1a2e1a;--text-mid:#3a5a3a;
+    --border:#d4e8d4;--sidebar-w:270px;
+    --ai-cyan:#00c8ff;--ai-dark:#050f08;
+    --blue:#1a3a8a;--blue-light:#e8f0ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Baloo 2',sans-serif;background:#f0f4f0;color:var(--text-dark);}
+  body.mr{font-family:'Noto Sans Devanagari',sans-serif;}
+
+  /* ══ SIDEBAR ══ */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:linear-gradient(180deg,#0a1a2e 0%,#061020 100%);z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 28px rgba(0,0,0,0.2);transition:transform 0.3s;}
+  .sidebar-logo{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .sidebar-logo-icon{width:46px;height:46px;background:linear-gradient(135deg,#1a3a8a,#2a5aaa);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;border:2px solid rgba(255,255,255,0.15);}
+  .sidebar-logo-en{font-family:'Baloo 2',sans-serif;font-size:0.9rem;font-weight:800;color:#fff;display:block;line-height:1.2;}
+  .sidebar-logo-sub{font-size:0.6rem;color:var(--ai-cyan);display:block;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+  .sidebar-officer{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:12px;}
+  .so-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1a3a8a,#2a5aaa);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid rgba(255,255,255,0.2);}
+  .so-name{font-size:0.88rem;font-weight:700;color:#fff;}
+  .so-role{font-size:0.65rem;color:var(--ai-cyan);font-family:'Share Tech Mono',monospace;margin-top:2px;letter-spacing:0.5px;}
+  .so-badge{display:inline-block;background:rgba(0,200,255,0.15);border:1px solid rgba(0,200,255,0.3);color:var(--ai-cyan);font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:4px;}
+  .sidebar-nav{flex:1;padding:14px 12px;overflow-y:auto;}
+  .nav-section-label{font-size:0.6rem;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:1.5px;text-transform:uppercase;padding:8px 10px 5px;margin-top:8px;}
+  .nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;margin-bottom:3px;text-decoration:none;color:rgba(255,255,255,0.6);font-size:0.85rem;font-weight:600;transition:all 0.25s;cursor:pointer;}
+  .nav-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+  .nav-item.active{background:linear-gradient(135deg,#1a3a8a,#2a5aaa);color:#fff;box-shadow:0 4px 16px rgba(26,58,138,0.4);}
+  .nav-item .ni-icon{font-size:1.1rem;flex-shrink:0;}
+  .nav-item .ni-badge{margin-left:auto;background:var(--saffron);color:#fff;font-size:0.62rem;font-weight:800;padding:2px 7px;border-radius:10px;}
+  .nav-item .ni-green{margin-left:auto;background:var(--green-main);color:#fff;font-size:0.62rem;font-weight:800;padding:2px 7px;border-radius:10px;}
+  .sidebar-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.08);}
+  .btn-logout{width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-family:'Baloo 2',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.25s;}
+  .btn-logout:hover{background:rgba(192,57,43,0.25);color:#ff9090;}
+
+  /* ══ MAIN ══ */
+  .main{margin-left:var(--sidebar-w);min-height:100vh;}
+  .topbar{background:#fff;border-bottom:2px solid var(--border);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+  .topbar-left{display:flex;align-items:center;gap:12px;}
+  .topbar-title{font-family:'Yatra One',cursive;font-size:1.15rem;color:#0a1a2e;}
+  .topbar-right{display:flex;align-items:center;gap:10px;}
+  .lang-switch{display:flex;background:var(--blue-light);border-radius:25px;padding:3px;gap:2px;}
+  .lang-btn{padding:5px 14px;border-radius:20px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.25s;color:var(--blue);background:transparent;}
+  .lang-btn.active{background:var(--blue);color:#fff;}
+  .topbar-notif{position:relative;width:38px;height:38px;background:var(--blue-light);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;border:1px solid rgba(26,58,138,0.15);}
+  .topbar-notif .tn-dot{position:absolute;top:6px;right:6px;width:9px;height:9px;background:var(--saffron);border-radius:50%;border:2px solid #fff;}
+  .sidebar-toggle{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:#0a1a2e;}
+
+  .page-content{padding:28px;}
+
+  /* ══ HERO STATS ══ */
+  .hero-stats{
+    background:linear-gradient(135deg,#0a1a2e 0%,#1a3a6e 60%,#0a2040 100%);
+    border-radius:24px;padding:28px 32px;margin-bottom:28px;
+    position:relative;overflow:hidden;border:1px solid rgba(0,200,255,0.1);
+  }
+  .hero-stats::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,200,255,0.03) 1px,transparent 1px);background-size:24px 24px;}
+  .hs-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:14px;position:relative;z-index:1;}
+  .hs-welcome{font-family:'Yatra One',cursive;font-size:1.6rem;color:#fff;}
+  .hs-welcome .hl{color:var(--ai-cyan);}
+  .hs-sub{font-size:0.8rem;color:rgba(255,255,255,0.45);margin-top:4px;font-family:'Share Tech Mono',monospace;}
+  .hs-date-badge{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:8px 16px;font-size:0.75rem;color:rgba(255,255,255,0.6);font-family:'Share Tech Mono',monospace;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+  .hs-date-badge::before{content:'';width:8px;height:8px;background:var(--green-mid);border-radius:50%;animation:livePulse 1.5s infinite;}
+  @keyframes livePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.5);opacity:0.5;}}
+
+  .hs-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative;z-index:1;}
+  .hs-card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;text-align:center;transition:all 0.25s;cursor:pointer;}
+  .hs-card:hover{background:rgba(255,255,255,0.12);transform:translateY(-3px);}
+  .hs-card .hsc-icon{font-size:1.6rem;margin-bottom:6px;}
+  .hsc-num{font-family:'Yatra One',cursive;font-size:1.6rem;color:#fff;}
+  .hsc-lbl{font-size:0.62rem;color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;letter-spacing:0.5px;text-transform:uppercase;margin-top:2px;}
+  .hsc-change{font-size:0.68rem;font-weight:700;margin-top:4px;}
+  .hsc-up{color:#7deca0;}
+  .hsc-down{color:#ffaa70;}
+
+  /* ══ AI COMMAND CENTER ══ */
+  .ai-command{
+    background:linear-gradient(135deg,var(--ai-dark),#0a1825);
+    border-radius:20px;border:1px solid rgba(0,200,255,0.15);
+    padding:20px 24px;margin-bottom:24px;
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .acc-bot{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0a2a4a,#1a4a7a);border:2px solid var(--ai-cyan);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;animation:aiGlow 3s infinite;}
+  @keyframes aiGlow{0%,100%{box-shadow:0 0 16px rgba(0,200,255,0.3);}50%{box-shadow:0 0 30px rgba(0,200,255,0.6);}}
+  .acc-text{flex:1;min-width:200px;}
+  .acc-label{font-family:'Share Tech Mono',monospace;font-size:0.62rem;color:var(--ai-cyan);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
+  .acc-msg{font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.5;}
+  .acc-msg strong{color:var(--ai-cyan);}
+  .acc-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .acc-btn{padding:9px 18px;border-radius:20px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:5px;}
+  .acc-btn-primary{background:var(--ai-cyan);color:#0a1a2e;}
+  .acc-btn-primary:hover{background:#fff;transform:translateY(-1px);}
+  .acc-btn-secondary{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);}
+  .acc-btn-secondary:hover{background:rgba(255,255,255,0.18);color:#fff;}
+
+  /* ══ MAIN GRID ══ */
+  .auth-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
+
+  /* ══ APPLICATION TABLE CARD ══ */
+  .table-card{background:#fff;border-radius:22px;border:2px solid var(--border);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.05);}
+  .tc-header{padding:20px 24px;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .tc-title{font-family:'Yatra One',cursive;font-size:1.15rem;color:#0a1a2e;display:flex;align-items:center;gap:8px;}
+  .tc-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .tc-search{padding:8px 14px 8px 36px;border-radius:10px;border:2px solid var(--border);background:#f8fbf8;font-family:'Baloo 2',sans-serif;font-size:0.82rem;outline:none;transition:all 0.25s;width:180px;position:relative;}
+  .tc-search:focus{border-color:var(--blue);background:#fff;}
+  .tc-search-wrap{position:relative;}
+  .tc-search-wrap::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:0.85rem;pointer-events:none;}
+  .tc-filter{padding:8px 14px;border-radius:10px;border:2px solid var(--border);background:#f8fbf8;font-family:'Baloo 2',sans-serif;font-size:0.82rem;outline:none;cursor:pointer;}
+  .tc-filter:focus{border-color:var(--blue);}
+
+  /* Table */
+  .app-table{width:100%;border-collapse:collapse;}
+  .app-table th{background:#f8fbf8;padding:12px 16px;text-align:left;font-size:0.7rem;font-weight:700;color:#7a9a7a;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--border);}
+  .app-table td{padding:14px 16px;border-bottom:1px solid #f0f4f0;font-size:0.83rem;vertical-align:middle;}
+  .app-table tr:last-child td{border-bottom:none;}
+  .app-table tr:hover td{background:#fafff8;}
+
+  .farmer-cell{display:flex;align-items:center;gap:10px;}
+  .farmer-avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--green-light),#c5e8d5);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+  .farmer-name{font-weight:700;color:var(--text-dark);font-size:0.85rem;}
+  .farmer-id{font-size:0.68rem;color:#aaa;font-family:'Share Tech Mono',monospace;}
+
+  .scheme-pill-sm{padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;white-space:nowrap;}
+  .sp-drip   {background:#e8f5ee;color:#1a7a3c;}
+  .sp-solar  {background:#fffbe8;color:#a07800;}
+  .sp-tractor{background:#fff3eb;color:#e8650a;}
+  .sp-pmkisan{background:#e8f0ff;color:#2a4ab0;}
+  .sp-pond   {background:#e8ffff;color:#007a8a;}
+  .sp-cattle {background:#ffe8f0;color:#a02050;}
+
+  /* AI score badge */
+  .ai-score{display:flex;align-items:center;gap:5px;font-size:0.78rem;font-weight:800;}
+  .ai-score-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;border:2px solid;}
+  .asc-high  {background:#e8f5ee;color:#1a7a3c;border-color:#1a7a3c;}
+  .asc-med   {background:#fff3eb;color:#e8650a;border-color:#e8650a;}
+  .asc-low   {background:#ffe8e8;color:#c0392b;border-color:#c0392b;}
+
+  /* Row action buttons */
+  .row-actions{display:flex;gap:6px;}
+  .ra-btn{padding:5px 12px;border-radius:20px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.72rem;font-weight:700;cursor:pointer;transition:all 0.25s;white-space:nowrap;}
+  .ra-approve{background:var(--green-light);color:var(--green-dark);}
+  .ra-approve:hover{background:var(--green-main);color:#fff;transform:translateY(-1px);}
+  .ra-reject {background:#ffe8e8;color:#c0392b;}
+  .ra-reject:hover{background:#c0392b;color:#fff;}
+  .ra-view   {background:var(--blue-light);color:var(--blue);}
+  .ra-view:hover{background:var(--blue);color:#fff;}
+
+  /* Status in table */
+  .tbl-status{padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;display:inline-block;}
+  .ts-pending {background:#fffbe8;color:#a07800;border:1px solid rgba(160,120,0,0.2);}
+  .ts-approved{background:#e8f5ee;color:#1a7a3c;border:1px solid rgba(26,122,60,0.2);}
+  .ts-review  {background:#fff3eb;color:#e8650a;border:1px solid rgba(232,101,10,0.2);}
+  .ts-rejected{background:#ffe8e8;color:#c0392b;border:1px solid rgba(192,57,43,0.2);}
+
+  /* ══ RIGHT COLUMN ══ */
+  .right-col{display:flex;flex-direction:column;gap:20px;}
+
+  /* AI Insights Card */
+  .ai-insights-card{
+    background:linear-gradient(160deg,var(--ai-dark),#0a1825);
+    border-radius:20px;border:1px solid rgba(0,200,255,0.15);overflow:hidden;
+  }
+  .aic-header{padding:16px 20px;border-bottom:1px solid rgba(0,200,255,0.1);display:flex;align-items:center;gap:12px;background:rgba(0,200,255,0.05);}
+  .aic-bot{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0a2a4a,#1a4a7a);border:2px solid var(--ai-cyan);display:flex;align-items:center;justify-content:center;font-size:1.1rem;animation:aiGlow 3s infinite;}
+  .aic-title{font-weight:800;color:#fff;font-size:0.88rem;}
+  .aic-sub  {font-size:0.6rem;color:var(--ai-cyan);font-family:'Share Tech Mono',monospace;}
+  .live-badge{margin-left:auto;background:rgba(37,160,80,0.2);border:1px solid rgba(37,160,80,0.4);color:#7deca0;font-size:0.6rem;font-weight:700;padding:3px 8px;border-radius:10px;display:flex;align-items:center;gap:4px;}
+  .live-badge::before{content:'';width:6px;height:6px;background:#25a050;border-radius:50%;animation:livePulse 1.5s infinite;}
+  .aic-body{padding:16px 20px;}
+
+  /* AI metric rows */
+  .ai-metric{margin-bottom:14px;}
+  .aim-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+  .aim-label{font-size:0.7rem;color:rgba(255,255,255,0.45);font-family:'Share Tech Mono',monospace;letter-spacing:0.5px;text-transform:uppercase;}
+  .aim-val  {font-size:0.82rem;font-weight:700;color:#fff;}
+  .aim-bar  {height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
+  .aim-fill {height:100%;border-radius:3px;transition:width 1.5s ease;}
+  .af-green {background:linear-gradient(90deg,var(--green-mid),var(--ai-cyan));}
+  .af-orange{background:linear-gradient(90deg,var(--saffron),var(--gold));}
+  .af-blue  {background:linear-gradient(90deg,#3a7bd5,var(--ai-cyan));}
+
+  .aic-divider{height:1px;background:rgba(255,255,255,0.07);margin:14px 0;}
+
+  /* Flagged alert */
+  .ai-flag{background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.25);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;}
+  .ai-flag .af-icon{font-size:1.1rem;flex-shrink:0;}
+  .ai-flag .af-text{font-size:0.76rem;color:rgba(255,255,255,0.7);line-height:1.5;}
+  .ai-flag .af-text strong{color:#ffaaaa;}
+
+  .ai-suggestion{background:rgba(0,200,255,0.07);border:1px solid rgba(0,200,255,0.15);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;}
+  .ai-suggestion .as-icon{font-size:1.1rem;flex-shrink:0;}
+  .ai-suggestion .as-text{font-size:0.76rem;color:rgba(255,255,255,0.7);line-height:1.5;}
+  .ai-suggestion .as-text strong{color:var(--ai-cyan);}
+
+  /* District map card */
+  .district-card{background:#fff;border-radius:18px;border:2px solid var(--border);padding:20px;}
+  .dc-title{font-family:'Yatra One',cursive;font-size:1rem;color:#0a1a2e;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .district-list{display:flex;flex-direction:column;gap:8px;}
+  .dl-item{display:flex;align-items:center;gap:10px;}
+  .dl-name{font-size:0.82rem;font-weight:600;color:var(--text-dark);width:80px;flex-shrink:0;}
+  .dl-bar-wrap{flex:1;height:8px;background:#f0f4f0;border-radius:4px;overflow:hidden;}
+  .dl-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--green-main),var(--green-mid));transition:width 1.5s ease;}
+  .dl-count{font-size:0.72rem;font-weight:700;color:var(--green-dark);width:28px;text-align:right;}
+
+  /* Quick action buttons */
+  .quick-actions{background:#fff;border-radius:18px;border:2px solid var(--border);padding:20px;}
+  .qa-title{font-family:'Yatra One',cursive;font-size:1rem;color:#0a1a2e;margin-bottom:14px;}
+  .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .qa-btn{padding:12px 10px;border-radius:14px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.25s;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;}
+  .qa-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,0.1);}
+  .qa-btn .qb-icon{font-size:1.4rem;}
+  .qb-green {background:var(--green-light);color:var(--green-dark);}
+  .qb-blue  {background:var(--blue-light);color:var(--blue);}
+  .qb-orange{background:var(--saffron-light);color:var(--saffron);}
+  .qb-gold  {background:#fffbe8;color:#8a6000;}
+
+  /* Modal Overlay */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+  .modal-overlay.open{display:flex;}
+  .modal-box{background:#fff;border-radius:24px;padding:32px;max-width:520px;width:90%;animation:modalPop 0.3s ease forwards;position:relative;max-height:90vh;overflow-y:auto;}
+  @keyframes modalPop{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
+  .modal-close{position:absolute;top:16px;right:16px;background:#f0f4f0;border:none;border-radius:50%;width:34px;height:34px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+  .modal-close:hover{background:#e0e4e0;}
+  .modal-title{font-family:'Yatra One',cursive;font-size:1.4rem;color:#0a1a2e;margin-bottom:6px;}
+  .modal-sub  {font-size:0.8rem;color:#7a9a7a;margin-bottom:20px;}
+  .modal-field{margin-bottom:14px;}
+  .modal-field label{font-size:0.78rem;font-weight:700;color:var(--text-mid);display:block;margin-bottom:5px;}
+  .modal-field .mf-val{font-size:0.9rem;font-weight:600;color:var(--text-dark);background:#f8fbf8;border-radius:10px;padding:10px 14px;border:1px solid var(--border);}
+  .modal-actions{display:flex;gap:10px;margin-top:24px;}
+  .btn-approve-modal{flex:1;padding:13px;border-radius:14px;background:linear-gradient(135deg,var(--green-main),var(--green-dark));color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .btn-approve-modal:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,122,60,0.35);}
+  .btn-reject-modal{flex:1;padding:13px;border-radius:14px;background:#ffe8e8;color:#c0392b;border:2px solid rgba(192,57,43,0.2);font-family:'Baloo 2',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;transition:all 0.25s;}
+  .btn-reject-modal:hover{background:#c0392b;color:#fff;}
+
+  /* Animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  .hero-stats,.ai-command,.auth-grid{animation:fadeUp 0.5s ease forwards;}
+
+  /* Responsive */
+  @media(max-width:1100px){.auth-grid{grid-template-columns:1fr;}.hs-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;}.sidebar-toggle{display:block;}}
+  @media(max-width:600px){.page-content{padding:14px;}.hs-grid{grid-template-columns:1fr 1fr;}.row-actions{flex-direction:column;}.app-table th:nth-child(4),.app-table td:nth-child(4){display:none;}}
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-logo" href="index.html">
+    <div class="sidebar-logo-icon"><i data-lucide="building-2" class="lucide"></i></div>
+    <div>
+      <span class="sidebar-logo-en">Krushi Sahayak</span>
+      <span class="sidebar-logo-sub">AUTHORITY PORTAL</span>
+    </div>
+  </a>
+  <div class="sidebar-officer">
+    <div class="so-avatar">👨‍💼</div>
+    <div>
+      <div class="so-name">Ajit Pisal</div>
+      <div class="so-role">DIST. AGRICULTURE OFFICER</div>
+      <span class="so-badge">🔵 Pune District</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">DASHBOARD</div>
+    <a class="nav-item active" href="#"><span class="ni-icon"><i data-lucide="building-2" class="lucide"></i></span><span>Overview</span></a>
+    <a class="nav-item" href="#" onclick="showSection('pending')"><span class="ni-icon"><i data-lucide="clipboard-list" class="lucide"></i></span><span>Pending Applications</span><span class="ni-badge" id="sb-pending">0</span></a>
+    <a class="nav-item" href="#" onclick="showSection('approved')"><span class="ni-icon"><i data-lucide="check-circle-2" class="lucide"></i></span><span>Approved</span><span class="ni-green" id="sb-approved">0</span></a>
+    <div class="nav-section-label" style="margin-top:8px;">TOOLS</div>
+    <a class="nav-item" href="#"><span class="ni-icon"><i data-lucide="bot" class="lucide"></i></span><span>AI Fraud Detection</span></a>
+    <a class="nav-item" href="#"><span class="ni-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span><span>Reports & Analytics</span></a>
+    <a class="nav-item" href="#"><span class="ni-icon"><i data-lucide="megaphone" class="lucide"></i></span><span>Send Notifications</span></a>
+    <a class="nav-item" href="#"><span class="ni-icon"><i data-lucide="map" class="lucide"></i></span><span>District Map View</span></a>
+    <div class="nav-section-label" style="margin-top:8px;">SWITCH VIEW</div>
+    <a class="nav-item" href="farmer-dashboard.html"><span class="ni-icon"><i data-lucide="wheat" class="lucide"></i></span><span>Farmer Portal →</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()"><i data-lucide="log-out" class="lucide"></i> <span>Logout</span></button>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" data-en="<i data-lucide='building-2' class='lucide'></i> Authority Command Centre" data-mr="<i data-lucide='building-2' class='lucide'></i> प्राधिकरण कमांड केंद्र"><i data-lucide="building-2" class="lucide"></i> Authority Command Centre</div>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+      <div class="topbar-notif" title="Notifications"><i data-lucide="bell" class="lucide"></i><div class="tn-dot"></div></div>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ══ HERO STATS ══ -->
+    <div class="hero-stats">
+      <div class="hs-top">
+        <div>
+          <div class="hs-welcome" data-en="Good Morning, <span class='hl'>Ajit Pisal</span> 👋" data-mr="सुप्रभात, <span class='hl'>सुरेश सर</span> 👋">Good Morning, <span class="hl">Ajit Sir</span> 👋</div>
+          <div class="hs-sub" id="hs-date">PUNE DISTRICT · AGRICULTURE DEPT. · TODAY</div>
+        </div>
+        <div class="hs-date-badge">🟢 <span data-en="Live Dashboard" data-mr="लाइव्ह डॅशबोर्ड">Live Dashboard</span></div>
+      </div>
+      <div class="hs-grid">
+        <div class="hs-card" onclick="showSection('pending')">
+          <div class="hsc-icon stat-icon"><i data-lucide="clipboard-list" class="lucide"></i></div>
+          <div class="hsc-num" id="stat-pending">0</div>
+          <div class="hsc-lbl" data-en="Pending Review" data-mr="प्रतीक्षेत">PENDING REVIEW</div>
+          <div class="hsc-change hsc-down" data-en="↑ 3 new today" data-mr="↑ आज ३ नवीन">↑ 3 new today</div>
+        </div>
+        <div class="hs-card">
+          <div class="hsc-icon stat-icon"><i data-lucide="check-circle-2" class="lucide"></i></div>
+          <div class="hsc-num" style="color:#7deca0;" id="stat-approved">0</div>
+          <div class="hsc-lbl" data-en="Approved" data-mr="मंजूर">APPROVED</div>
+          <div class="hsc-change hsc-up" data-en="↑ 5 this week" data-mr="↑ या आठवड्यात ५">↑ 5 this week</div>
+        </div>
+        <div class="hs-card">
+          <div class="hsc-icon stat-icon"><i data-lucide="banknote" class="lucide"></i></div>
+          <div class="hsc-num" style="color:var(--gold);" id="stat-disbursed">₹0</div>
+          <div class="hsc-lbl" data-en="Disbursed" data-mr="वितरित">DISBURSED</div>
+          <div class="hsc-change hsc-up" data-en="↑ ₹12L this month" data-mr="↑ ₹१२L या महिन्यात">↑ ₹12L this month</div>
+        </div>
+        <div class="hs-card">
+          <div class="hsc-icon stat-icon"><i data-lucide="alert-circle" class="lucide"></i></div>
+          <div class="hsc-num" style="color:var(--ai-cyan);" id="stat-flagged">0</div>
+          <div class="hsc-lbl" data-en="AI Flagged" data-mr="AI फ्लॅग">AI FLAGGED</div>
+          <div class="hsc-change hsc-down" data-en="⚠️ Needs review" data-mr="⚠️ तपासणी आवश्यक">⚠️ Needs review</div>
+        </div>
+        <div class="hs-card">
+          <div class="hsc-icon stat-icon"><i data-lucide="users" class="lucide"></i></div>
+          <div class="hsc-num" id="stat-farmers">0</div>
+          <div class="hsc-lbl" data-en="Farmers Served" data-mr="शेतकरी सेवा">FARMERS SERVED</div>
+          <div class="hsc-change hsc-up" data-en="↑ 48 this week" data-mr="↑ या आठवड्यात ४८">↑ 48 this week</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ AI COMMAND CENTER ══ -->
+    <div class="ai-command">
+      <div class="acc-bot ac-icon"><i data-lucide="bot" class="lucide"></i></div>
+      <div class="acc-text">
+        <div class="acc-label" data-en="KRUSHI AI — AUTHORITY ASSISTANT" data-mr="कृषी AI — प्राधिकरण सहाय्यक">KRUSHI AI — AUTHORITY ASSISTANT</div>
+        <div class="acc-msg" id="aiCmdMsg">
+          <strong>12 applications</strong> are pending your review. AI has pre-screened all of them — <strong>9 are recommended for approval</strong>, <strong>3 are flagged</strong> for document issues. Prioritized list is ready below.
+        </div>
+      </div>
+      <div class="acc-actions">
+        <button class="acc-btn acc-btn-primary" onclick="bulkApprove()"><i data-lucide="check" class="lucide"></i> <span data-en="Approve AI-Safe (9)" data-mr="AI-सुरक्षित मंजूर (९)">Approve AI-Safe (9)</span></button>
+        <button class="acc-btn acc-btn-secondary" onclick="showSection('flagged')"><i data-lucide="flag" class="lucide"></i> <span data-en="Review Flagged (3)" data-mr="फ्लॅग तपासा (३)">Review Flagged (3)</span></button>
+      </div>
+    </div>
+
+    <!-- ══ MAIN GRID ══ -->
+    <div class="auth-grid">
+
+      <!-- LEFT: Table -->
+      <div>
+        <div class="table-card">
+          <div class="tc-header">
+            <div class="tc-title"><i data-lucide="clipboard-list" class="lucide"></i> <span id="tableTitle" data-en="Pending Applications" data-mr="प्रतीक्षेत अर्ज">Pending Applications</span></div>
+            <div class="tc-controls">
+              <div class="tc-search-wrap">
+                <input class="tc-search" type="text" id="tblSearch" placeholder="Search farmer..." oninput="renderTable()"/>
+              </div>
+              <select class="tc-filter" id="tblFilter" onchange="renderTable()">
+                <option value="all">All Schemes</option>
+                <option value="drip"><i data-lucide="droplets" class="lucide"></i> Drip Irrigation</option>
+                <option value="solar"><i data-lucide="sun" class="lucide"></i> Solar Pump</option>
+                <option value="tractor"><i data-lucide="truck" class="lucide"></i> Tractor</option>
+                <option value="pmkisan"><i data-lucide="leaf" class="lucide"></i> PM Kisan</option>
+                <option value="pond"><i data-lucide="waves" class="lucide"></i> Farm Pond</option>
+                <option value="cattle"><i data-lucide="home" class="lucide"></i> Cattle Shed</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="app-table" id="appTable">
+              <thead>
+                <tr>
+                  <th data-en="Farmer" data-mr="शेतकरी">Farmer</th>
+                  <th data-en="Scheme" data-mr="योजना">Scheme</th>
+                  <th data-en="Amount" data-mr="रक्कम">Amount</th>
+                  <th data-en="AI Score" data-mr="AI गुण">AI Score</th>
+                  <th data-en="Status" data-mr="स्थिती">Status</th>
+                  <th data-en="Date" data-mr="तारीख">Date</th>
+                  <th data-en="Actions" data-mr="कृती">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="right-col">
+
+        <!-- AI Insights -->
+        <div class="ai-insights-card">
+          <div class="aic-header">
+            <div class="aic-bot ac-icon"><i data-lucide="bot" class="lucide"></i></div>
+            <div>
+              <div class="aic-title" data-en="AI District Insights" data-mr="AI जिल्हा अंतर्दृष्टी">AI District Insights</div>
+              <div class="aic-sub">Pune · REAL-TIME</div>
+            </div>
+            <div class="live-badge" data-en="LIVE" data-mr="लाइव्ह">LIVE</div>
+          </div>
+          <div class="aic-body">
+            <div class="ai-metric">
+              <div class="aim-top"><span class="aim-label" data-en="APPROVAL RATE" data-mr="मंजुरी दर">APPROVAL RATE</span><span class="aim-val">78%</span></div>
+              <div class="aim-bar"><div class="aim-fill af-green" style="width:78%"></div></div>
+            </div>
+            <div class="ai-metric">
+              <div class="aim-top"><span class="aim-label" data-en="PROCESSING SPEED" data-mr="प्रक्रिया गती">PROCESSING SPEED</span><span class="aim-val">12 days avg</span></div>
+              <div class="aim-bar"><div class="aim-fill af-blue" style="width:65%"></div></div>
+            </div>
+            <div class="ai-metric">
+              <div class="aim-top"><span class="aim-label" data-en="BUDGET UTILIZED" data-mr="बजेट वापरले">BUDGET UTILIZED</span><span class="aim-val">₹84L / ₹1.2Cr</span></div>
+              <div class="aim-bar"><div class="aim-fill af-orange" style="width:70%"></div></div>
+            </div>
+            <div class="aic-divider"></div>
+
+            <!-- Flagged -->
+            <div class="ai-flag">
+              <span class="af-icon"><i data-lucide="flag" class="lucide"></i></span>
+              <span class="af-text" data-en="<strong>Rajesh More (KS-2024-00891)</strong> — Same Aadhaar number used in 2 applications. Likely duplicate. Review before approving." data-mr="<strong>राजेश मोरे (KS-2024-00891)</strong> — एकाच आधार क्रमांकाचा २ अर्जांमध्ये वापर. कदाचित डुप्लिकेट. मंजूर करण्यापूर्वी तपासा."><strong>Rajesh More (KS-2024-00891)</strong> — Same Aadhaar used in 2 applications. Likely duplicate.</span>
+            </div>
+            <div class="ai-suggestion">
+              <span class="as-icon"><i data-lucide="lightbulb" class="lucide"></i></span>
+              <span class="as-text" data-en="<strong>Bulk approve tip:</strong> 9 applications have 100% document completeness. Approving them today will clear 75% of backlog." data-mr="<strong>बल्क मंजुरी टिप:</strong> ९ अर्जांमध्ये १००% कागदपत्र पूर्णता आहे. आज मंजूर केल्यास ७५% बॅकलॉग साफ होईल."><strong>Bulk approve tip:</strong> 9 applications have 100% document completeness. Approving them today will clear 75% of backlog.</span>
+            </div>
+            <div class="ai-suggestion">
+              <span class="as-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span>
+              <span class="as-text" data-en="<strong>Drip Irrigation</strong> is the most popular scheme this month (38% of applications). Budget may need top-up by March." data-mr="<strong>ठिबक सिंचन</strong> या महिन्यात सर्वात लोकप्रिय योजना आहे (३८% अर्ज). बजेट मार्चपर्यंत वाढवण्याची आवश्यकता असू शकते."><strong>Drip Irrigation</strong> is the most popular scheme (38% of applications). Budget may need top-up by March.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- District Applications -->
+        <div class="district-card">
+          <div class="dc-title" data-en="<i data-lucide='map' class='lucide'></i> Applications by Taluka" data-mr="<i data-lucide='map' class='lucide'></i> तालुकानिहाय अर्ज"><i data-lucide="map" class="lucide"></i> Applications by Taluka</div>
+          <div class="district-list" id="districtList">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <div class="qa-title" data-en="<i data-lucide='zap' class='lucide'></i> Quick Actions" data-mr="<i data-lucide='zap' class='lucide'></i> जलद कृती"><i data-lucide="zap" class="lucide"></i> Quick Actions</div>
+          <div class="qa-grid">
+            <button class="qa-btn qb-green" onclick="showToast('Notification sent to all pending farmers!','green')">
+              <span class="qb-icon"><i data-lucide="send" class="lucide"></i></span>
+              <span data-en="Notify Farmers" data-mr="शेतकऱ्यांना सूचित करा">Notify Farmers</span>
+            </button>
+            <button class="qa-btn qb-blue" onclick="showToast('Report generated!','blue')">
+              <span class="qb-icon"><i data-lucide="download" class="lucide"></i></span>
+              <span data-en="Export Report" data-mr="अहवाल निर्यात करा">Export Report</span>
+            </button>
+            <button class="qa-btn qb-orange" onclick="bulkApprove()">
+              <span class="qb-icon"><i data-lucide="check-square" class="lucide"></i></span>
+              <span data-en="Bulk Approve" data-mr="बल्क मंजुरी">Bulk Approve</span>
+            </button>
+            <button class="qa-btn qb-gold" onclick="showToast('📅 Deadline reminder sent!','green')">
+              <span class="qb-icon"><i data-lucide="calendar" class="lucide"></i></span>
+              <span data-en="Send Reminders" data-mr="स्मरणपत्रे पाठवा">Send Reminders</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="appModal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('appModal').classList.remove('open')"><i data-lucide="x" class="lucide"></i></button>
+    <div class="modal-title" id="m-title">Application Review</div>
+    <div class="modal-sub"  id="m-sub">Farmer Application Details</div>
+    <div id="m-fields"></div>
+    <div id="m-ai" style="background:linear-gradient(135deg,#f0f8ff,#e8f0ff);border:1px solid rgba(0,150,255,0.15);border-left:4px solid var(--ai-cyan);border-radius:0 12px 12px 0;padding:12px 16px;margin:16px 0;font-size:0.8rem;color:#3a5a8a;line-height:1.6;display:flex;gap:10px;"></div>
+    <div class="modal-actions">
+      <button class="btn-approve-modal" id="m-approve-btn" onclick="approveFromModal()"><i data-lucide="check" class="lucide"></i> <span data-en="Approve & Transfer" data-mr="मंजूर करा">Approve & Transfer</span></button>
+      <button class="btn-reject-modal" onclick="rejectFromModal()"><i data-lucide="x" class="lucide"></i> <span data-en="Reject" data-mr="नाकारा">Reject</span></button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/api.js?t=20260417"></script>
+<script>
+console.log('🔧 Authority Dashboard - Inline Script Started');
+console.log('API_BASE:', typeof API_BASE !== 'undefined' ? API_BASE : 'NOT DEFINED');
+console.log('ApplicationAPI:', typeof ApplicationAPI !== 'undefined' ? typeof ApplicationAPI : 'NOT DEFINED');
+
+// ── Authority guard ──
+if (sessionStorage.getItem('authorityLoggedIn') !== 'true') { window.location.href = 'authority-login.html'; }
+
+let currentLang = 'en';
+let currentModalId = null;
+
+// ════ APPLICATIONS ════
+const APPLICATIONS = []; // Loaded from backend
+
+const SCHEME_META = {
+  drip:       { label:'Drip Irrigation',      cls:'sp-drip'    },
+  solar:      { label:'Solar Pump',           cls:'sp-solar'   },
+  tractor:    { label:'Tractor Subsidy',      cls:'sp-tractor' },
+  pmkisan:    { label:'PM Kisan',             cls:'sp-pmkisan' },
+  pond:       { label:'Farm Pond',            cls:'sp-pond'    },
+  cattle:     { label:'Cattle Shed',          cls:'sp-cattle'  },
+  sprinkler:  { label:'Sprinkler Irrigation', cls:'sp-drip'    },
+  seed:       { label:'Seed & Fertilizer',    cls:'sp-pond'    },
+  greenhouse: { label:'Greenhouse',           cls:'sp-pmkisan' },
+  organic:    { label:'Organic Farming',      cls:'sp-pond'    },
+  agrimachine:{ label:'Farm Machinery',       cls:'sp-tractor' },
+  warehouse:  { label:'Warehouse',            cls:'sp-tractor' },
+  biogas:     { label:'Biogas Plant',         cls:'sp-pond'    },
+  solarfence: { label:'Solar Fencing',        cls:'sp-solar'   },
+  namo:       { label:'Namo Shetkari',        cls:'sp-pmkisan' },
+  bima:       { label:'Fasal Bima',           cls:'sp-pmkisan' },
+  kcc:        { label:'Kisan Credit Card',    cls:'sp-pmkisan' },
+  pmkusum:    { label:'PM KUSUM',             cls:'sp-solar'   },
+  soil:       { label:'Soil Health Card',     cls:'sp-pond'    },
+  dairy:      { label:'Dairy Development',    cls:'sp-cattle'  },
+  poultry:    { label:'Poultry Farming',      cls:'sp-cattle'  },
+  goat:       { label:'Goat/Sheep Rearing',   cls:'sp-cattle'  },
+  fishery:    { label:'Fishery Dev.',         cls:'sp-drip'    },
+  horti:      { label:'Horticulture',         cls:'sp-pond'    },
+  mango:      { label:'Mango/Fruit Dev.',     cls:'sp-pond'    },
+  flower:     { label:'Floriculture',         cls:'sp-pond'    },
+  coldstorage:{ label:'Cold Storage',         cls:'sp-pmkisan' },
+  borewell:   { label:'Borewell/Well',        cls:'sp-drip'    },
+  watershed:  { label:'Watershed Dev.',       cls:'sp-drip'    },
+  jalayukt:   { label:'Jalyukt Shivar',       cls:'sp-drip'    },
+  scst:       { label:'SC/ST Assistance',     cls:'sp-pmkisan' },
+  leased:     { label:'Leased Land Support',  cls:'sp-pmkisan' },
+};
+// Fallback for any unknown scheme
+function getSchemeMeta(id, name) {
+  return SCHEME_META[id] || { label: name || id || 'Scheme', cls: 'sp-pmkisan' };
+}
+
+function isPendingStatus(status) {
+  return ['submitted', 'pending', 'under_review', 'pending_docs'].includes((status || '').toLowerCase());
+}
+
+function getStatusLabel(status) {
+  const map = {
+    approved: 'Approved',
+    rejected: 'Rejected',
+    submitted: 'Submitted',
+    under_review: 'Under Review',
+    pending_docs: 'Pending Docs',
+    pending: 'Pending',
+  };
+  return map[status] || 'Pending';
+}
+
+// ════ RENDER TABLE ════
+function renderTable() {
+  const search = document.getElementById('tblSearch').value.toLowerCase();
+  const filter = document.getElementById('tblFilter').value;
+  let data = APPLICATIONS.filter(a => {
+    const matchSearch = !search || a.farmer.toLowerCase().includes(search) || (a.id||'').toLowerCase().includes(search) || (a.village||'').toLowerCase().includes(search) || (a.schemeName||'').toLowerCase().includes(search);
+    const matchFilter = filter === 'all' || a.scheme === filter;
+    return matchSearch && matchFilter;
+  });
+  const body = document.getElementById('tableBody');
+  if (data.length === 0) {
+    body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#aaa;">
+      No applications found
+    </td></tr>`;
+    return;
+  }
+  body.innerHTML = data.map((a, idx) => {
+    const sm = getSchemeMeta(a.scheme, a.schemeName); // ← uses fallback
+    const scoreClass = a.aiScore >= 80 ? 'asc-high' : a.aiScore >= 50 ? 'asc-med' : 'asc-low';
+    const stCls = a.status === 'approved' ? 'ts-approved' : a.status === 'rejected' ? 'ts-rejected' : a.flag ? 'ts-rejected' : 'ts-pending';
+    const stLbl = a.flag ? 'Flagged' : getStatusLabel(a.status);
+    return `<tr style="animation:fadeUp 0.3s ease ${idx*0.05}s forwards;opacity:0;">
+      <td>
+        <div class="farmer-cell">
+          <div class="farmer-avatar">👨‍🌾</div>
+          <div>
+            <div class="farmer-name">${a.farmer}</div>
+            <div class="farmer-id">${a.farmerId} · ${a.village}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="scheme-pill-sm ${sm.cls}">${sm.label}</span></td>
+      <td style="font-weight:800;color:var(--green-dark);">${a.amount}</td>
+      <td>
+        <div class="ai-score">
+          <div class="ai-score-circle ${scoreClass}">${a.aiScore}</div>
+          ${a.flag ? '<span style="font-size:0.7rem;color:#c0392b;"> Flag</span>' : ''}
+        </div>
+      </td>
+      <td><span class="tbl-status ${stCls}">${stLbl}</span></td>
+      <td style="font-size:0.75rem;color:#aaa;">${a.date}</td>
+      <td>
+        <div class="row-actions">
+          <button class="ra-btn ra-view" onclick="openModal('${a.id}')"><i data-lucide="eye" class="lucide"></i> View</button>
+          ${a.status !== 'approved' && a.status !== 'rejected' ? `<button class="ra-btn ra-approve" onclick="quickApprove('${a.id}')"><i data-lucide="check" class="lucide"></i></button>` : ''}
+          ${a.status !== 'approved' && a.status !== 'rejected' ? `<button class="ra-btn ra-reject"  onclick="quickReject('${a.id}')"><i data-lucide="x" class="lucide"></i></button>` : ''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Update counts from real data
+  if(window.lucide) lucide.createIcons();
+  const pending  = APPLICATIONS.filter(a => isPendingStatus(a.status)).length;
+  const approved = APPLICATIONS.filter(a => a.status === 'approved').length;
+  document.getElementById('stat-pending').textContent  = pending;
+  document.getElementById('stat-approved').textContent = approved;
+  document.getElementById('sb-pending').textContent    = pending;
+}
+
+// ════ SECTIONS ════
+let currentSection = 'all';
+function showSection(sec) {
+  currentSection = sec;
+  const map = { all:'All Applications', pending:'Pending Applications', approved:'Approved Applications', flagged:'AI Flagged Applications' };
+  document.getElementById('tableTitle').textContent = map[sec] || 'All Applications';
+  // Filter APPLICATIONS by section
+  const filtered = sec === 'all'     ? APPLICATIONS :
+                   sec === 'pending' ? APPLICATIONS.filter(a => isPendingStatus(a.status)) :
+                   sec === 'approved'? APPLICATIONS.filter(a => a.status === 'approved') :
+                   sec === 'flagged' ? APPLICATIONS.filter(a => a.flag) : APPLICATIONS;
+  const body = document.getElementById('tableBody');
+  if (filtered.length === 0) {
+    body.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:#aaa;">No applications in this category</td></tr>`;
+    return;
+  }
+  body.innerHTML = filtered.map((a, idx) => {
+    const sm = getSchemeMeta(a.scheme, a.schemeName);
+    const scoreClass = a.aiScore >= 80 ? 'asc-high' : a.aiScore >= 50 ? 'asc-med' : 'asc-low';
+    const stCls = a.status === 'approved' ? 'ts-approved' : a.status === 'rejected' ? 'ts-rejected' : 'ts-pending';
+    const stLbl = a.status === 'approved' ? 'Approved' : a.status === 'rejected' ? 'Rejected' : 'Pending';
+    return `<tr style="animation:fadeUp 0.3s ease ${idx*0.05}s forwards;opacity:0;">
+      <td><div class="farmer-cell"><div class="farmer-avatar"><i data-lucide="user" class="lucide"></i></div><div>
+        <div class="farmer-name">${a.farmer}</div>
+        <div class="farmer-id">${a.farmerId} · ${a.village}</div>
+      </div></div></td>
+      <td><span class="scheme-pill-sm ${sm.cls}">${sm.label}</span></td>
+      <td style="font-weight:800;color:var(--green-dark);">${a.amount}</td>
+      <td><div class="ai-score"><div class="ai-score-circle ${scoreClass}">${a.aiScore}</div></div></td>
+      <td><span class="tbl-status ${stCls}">${stLbl}</span></td>
+      <td style="font-size:0.75rem;color:#aaa;">${a.date}</td>
+      <td><div class="row-actions">
+        <button class="ra-btn ra-view" onclick="openModal('${a.id}')"><i data-lucide="eye" class="lucide"></i> View</button>
+        ${a.status !== 'approved' && a.status !== 'rejected' ? `<button class="ra-btn ra-approve" onclick="quickApprove('${a.id}')"><i data-lucide="check" class="lucide"></i></button><button class="ra-btn ra-reject" onclick="quickReject('${a.id}')"><i data-lucide="x" class="lucide"></i></button>` : ''}
+      </div></td>
+    </tr>`;
+  }).join('');
+  if(window.lucide) lucide.createIcons();
+}
+
+// ════ MODAL ════
+function openModal(id) {
+  const a = APPLICATIONS.find(x => x.id === id);
+  if (!a) return;
+  currentModalId = id;
+  const sm = getSchemeMeta(a.scheme, a.schemeName);
+  document.getElementById('m-title').textContent = a.farmer + ' — ' + sm.label;
+  document.getElementById('m-sub').textContent   = a.id + ' · Submitted: ' + a.date;
+  const fields = [
+    ['<i data-lucide="user" class="lucide"></i>', currentLang==='mr'?'शेतकरी':'Farmer', a.farmer],
+    ['<i data-lucide="clipboard-list" class="lucide"></i>', currentLang==='mr'?'योजना':'Scheme', sm.label],
+    ['<i data-lucide="banknote" class="lucide"></i>', currentLang==='mr'?'विनंती रक्कम':'Requested Amount', a.amount],
+    ['<i data-lucide="square-fit" class="lucide"></i>', currentLang==='mr'?'जमीन':'Land', a.land],
+    ['<i data-lucide="leaf" class="lucide"></i>', currentLang==='mr'?'पीक':'Crop', a.crop],
+    ['<i data-lucide="map-pin" class="lucide"></i>', currentLang==='mr'?'गाव':'Village', a.village],
+    ['<i data-lucide="file-text" class="lucide"></i>', currentLang==='mr'?'कागदपत्रे':'Documents', a.docs],
+  ];
+  document.getElementById('m-fields').innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">` +
+    fields.map(([icon,label,val]) => `<div class="modal-field"><label>${icon} ${label}</label><div class="mf-val">${val}</div></div>`).join('') +
+    `</div>`;
+  if(window.lucide) lucide.createIcons();
+  const aiMsgs = {
+    high:`<i data-lucide="bot" class="lucide" style="margin-right:6px;"></i> <strong>AI Score: ${a.aiScore}/100 — Recommended for APPROVAL.</strong> All documents are verified and complete. Farmer profile matches scheme eligibility perfectly. Safe to approve.`,
+    med: `<i data-lucide="bot" class="lucide" style="margin-right:6px;"></i> <strong>AI Score: ${a.aiScore}/100 — REVIEW SUGGESTED.</strong> Most documents are in order but one field may need manual cross-check before approving.`,
+    low: `<i data-lucide="bot" class="lucide" style="margin-right:6px;"></i> <strong>AI Score: ${a.aiScore}/100 — <i data-lucide="alert-circle" class="lucide" style="display:inline;width:0.9rem;height:0.9rem;"></i> FLAGGED.</strong> Potential issue detected: ${a.flag ? 'Duplicate Aadhaar or missing documents.' : 'Low land area for scheme eligibility.'} Manual verification required.`,
+  };
+  const scoreLevel = a.aiScore >= 80 ? 'high' : a.aiScore >= 50 ? 'med' : 'low';
+  document.getElementById('m-ai').innerHTML = aiMsgs[scoreLevel];
+  if(window.lucide) lucide.createIcons();
+  document.getElementById('appModal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target.id === 'appModal') document.getElementById('appModal').classList.remove('open');
+}
+
+async function approveFromModal() {
+  if (!currentModalId) return;
+  const a = APPLICATIONS.find(x => x.id === currentModalId);
+  if (!a) return;
+  document.getElementById('appModal').classList.remove('open');
+  try {
+    await ApplicationAPI.updateStatus(a._rawId || a.id, 'approved', 'Approved by authority', '');
+    a.status = 'approved';
+    renderTable();
+    updateStats();
+    showToast(currentLang==='mr'?`✓ ${a.farmer} चा अर्ज मंजूर झाला!`:`✓ ${a.farmer}'s application approved & farmer notified!`,'green');
+  } catch(err) {
+    showToast('Error: ' + err.message, 'red');
+  }
+}
+
+async function rejectFromModal() {
+  if (!currentModalId) return;
+  const a = APPLICATIONS.find(x => x.id === currentModalId);
+  if (!a) return;
+  const reason = prompt(currentLang==='mr'?'नाकारण्याचे कारण द्या:':'Enter rejection reason:') || 'Rejected by authority';
+  document.getElementById('appModal').classList.remove('open');
+  try {
+    await ApplicationAPI.updateStatus(a._rawId || a.id, 'rejected', reason, '');
+    a.status = 'rejected';
+    renderTable();
+    updateStats();
+    showToast(currentLang==='mr'?`✓ ${a.farmer} चा अर्ज नाकारला.`:`✓ ${a.farmer}'s application rejected & farmer notified.`,'red');
+  } catch(err) {
+    showToast('Error: ' + err.message, 'red');
+  }
+}
+
+async function quickApprove(id) {
+  const a = APPLICATIONS.find(x => x.id === id);
+  if (!a || a.flag) return;
+  try {
+    await ApplicationAPI.updateStatus(a._rawId || a.id, 'approved', 'Quick approved', '');
+    a.status = 'approved';
+    renderTable();
+    updateStats();
+    showToast(currentLang==='mr'?`✓ ${a.farmer} चा अर्ज मंजूर!`:`✓ ${a.farmer}'s application approved!`,'green');
+  } catch(err) {
+    showToast('Error: ' + err.message, 'red');
+  }
+}
+async function quickReject(id) {
+  const a = APPLICATIONS.find(x => x.id === id);
+  if (!a) return;
+  const reason = prompt(currentLang==='mr'?'नाकारण्याचे कारण:':'Rejection reason:') || 'Rejected';
+  try {
+    await ApplicationAPI.updateStatus(a._rawId || a.id, 'rejected', reason, '');
+    a.status = 'rejected';
+    renderTable();
+    updateStats();
+    showToast(currentLang==='mr'?`✓ ${a.farmer} चा अर्ज नाकारला`:`✓ ${a.farmer}'s application rejected`,'red');
+  } catch(err) {
+    showToast('Error: ' + err.message, 'red');
+  }
+}
+
+async function bulkApprove() {
+  const toApprove = APPLICATIONS.filter(a => (a.status==='pending'||a.status==='submitted'||a.status==='under_review') && !a.flag && a.aiScore>=80);
+  if (toApprove.length === 0) { showToast('No eligible applications to bulk approve.','blue'); return; }
+  let count = 0;
+  for (const a of toApprove) {
+    try {
+      await ApplicationAPI.updateStatus(a._rawId || a.id, 'approved', 'Bulk approved by AI', '');
+      a.status = 'approved'; count++;
+    } catch(e) {}
+  }
+  renderTable(); updateStats();
+  showToast(currentLang==='mr'?`✓ ${count} अर्ज एकत्र मंजूर केले!`:`✓ ${count} applications bulk approved!`,'green');
+}
+
+function updateStats() {
+  const approved = APPLICATIONS.filter(a => a.status === 'approved').length;
+  const pending  = APPLICATIONS.filter(a => isPendingStatus(a.status)).length;
+  document.getElementById('stat-approved').textContent = approved;
+  document.getElementById('stat-pending').textContent  = pending;
+  document.getElementById('sb-pending').textContent    = pending;
+}
+
+// ════ DISTRICT LIST ════
+function renderDistricts() {
+  // Build from real applications
+  const distMap = {};
+  APPLICATIONS.forEach(a => {
+    const d = a.district || 'Unknown';
+    distMap[d] = (distMap[d] || 0) + 1;
+  });
+  const data = Object.entries(distMap)
+    .sort((a,b) => b[1]-a[1])
+    .slice(0, 5)
+    .map(([name, count]) => ({ name, count, max: Math.max(...Object.values(distMap)) }));
+  
+  if (data.length === 0) {
+    document.getElementById('districtList').innerHTML = '<div style="color:#aaa;font-size:0.82rem;text-align:center;padding:12px;">No applications yet</div>';
+    return;
+  }
+  document.getElementById('districtList').innerHTML = data.map(d => `
+    <div class="dl-item">
+      <span class="dl-name">${d.name}</span>
+      <div class="dl-bar-wrap"><div class="dl-bar" style="width:${Math.round(d.count/d.max*100)}%"></div></div>
+      <span class="dl-count">${d.count}</span>
+    </div>
+  `).join('');
+}
+
+// ════ LANGUAGE ════
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang==='mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length===0) el.textContent = lang==='mr'?el.dataset.mr:el.dataset.en;
+  });
+  renderTable();
+  const msgs = {
+    en:`<strong>${APPLICATIONS.filter(a=>a.status==='pending'||a.status==='submitted'||a.status==='under_review').length} applications</strong> are pending your review. AI has pre-screened all — <strong>${APPLICATIONS.filter(a=>a.aiScore>=80).length} recommended for approval</strong>, <strong>${APPLICATIONS.filter(a=>a.flag).length} flagged</strong> for document issues.`,
+    mr:`<strong>${APPLICATIONS.filter(a=>a.status==='pending'||a.status==='submitted'||a.status==='under_review').length} अर्ज</strong> तुमच्या समीक्षेसाठी प्रतीक्षेत आहेत. AI ने सर्व तपासले — <strong>${APPLICATIONS.filter(a=>a.aiScore>=80).length} मंजुरीसाठी शिफारस</strong>, <strong>${APPLICATIONS.filter(a=>a.flag).length} फ्लॅग</strong>.`,
+  };
+  document.getElementById('aiCmdMsg').innerHTML = msgs[lang];
+}
+
+function doLogout() {
+  if (confirm(currentLang==='mr'?'लॉगआउट करायचे आहे का?':'Logout?')) {
+    sessionStorage.removeItem('authorityLoggedIn');
+    sessionStorage.removeItem('ks_authority_token');
+    window.location.href = 'authority-login.html';
+  }
+}
+
+// ── Update dashboard stat cards ──
+function updateDashboardStats() {
+  const total    = APPLICATIONS.length;
+  const pending  = APPLICATIONS.filter(a => a.status === 'pending' || a.status === 'submitted' || a.status === 'under_review').length;
+  const approved = APPLICATIONS.filter(a => a.status === 'approved').length;
+  const rejected = APPLICATIONS.filter(a => a.status === 'rejected').length;
+
+  const totalEl    = document.getElementById('sb-pending');
+  const approvedEl = document.getElementById('stat-approved');
+  const rejectedEl = document.getElementById('stat-rejected');
+  const totalAllEl = document.getElementById('stat-total');
+
+  if (totalEl)    totalEl.textContent    = pending;
+  if (approvedEl) approvedEl.textContent = approved;
+  if (rejectedEl) rejectedEl.textContent = rejected;
+  if (totalAllEl) totalAllEl.textContent = total;
+}
+
+function showToast(msg, type) {
+  let t = document.getElementById('toast');
+  if (!t) { t=document.createElement('div');t.id='toast';t.style.cssText=`position:fixed;bottom:28px;left:50%;transform:translateX(-50%);padding:12px 28px;border-radius:50px;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.15);white-space:nowrap;transition:opacity 0.3s;`;document.body.appendChild(t); }
+  t.textContent=msg;
+  t.style.background = type==='green'?'var(--green-main)':type==='blue'?'var(--blue)':'#c0392b';
+  t.style.color='#fff';t.style.opacity='1';t.style.display='block';
+  clearTimeout(t._t);t._t=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.style.display='none',300);},3500);
+}
+
+// ════ INIT ════
+async function loadApplications() {
+  const token = sessionStorage.getItem('ks_authority_token');
+  console.log('=== LOAD APPLICATIONS DEBUG ===');
+  console.log('Authority token present:', !!token);
+  console.log('Authority token value:', token ? token.substring(0, 20) + '...' : 'NONE');
+  console.log('ApplicationAPI available:', typeof ApplicationAPI);
+  console.log('ApplicationAPI.getAll available:', typeof (ApplicationAPI && ApplicationAPI.getAll));
+  
+  if (!token) { 
+    console.log('NO TOKEN - redirecting to login');
+    window.location.href = 'authority-login.html'; 
+    return; 
+  }
+
+  try {
+    console.log('Calling ApplicationAPI.getAll()...');
+    // Use ApplicationAPI.getAll() which automatically adds authority token
+    const data = await ApplicationAPI.getAll();
+    console.log('→ ApplicationAPI.getAll() SUCCESS');
+    console.log('Response structure:', Object.keys(data));
+    console.log('Full response:', data);
+
+    const apps = data.applications || [];
+    console.log('→ Applications extracted:', apps.length);
+    APPLICATIONS.length = 0;
+    apps.forEach(app => {
+      const farmer = app.farmer || {};
+      APPLICATIONS.push({
+        id:        app.appId  || app._id,
+        _rawId:    app._id,
+        farmer:    app.farmerName   || farmer.name     || 'Farmer',
+        farmerId:  app.farmerId     || farmer.farmerId  || '—',
+        village:   farmer.village   || '—',
+        district:  farmer.district  || '—',
+        scheme:    app.schemeId     || '',
+        schemeName:app.schemeName   || '—',
+        amount:    app.schemeAmount || '—',
+        land:      farmer.landSize  ? farmer.landSize + ' Acres' : '—',
+        crop:      farmer.mainCrop  || '—',
+        date:      new Date(app.appliedOn || Date.now()).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+        status:    (app.status || 'pending').toLowerCase(),
+        disbursed: app.disbursedAmount || 0,
+        docs:      'Complete',
+        aiScore:   80,
+        flag:      false,
+      });
+    });
+
+    // ── Update ALL stats from real data ──
+    const total    = APPLICATIONS.length;
+    const pending  = APPLICATIONS.filter(a => isPendingStatus(a.status)).length;
+    const approved = APPLICATIONS.filter(a => a.status === 'approved').length;
+    const rejected = APPLICATIONS.filter(a => a.status === 'rejected').length;
+    let disbursed  = 0;
+    APPLICATIONS.filter(a => a.status === 'approved').forEach(a => {
+      const n = parseInt((a.disbursed || a.amount || '0').toString().replace(/[^0-9]/g,''));
+      if (n) disbursed += n;
+    });
+    const disbursedStr = disbursed >= 10000000 ? '₹' + (disbursed/10000000).toFixed(1) + 'Cr'
+                       : disbursed >= 100000   ? '₹' + (disbursed/100000).toFixed(1) + 'L'
+                       : disbursed >= 1000     ? '₹' + Math.round(disbursed/1000) + 'K'
+                       : disbursed > 0         ? '₹' + disbursed : '₹0';
+
+    // Stat cards
+    const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+    set('stat-pending',   pending);
+    set('stat-approved',  approved);
+    set('stat-disbursed', disbursedStr);
+    set('stat-flagged',   rejected);
+    set('stat-farmers',   total);
+    // Sidebar badges
+    set('sb-pending',  pending);
+    set('sb-approved', approved);
+
+    // AI message
+    const aiEl = document.getElementById('aiCmdMsg');
+    if (aiEl) aiEl.innerHTML =
+      `<strong>${pending} application${pending!==1?'s':''}</strong> pending your review. ` +
+      `<strong>${approved} approved</strong>, <strong>${rejected} rejected</strong> out of <strong>${total} total</strong>.`;
+
+    // If no applications at all
+    if (total === 0) {
+      document.getElementById('tableBody').innerHTML =
+        `<tr><td colspan="7" style="text-align:center;padding:40px;color:#aaa;">
+           No applications submitted yet. Farmers need to apply first.
+         </td></tr>`;
+    }
+
+  } catch(err) {
+    console.error('✗ ERROR in loadApplications:', err);
+    console.error('Error message:', err.message);
+    console.error('Error stack:', err.stack);
+    document.getElementById('tableBody').innerHTML =
+      `<tr><td colspan="7" style="text-align:center;padding:24px;color:#c0392b;font-weight:600;">
+         ✗ ${err.message}
+       </td></tr>`;
+  }
+
+  console.log('Total APPLICATIONS in array:', APPLICATIONS.length);
+  console.log('APPLICATIONS data:', APPLICATIONS);
+  renderTable();
+  console.log('→ renderTable() called');
+  renderDistricts();
+  console.log('→ renderDistricts() called');
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  const now = new Date();
+  document.getElementById('hs-date').textContent =
+    `PUNE DISTRICT · AGRICULTURE DEPT. · ${now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})}`.toUpperCase();
+  await loadApplications();
+});
+</script>
+<script src="../js/main.js"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

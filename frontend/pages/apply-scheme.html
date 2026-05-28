@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Apply for Scheme</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e; --green-main:#1a7a3c; --green-mid:#25a050;
+    --green-light:#e8f5ee; --saffron:#e8650a; --saffron-light:#fff3eb;
+    --gold:#f0a500; --cream:#fffdf7; --text-dark:#1a2e1a; --text-mid:#3a5a3a;
+    --border:#d4e8d4; --sidebar-w:260px;
+    --ai-blue:#0a1f3a; --ai-cyan:#00c8ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Baloo 2',sans-serif;background:#f0f4f0;color:var(--text-dark);}
+  body.mr{font-family:'Noto Sans Devanagari',sans-serif;}
+
+  /* ══ SIDEBAR ══ */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:linear-gradient(180deg,var(--green-dark) 0%,#0a4020 100%);z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.15);transition:transform 0.3s;}
+  .sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .sidebar-logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--saffron),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .sidebar-logo-en{font-family:'Baloo 2',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;display:block;}
+  .sidebar-logo-mr{font-family:'Noto Sans Devanagari',sans-serif;font-size:0.65rem;color:var(--gold);display:block;}
+  .sidebar-profile{padding:20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:12px;}
+  .sp-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--gold));display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
+  .sp-name{font-size:0.88rem;font-weight:700;color:#fff;}
+  .sp-id{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:2px;}
+  .sp-badge{display:inline-block;background:rgba(37,160,80,0.3);border:1px solid rgba(37,160,80,0.5);color:#7deca0;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:4px;}
+  .sidebar-nav{flex:1;padding:16px 12px;overflow-y:auto;}
+  .nav-section-label{font-size:0.62rem;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase;padding:8px 10px 6px;margin-top:8px;}
+  .nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;margin-bottom:3px;text-decoration:none;color:rgba(255,255,255,0.65);font-size:0.88rem;font-weight:600;transition:all 0.25s;}
+  .nav-item:hover{background:rgba(255,255,255,0.1);color:#fff;}
+  .nav-item.active{background:linear-gradient(135deg,var(--saffron),#e05500);color:#fff;box-shadow:0 4px 16px rgba(232,101,10,0.35);}
+  .nav-item .ni-icon{font-size:1.1rem;flex-shrink:0;}
+  .nav-item .ni-badge{margin-left:auto;background:var(--saffron);color:#fff;font-size:0.65rem;font-weight:800;padding:2px 7px;border-radius:10px;}
+  .nav-item .ni-mr{font-family:'Noto Sans Devanagari',sans-serif;font-size:0.65rem;color:rgba(255,255,255,0.35);display:block;line-height:1;}
+  .sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.1);}
+  .btn-logout{width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.65);font-family:'Baloo 2',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.25s;}
+  .btn-logout:hover{background:rgba(192,57,43,0.3);color:#ff9999;}
+
+  /* ══ MAIN ══ */
+  .main{margin-left:var(--sidebar-w);min-height:100vh;}
+  .topbar{background:#fff;border-bottom:2px solid var(--border);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+  .topbar-left{display:flex;align-items:center;gap:12px;}
+  .topbar-title{font-family:'Yatra One',cursive;font-size:1.2rem;color:var(--green-dark);}
+  .topbar-right{display:flex;align-items:center;gap:12px;}
+  .lang-switch{display:flex;background:var(--green-light);border-radius:25px;padding:3px;gap:2px;}
+  .lang-btn{padding:5px 14px;border-radius:20px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.25s;color:var(--text-mid);background:transparent;}
+  .lang-btn.active{background:var(--saffron);color:#fff;}
+  .sidebar-toggle{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--green-dark);}
+
+  .page-content{padding:28px;}
+
+  /* ══ LAYOUT: AI + FORM SIDE BY SIDE ══ */
+  .apply-layout{display:grid;grid-template-columns:320px 1fr;gap:24px;align-items:start;}
+
+  /* ══ AI ASSISTANT PANEL ══ */
+  .ai-panel{
+    background:linear-gradient(160deg,#050f08,#0a1f12);
+    border-radius:24px;border:1px solid rgba(0,200,255,0.15);
+    overflow:hidden;position:sticky;top:84px;
+  }
+  .ai-panel-header{
+    background:linear-gradient(135deg,rgba(0,200,255,0.1),rgba(0,200,255,0.05));
+    border-bottom:1px solid rgba(0,200,255,0.15);
+    padding:20px; display:flex;align-items:center;gap:14px;
+  }
+  .ai-avatar-wrap{position:relative;flex-shrink:0;}
+  .ai-avatar{
+    width:54px;height:54px;border-radius:50%;
+    background:linear-gradient(135deg,#0a2a4a,#1a4a7a);
+    border:2px solid var(--ai-cyan);
+    display:flex;align-items:center;justify-content:center;font-size:1.8rem;
+    box-shadow:0 0 20px rgba(0,200,255,0.3);
+    animation:aiGlow 3s ease-in-out infinite;
+  }
+  @keyframes aiGlow{0%,100%{box-shadow:0 0 20px rgba(0,200,255,0.3);}50%{box-shadow:0 0 35px rgba(0,200,255,0.6);}}
+  .ai-online-dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#25a050;border-radius:50%;border:2px solid #050f08;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.3);}}
+  .ai-name-wrap .ai-name{font-family:'Baloo 2',sans-serif;font-weight:800;color:#fff;font-size:0.95rem;}
+  .ai-name-wrap .ai-role{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--ai-cyan);letter-spacing:1px;}
+  .ai-status-dot{margin-left:auto;background:rgba(37,160,80,0.2);border:1px solid rgba(37,160,80,0.4);color:#7deca0;font-size:0.62rem;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+
+  /* Chat bubble area */
+  .ai-chat-area{padding:18px;display:flex;flex-direction:column;gap:10px;min-height:200px;}
+  .ai-bubble{
+    background:rgba(0,200,255,0.07);border:1px solid rgba(0,200,255,0.12);
+    border-radius:0 14px 14px 14px;padding:12px 14px;
+    font-size:0.82rem;color:rgba(255,255,255,0.82);line-height:1.6;
+    animation:bubbleIn 0.4s ease forwards;opacity:0;
+  }
+  @keyframes bubbleIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  .ai-bubble strong{color:var(--ai-cyan);}
+  .ai-bubble .ai-bubble-icon{font-size:1.1rem;margin-right:4px;}
+
+  /* Tip chips */
+  .ai-tips{padding:0 18px 18px;display:flex;flex-direction:column;gap:8px;}
+  .ai-tip-chip{
+    background:rgba(37,160,80,0.08);border:1px solid rgba(37,160,80,0.2);
+    border-radius:12px;padding:10px 13px;
+    font-size:0.76rem;color:rgba(255,255,255,0.65);line-height:1.5;
+    display:flex;gap:8px;align-items:flex-start;
+  }
+  .ai-tip-chip .atc-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+
+  /* Doc checklist */
+  .ai-docs-section{padding:0 18px 18px;}
+  .ai-docs-title{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--ai-cyan);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+  .doc-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:6px;}
+  .doc-item .di-icon{font-size:1rem;flex-shrink:0;}
+  .doc-item .di-name{font-size:0.78rem;color:rgba(255,255,255,0.7);flex:1;}
+  .doc-item .di-status{font-size:0.72rem;font-weight:700;padding:2px 8px;border-radius:10px;}
+  .ds-required{background:rgba(232,101,10,0.15);color:#ffa060;border:1px solid rgba(232,101,10,0.2);}
+  .ds-ready   {background:rgba(37,160,80,0.15);color:#7deca0;border:1px solid rgba(37,160,80,0.2);}
+
+  /* ══ FORM PANEL ══ */
+  .form-panel{display:flex;flex-direction:column;gap:20px;}
+
+  /* Scheme selector */
+  .scheme-selector{
+    background:#fff;border-radius:20px;border:2px solid var(--border);
+    padding:22px 24px;box-shadow:0 4px 16px rgba(0,0,0,0.04);
+  }
+  .ss-title{font-family:'Yatra One',cursive;font-size:1.1rem;color:var(--green-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .scheme-pills{display:flex;gap:8px;flex-wrap:wrap;}
+  .scheme-pill{
+    padding:9px 16px;border-radius:25px;border:2px solid var(--border);
+    background:#fff;font-family:'Baloo 2',sans-serif;font-size:0.8rem;font-weight:600;
+    cursor:pointer;transition:all 0.25s;color:var(--text-mid);
+    display:flex;align-items:center;gap:6px;
+  }
+  .scheme-pill:hover{border-color:var(--green-main);color:var(--green-main);}
+  .scheme-pill.selected{background:var(--green-main);color:#fff;border-color:var(--green-main);box-shadow:0 4px 14px rgba(26,122,60,0.25);}
+
+  /* Step progress */
+  .step-progress{
+    background:#fff;border-radius:20px;border:2px solid var(--border);
+    padding:20px 24px;box-shadow:0 4px 16px rgba(0,0,0,0.04);
+  }
+  .steps-track{display:flex;align-items:center;}
+  .strack-dot{display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1;}
+  .strack-circle{
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1rem;font-weight:700;transition:all 0.4s;
+    background:#e8e8e8;color:#aaa;border:2px solid #e8e8e8;
+  }
+  .strack-label{font-size:0.62rem;font-weight:700;color:#bbb;text-align:center;white-space:nowrap;transition:color 0.3s;max-width:60px;}
+  .strack-dot.active .strack-circle{background:var(--saffron);color:#fff;border-color:var(--saffron);box-shadow:0 4px 14px rgba(232,101,10,0.35);}
+  .strack-dot.active .strack-label{color:var(--saffron);}
+  .strack-dot.done  .strack-circle{background:var(--green-main);color:#fff;border-color:var(--green-main);}
+  .strack-dot.done  .strack-label{color:var(--green-main);}
+  .strack-line{flex:1;height:3px;background:#e8e8e8;margin:0 4px;margin-bottom:22px;transition:background 0.4s;}
+  .strack-line.done{background:var(--green-main);}
+
+  /* Form card */
+  .form-card{background:#fff;border-radius:20px;border:2px solid var(--border);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.04);}
+  .form-card-header{background:linear-gradient(135deg,var(--green-dark),var(--green-main));padding:22px 28px;display:flex;align-items:center;gap:14px;}
+  .fch-icon{font-size:2rem;}
+  .fch-title{font-family:'Yatra One',cursive;font-size:1.3rem;color:#fff;}
+  .fch-sub{font-size:0.78rem;color:rgba(255,255,255,0.65);margin-top:2px;}
+  .form-body{padding:28px;}
+
+  /* Form elements */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+  .form-row.full{grid-template-columns:1fr;}
+  .form-group{display:flex;flex-direction:column;gap:5px;}
+  .form-group label{font-size:0.8rem;font-weight:700;color:var(--text-mid);display:flex;align-items:center;gap:5px;}
+  .lbl-mr{font-family:'Noto Sans Devanagari',sans-serif;font-size:0.65rem;color:#bbb;font-weight:400;}
+  .form-group input,.form-group select,.form-group textarea{
+    padding:12px 15px;border-radius:12px;
+    border:2px solid var(--border);background:#fafdf8;
+    font-family:'Baloo 2',sans-serif;font-size:0.9rem;
+    color:var(--text-dark);transition:all 0.25s;outline:none;
+  }
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+    border-color:var(--green-main);background:#fff;
+    box-shadow:0 0 0 4px rgba(26,122,60,0.08);
+  }
+  .form-group textarea{resize:vertical;min-height:80px;}
+  .form-group input.ai-filled{border-color:var(--ai-cyan)!important;background:#f0f9ff!important;}
+
+  /* AI auto-fill badge */
+  .ai-filled-badge{
+    font-size:0.65rem;font-weight:700;color:var(--ai-cyan);
+    background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2);
+    padding:2px 8px;border-radius:10px;margin-left:auto;
+    display:inline-flex;align-items:center;gap:3px;
+  }
+
+  /* Section divider */
+  .section-div{display:flex;align-items:center;gap:12px;margin:22px 0 18px;}
+  .section-div::before,.section-div::after{content:'';flex:1;height:1px;background:var(--border);}
+  .section-div span{font-size:0.75rem;font-weight:700;color:var(--saffron);background:var(--saffron-light);padding:4px 14px;border-radius:20px;white-space:nowrap;border:1px solid rgba(232,101,10,0.2);}
+
+  /* Upload zone */
+  .upload-zone{
+    border:2px dashed var(--border);border-radius:14px;
+    padding:20px;text-align:center;cursor:pointer;
+    transition:all 0.25s;background:#fafdf8;
+  }
+  .upload-zone:hover{border-color:var(--green-main);background:var(--green-light);}
+  .upload-zone .uz-icon{font-size:2rem;margin-bottom:6px;}
+  .upload-zone .uz-text{font-size:0.8rem;color:#7a9a7a;}
+  .upload-zone .uz-hint{font-size:0.7rem;color:#bbb;margin-top:4px;}
+  .upload-zone.uploaded{border-color:var(--green-main);background:var(--green-light);}
+
+  /* Declaration */
+  .declaration-box{background:var(--saffron-light);border:1px solid rgba(232,101,10,0.2);border-radius:14px;padding:16px;margin-bottom:20px;}
+  .declaration-box label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:0.8rem;color:var(--text-dark);line-height:1.5;}
+  .declaration-box input[type=checkbox]{width:18px;height:18px;accent-color:var(--saffron);flex-shrink:0;margin-top:2px;}
+
+  /* Form actions */
+  .form-actions{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:24px;}
+  .btn-back-form{padding:12px 22px;border-radius:50px;border:2px solid var(--border);background:#fff;color:var(--text-mid);font-family:'Baloo 2',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:6px;}
+  .btn-back-form:hover{border-color:var(--green-main);color:var(--green-main);}
+  .btn-next-form{padding:13px 28px;border-radius:50px;background:linear-gradient(135deg,var(--green-main),var(--green-dark));color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(26,122,60,0.3);transition:all 0.25s;display:flex;align-items:center;gap:8px;}
+  .btn-next-form:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(26,122,60,0.4);}
+  .btn-submit-final{padding:13px 28px;border-radius:50px;background:linear-gradient(135deg,var(--saffron),#e05500);color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-size:0.92rem;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(232,101,10,0.3);transition:all 0.25s;display:flex;align-items:center;gap:8px;}
+  .btn-submit-final:hover{transform:translateY(-2px);}
+
+  /* Step panels */
+  .step-panel{display:none;}
+  .step-panel.active{display:block;animation:stepIn 0.4s ease forwards;}
+  @keyframes stepIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:none;}}
+
+  /* ══ SUCCESS SCREEN ══ */
+  .success-screen{
+    background:linear-gradient(135deg,#050f08,#0a2015);
+    border-radius:24px;border:1px solid rgba(37,160,80,0.3);
+    padding:52px 32px;text-align:center;
+    display:none;animation:fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+  .success-icon-wrap{position:relative;width:100px;height:100px;margin:0 auto 24px;}
+  .success-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(37,160,80,0.3);animation:ringPulse 2s infinite;}
+  .success-ring:nth-child(2){inset:-12px;animation-delay:0.4s;border-color:rgba(37,160,80,0.15);}
+  @keyframes ringPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.08);opacity:0.5;}}
+  .success-icon-main{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#0d5c2e,#1a7a3c);border:3px solid var(--green-mid);display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;z-index:1;box-shadow:0 0 40px rgba(37,160,80,0.4);}
+  .success-title{font-family:'Yatra One',cursive;font-size:2rem;color:#fff;margin-bottom:8px;}
+  .success-sub{font-size:0.9rem;color:rgba(255,255,255,0.55);margin-bottom:28px;line-height:1.6;}
+  .app-id-box{display:inline-block;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:16px 32px;margin-bottom:28px;}
+  .app-id-label{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+  .app-id-val{font-family:'Share Tech Mono',monospace;font-size:1.4rem;color:var(--ai-cyan);font-weight:700;letter-spacing:2px;}
+  .success-steps{display:flex;flex-direction:column;gap:10px;max-width:400px;margin:0 auto 32px;}
+  .ss-step{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);border-radius:12px;padding:12px 16px;}
+  .ss-step .sss-icon{font-size:1.2rem;flex-shrink:0;}
+  .ss-step .sss-text{font-size:0.82rem;color:rgba(255,255,255,0.65);text-align:left;}
+  .ss-step .sss-time{margin-left:auto;font-size:0.7rem;color:rgba(255,255,255,0.3);white-space:nowrap;}
+  .btn-track-app{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:50px;background:linear-gradient(135deg,var(--green-main),var(--green-dark));color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(26,122,60,0.35);text-decoration:none;transition:all 0.25s;}
+  .btn-track-app:hover{transform:translateY(-2px);}
+
+  /* Info box */
+  .info-box{background:var(--green-light);border:1px solid rgba(26,122,60,0.2);border-radius:12px;padding:12px 16px;font-size:0.8rem;color:var(--green-dark);display:flex;gap:10px;align-items:flex-start;margin-bottom:18px;}
+
+  /* Responsive */
+  @media(max-width:1000px){.apply-layout{grid-template-columns:1fr;} .ai-panel{position:static;}}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;}.sidebar-toggle{display:block;}}
+  @media(max-width:580px){.form-row{grid-template-columns:1fr;}.page-content{padding:14px;}}
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-logo" href="index.html">
+    <div class="sidebar-logo-icon">🌾</div>
+    <div><span class="sidebar-logo-en">Krushi Sahayak</span><span class="sidebar-logo-mr">कृषी सहायक</span></div>
+  </a>
+  <div class="sidebar-profile">
+    <div class="sp-avatar">👨‍🌾</div>
+    <div>
+      <div class="sp-name" id="sb-name">—</div>
+      <div class="sp-id"  id="sb-id">—</div>
+      <span class="sp-badge">✅ Verified Farmer</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">MAIN MENU</div>
+    <a class="nav-item" href="farmer-dashboard.html"><span class="ni-icon"><i data-lucide="home" class="lucide"></i></span><span><span>Dashboard</span><span class="ni-mr">डॅशबोर्ड</span></span></a>
+    <a class="nav-item" href="schemes.html"><span class="ni-icon"><i data-lucide="clipboard-list" class="lucide"></i></span><span><span>View All Schemes</span><span class="ni-mr">सर्व योजना</span></span><span class="ni-badge">32</span></a>
+    <a class="nav-item" href="ai-recommendation.html"><span class="ni-icon"><i data-lucide="bot" class="lucide"></i></span><span><span>AI Recommendation</span><span class="ni-mr">AI शिफारस</span></span></a>
+    <a class="nav-item active" href="apply-scheme.html"><span class="ni-icon"><i data-lucide="file-pen-line" class="lucide"></i></span><span><span>Apply for Scheme</span><span class="ni-mr">अर्ज करा</span></span></a>
+    <div class="nav-section-label" style="margin-top:12px;">TRACK & MANAGE</div>
+    <a class="nav-item" href="tracking.html"><span class="ni-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span><span><span>My Applications</span><span class="ni-mr">माझे अर्ज</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="notifications.html"><span class="ni-icon"><i data-lucide="bell" class="lucide"></i></span><span><span>Notifications</span><span class="ni-mr">सूचना</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="edit-profile.html"><span class="ni-icon"><i data-lucide="user-pen" class="lucide"></i></span><span><span>Edit Profile</span><span class="ni-mr">प्रोफाइल</span></span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()"><i data-lucide="log-out" class="lucide"></i> <span>Logout</span></button>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" data-en="📝 Apply for Scheme" data-mr="📝 योजनेसाठी अर्ज">📝 Apply for Scheme</div>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ══ SUCCESS SCREEN ══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon-wrap">
+        <div class="success-ring"></div>
+        <div class="success-ring"></div>
+        <div class="success-icon-main">✅</div>
+      </div>
+      <h2 class="success-title" data-en="Application Submitted!" data-mr="अर्ज सबमिट झाला!">Application Submitted!</h2>
+      <p class="success-sub" data-en="Your application has been successfully submitted to the Maharashtra Government portal. You will receive updates on your registered mobile number." data-mr="तुमचा अर्ज महाराष्ट्र शासन पोर्टलवर यशस्वीरीत्या सबमिट झाला आहे. तुमच्या नोंदणीकृत मोबाईलवर अपडेट मिळतील.">Your application has been successfully submitted to the Maharashtra Government portal.</p>
+      <div class="app-id-box">
+        <div class="app-id-label">Application ID</div>
+        <div class="app-id-val" id="finalAppId">KS-APP-2024-00001</div>
+      </div>
+      <div class="success-steps">
+        <div class="ss-step"><span class="sss-icon">✅</span><span class="sss-text" data-en="Application received by portal" data-mr="पोर्टलद्वारे अर्ज प्राप्त">Application received by portal</span><span class="sss-time" data-en="Just now" data-mr="आत्ता">Just now</span></div>
+        <div class="ss-step"><span class="sss-icon">⏳</span><span class="sss-text" data-en="Document verification by Talathi" data-mr="तलाठीद्वारे कागदपत्र पडताळणी">Document verification by Talathi</span><span class="sss-time" data-en="3–5 days" data-mr="३–५ दिवस">3–5 days</span></div>
+        <div class="ss-step"><span class="sss-icon">🏛️</span><span class="sss-text" data-en="Review by Agriculture Officer" data-mr="कृषी अधिकाऱ्यांकडून समीक्षा">Review by Agriculture Officer</span><span class="sss-time" data-en="7–10 days" data-mr="७–१० दिवस">7–10 days</span></div>
+        <div class="ss-step"><span class="sss-icon">💰</span><span class="sss-text" data-en="Amount transferred to bank account" data-mr="बँक खात्यात रक्कम जमा">Amount transferred to bank account</span><span class="sss-time" data-en="15–21 days" data-mr="१५–२१ दिवस">15–21 days</span></div>
+      </div>
+      <a href="tracking.html" class="btn-track-app">📊 <span data-en="Track My Application" data-mr="माझा अर्ज ट्रॅक करा">Track My Application</span></a>
+    </div>
+
+    <!-- ══ MAIN APPLY LAYOUT ══ -->
+    <div class="apply-layout" id="applyLayout">
+
+      <!-- ════ AI ASSISTANT PANEL ════ -->
+      <div class="ai-panel">
+        <div class="ai-panel-header">
+          <div class="ai-avatar-wrap">
+            <div class="ai-avatar">🤖</div>
+            <div class="ai-online-dot"></div>
+          </div>
+          <div class="ai-name-wrap">
+            <div class="ai-name">Krushi AI</div>
+            <div class="ai-role">APPLICATION ASSISTANT</div>
+          </div>
+          <div class="ai-status-dot">🟢 Live</div>
+        </div>
+
+        <!-- Dynamic chat bubble -->
+        <div class="ai-chat-area" id="aiChatArea">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Dynamic tips -->
+        <div class="ai-tips" id="aiTipsArea">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Required docs -->
+        <div class="ai-docs-section" id="aiDocsArea">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- ════ FORM PANEL ════ -->
+      <div class="form-panel">
+
+        <!-- Scheme Selector -->
+        <div class="scheme-selector">
+          <div class="ss-title" data-en="🌾 Select Scheme to Apply" data-mr="🌾 अर्ज करण्यासाठी योजना निवडा">🌾 Select Scheme to Apply</div>
+          <!-- Department Filter -->
+          <div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button onclick="filterDept(this,'all')" class="dept-btn active" style="padding:5px 14px;border-radius:20px;border:2px solid var(--green-main);background:var(--green-main);color:#fff;font-size:0.75rem;font-weight:700;cursor:pointer;">All Depts</button>
+            <button onclick="filterDept(this,'agri')" class="dept-btn" style="padding:5px 14px;border-radius:20px;border:2px solid #d4e8d4;background:#fff;color:#3a5a3a;font-size:0.75rem;font-weight:700;cursor:pointer;">🌾 Agriculture</button>
+            <button onclick="filterDept(this,'energy')" class="dept-btn" style="padding:5px 14px;border-radius:20px;border:2px solid #d4e8d4;background:#fff;color:#3a5a3a;font-size:0.75rem;font-weight:700;cursor:pointer;">⚡ Energy</button>
+            <button onclick="filterDept(this,'central')" class="dept-btn" style="padding:5px 14px;border-radius:20px;border:2px solid #d4e8d4;background:#fff;color:#3a5a3a;font-size:0.75rem;font-weight:700;cursor:pointer;">🇮🇳 Central Govt</button>
+            <button onclick="filterDept(this,'animal')" class="dept-btn" style="padding:5px 14px;border-radius:20px;border:2px solid #d4e8d4;background:#fff;color:#3a5a3a;font-size:0.75rem;font-weight:700;cursor:pointer;">🐄 Animal Husbandry</button>
+            <button onclick="filterDept(this,'horti')" class="dept-btn" style="padding:5px 14px;border-radius:20px;border:2px solid #d4e8d4;background:#fff;color:#3a5a3a;font-size:0.75rem;font-weight:700;cursor:pointer;">🍇 Horticulture</button>
+            <button onclick="filterDept(this,'water')" class="dept-btn" style="padding:5px 14px;border-radius:20px;border:2px solid #d4e8d4;background:#fff;color:#3a5a3a;font-size:0.75rem;font-weight:700;cursor:pointer;">💧 Water</button>
+            <button onclick="filterDept(this,'social')" class="dept-btn" style="padding:5px 14px;border-radius:20px;border:2px solid #d4e8d4;background:#fff;color:#3a5a3a;font-size:0.75rem;font-weight:700;cursor:pointer;">🎯 SC/ST/OBC</button>
+          </div>
+          <div class="scheme-pills" id="schemePillsContainer">
+            <!-- AGRICULTURE DEPT -->
+            <div class="scheme-pill selected" data-dept="agri" onclick="selectScheme(this,'drip')">💧 Drip Irrigation</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'tractor')">🚜 Tractor Subsidy</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'pond')">🏞️ Farm Pond</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'sprinkler')">💦 Sprinkler Irrigation</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'seed')">🌱 Seed & Fertilizer</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'greenhouse')">🏠 Greenhouse / Polyhouse</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'organic')">♻️ Organic Farming</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'agrimachine')">⚙️ Farm Machinery</div>
+            <div class="scheme-pill" data-dept="agri" onclick="selectScheme(this,'warehouse')">🏭 Warehouse / Storage</div>
+            <!-- ENERGY DEPT -->
+            <div class="scheme-pill" data-dept="energy" onclick="selectScheme(this,'solar')">☀️ Solar Pump</div>
+            <div class="scheme-pill" data-dept="energy" onclick="selectScheme(this,'biogas')">♻️ Biogas Plant</div>
+            <div class="scheme-pill" data-dept="energy" onclick="selectScheme(this,'solarfence')">🔆 Solar Fencing</div>
+            <!-- CENTRAL GOVT -->
+            <div class="scheme-pill" data-dept="central" onclick="selectScheme(this,'pmkisan')">🌾 PM Kisan</div>
+            <div class="scheme-pill" data-dept="central" onclick="selectScheme(this,'namo')">🌻 Namo Shetkari</div>
+            <div class="scheme-pill" data-dept="central" onclick="selectScheme(this,'bima')">🛡️ PM Fasal Bima</div>
+            <div class="scheme-pill" data-dept="central" onclick="selectScheme(this,'kcc')">💳 Kisan Credit Card</div>
+            <div class="scheme-pill" data-dept="central" onclick="selectScheme(this,'pmkusum')">🌞 PM KUSUM</div>
+            <div class="scheme-pill" data-dept="central" onclick="selectScheme(this,'soil')">🧪 Soil Health Card</div>
+            <!-- ANIMAL HUSBANDRY -->
+            <div class="scheme-pill" data-dept="animal" onclick="selectScheme(this,'cattle')">🐄 Cattle Shed</div>
+            <div class="scheme-pill" data-dept="animal" onclick="selectScheme(this,'dairy')">🥛 Dairy Development</div>
+            <div class="scheme-pill" data-dept="animal" onclick="selectScheme(this,'poultry')">🐔 Poultry Farming</div>
+            <div class="scheme-pill" data-dept="animal" onclick="selectScheme(this,'goat')">🐐 Goat/Sheep Rearing</div>
+            <div class="scheme-pill" data-dept="animal" onclick="selectScheme(this,'fishery')">🐟 Fishery Development</div>
+            <!-- HORTICULTURE -->
+            <div class="scheme-pill" data-dept="horti" onclick="selectScheme(this,'horti')">🍇 Horticulture Dev.</div>
+            <div class="scheme-pill" data-dept="horti" onclick="selectScheme(this,'mango')">🥭 Mango/Fruit Dev.</div>
+            <div class="scheme-pill" data-dept="horti" onclick="selectScheme(this,'flower')">🌸 Floriculture</div>
+            <div class="scheme-pill" data-dept="horti" onclick="selectScheme(this,'coldstorage')">❄️ Cold Storage</div>
+            <!-- WATER CONSERVATION -->
+            <div class="scheme-pill" data-dept="water" onclick="selectScheme(this,'borewell')">🔩 Borewell / Well</div>
+            <div class="scheme-pill" data-dept="water" onclick="selectScheme(this,'watershed')">🌊 Watershed Dev.</div>
+            <div class="scheme-pill" data-dept="water" onclick="selectScheme(this,'jalayukt')">💧 Jalyukt Shivar</div>
+            <!-- SC/ST/OBC SPECIAL -->
+            <div class="scheme-pill" data-dept="social" onclick="selectScheme(this,'scst')">🎯 SC/ST Special</div>
+            <div class="scheme-pill" data-dept="social" onclick="selectScheme(this,'leased')">📜 Leased Land Support</div>
+          </div>
+        </div>
+
+        <!-- Step Progress -->
+        <div class="step-progress">
+          <div class="steps-track">
+            <div class="strack-dot active" id="stk1"><div class="strack-circle">📋</div><div class="strack-label" data-en="Scheme" data-mr="योजना">Scheme</div></div>
+            <div class="strack-line" id="stl1"></div>
+            <div class="strack-dot" id="stk2"><div class="strack-circle">👤</div><div class="strack-label" data-en="Personal" data-mr="वैयक्तिक">Personal</div></div>
+            <div class="strack-line" id="stl2"></div>
+            <div class="strack-dot" id="stk3"><div class="strack-circle">🌾</div><div class="strack-label" data-en="Farm" data-mr="शेती">Farm</div></div>
+            <div class="strack-line" id="stl3"></div>
+            <div class="strack-dot" id="stk4"><div class="strack-circle">📄</div><div class="strack-label" data-en="Documents" data-mr="कागदपत्रे">Documents</div></div>
+            <div class="strack-line" id="stl4"></div>
+            <div class="strack-dot" id="stk5"><div class="strack-circle">✅</div><div class="strack-label" data-en="Submit" data-mr="सबमिट">Submit</div></div>
+          </div>
+        </div>
+
+        <!-- ── STEP 1: SCHEME INFO ── -->
+        <div class="step-panel active" id="sp1">
+          <div class="form-card">
+            <div class="form-card-header">
+              <span class="fch-icon">📋</span>
+              <div>
+                <div class="fch-title" data-en="Scheme Information" data-mr="योजनेची माहिती">Scheme Information</div>
+                <div class="fch-sub" data-en="Step 1 of 5 — Confirm scheme details" data-mr="पायरी १ पैकी ५ — योजना तपशील पुष्टी करा">Step 1 of 5 — Confirm scheme details</div>
+              </div>
+            </div>
+            <div class="form-body">
+              <div class="info-box">
+                <span style="font-size:1.1rem;flex-shrink:0;">🤖</span>
+                <span id="schemeInfoText" data-en="You selected: Drip Irrigation Subsidy (ठिबक सिंचन). This scheme provides up to ₹80,000 subsidy for drip irrigation installation. Ideal for your Sugarcane farm!" data-mr="तुम्ही निवडले: ठिबक सिंचन अनुदान. ही योजना ठिबक सिंचन प्रणालीसाठी ₹८०,०००पर्यंत अनुदान देते.">
+                  You selected: <strong>Drip Irrigation Subsidy</strong> — This scheme provides up to ₹80,000 subsidy for drip irrigation installation. Ideal for your Sugarcane farm!
+                </span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>🏛️ <span data-en="Scheme Name" data-mr="योजनेचे नाव">Scheme Name</span></label>
+                  <input type="text" id="schemeName" value="Drip Irrigation Subsidy" readonly style="background:#f0f4f0;color:#888;"/>
+                </div>
+                <div class="form-group">
+                  <label>💰 <span data-en="Maximum Benefit" data-mr="जास्तीत जास्त लाभ">Maximum Benefit</span></label>
+                  <input type="text" id="schemeAmount" value="₹80,000" readonly style="background:#f0f4f0;color:#888;"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>🏢 <span data-en="Department" data-mr="विभाग">Department</span></label>
+                  <input type="text" value="Agriculture Dept., Maharashtra" readonly style="background:#f0f4f0;color:#888;"/>
+                </div>
+                <div class="form-group">
+                  <label>🌐 <span data-en="Portal" data-mr="पोर्टल">Portal</span></label>
+                  <input type="text" value="MahaDBT Portal" readonly style="background:#f0f4f0;color:#888;"/>
+                </div>
+              </div>
+              <div class="form-row full">
+                <div class="form-group">
+                  <label>📅 <span data-en="Why are you applying?" data-mr="तुम्ही का अर्ज करत आहात?">Why are you applying?</span></label>
+                  <textarea id="applyReason" placeholder="e.g. I want to save water and increase my sugarcane yield using drip irrigation..."></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <div></div>
+                <button class="btn-next-form" onclick="goStep(2)">
+                  <span data-en="Next: Personal Details" data-mr="पुढे: वैयक्तिक तपशील">Next: Personal Details</span> →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 2: PERSONAL ── -->
+        <div class="step-panel" id="sp2">
+          <div class="form-card">
+            <div class="form-card-header">
+              <span class="fch-icon">👤</span>
+              <div>
+                <div class="fch-title" data-en="Personal Details" data-mr="वैयक्तिक तपशील">Personal Details</div>
+                <div class="fch-sub" data-en="Step 2 of 5 — Auto-filled from your profile" data-mr="पायरी २ पैकी ५ — तुमच्या प्रोफाइलमधून आपोआप भरले">Step 2 of 5 — Auto-filled from your profile ✨</div>
+              </div>
+            </div>
+            <div class="form-body">
+              <div class="info-box">
+                <span style="font-size:1.1rem;flex-shrink:0;">🤖</span>
+                <span data-en="I have auto-filled your details from your registered profile. Please verify and correct if needed." data-mr="मी तुमच्या नोंदणीकृत प्रोफाइलमधून तपशील आपोआप भरले आहेत. कृपया तपासा आणि आवश्यक असल्यास दुरुस्त करा.">I have auto-filled your details from your registered profile. Please verify and correct if needed.</span>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>👤 <span data-en="Full Name" data-mr="पूर्ण नाव">Full Name</span> <span class="lbl-mr">पूर्ण नाव</span></label>
+                  <input type="text" id="p-name" class="ai-filled" placeholder="Your full name"/>
+                </div>
+                <div class="form-group">
+                  <label>📱 <span data-en="Mobile Number" data-mr="मोबाईल">Mobile Number</span></label>
+                  <input type="tel" id="p-mobile" class="ai-filled" placeholder="10-digit mobile"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>🪪 <span data-en="Aadhaar Number" data-mr="आधार">Aadhaar Number</span></label>
+                  <input type="text" id="p-aadhaar" class="ai-filled" placeholder="12-digit Aadhaar" maxlength="12"/>
+                </div>
+                <div class="form-group">
+                  <label>🏷️ <span data-en="Category" data-mr="जात प्रवर्ग">Category</span></label>
+                  <select id="p-category" class="ai-filled">
+                    <option value="General">General</option>
+                    <option value="OBC" selected>OBC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                    <option value="NT">NT/VJ</option>
+                  </select>
+                </div>
+              </div>
+              <div class="section-div"><span data-en="📍 Location" data-mr="📍 स्थान">📍 Location</span></div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>🏙️ <span data-en="District" data-mr="जिल्हा">District</span></label>
+                  <input type="text" id="p-district" class="ai-filled"/>
+                </div>
+                <div class="form-group">
+                  <label>🏘️ <span data-en="Taluka" data-mr="तालुका">Taluka</span></label>
+                  <input type="text" id="p-taluka" class="ai-filled" placeholder="Enter Taluka"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>🏡 <span data-en="Village" data-mr="गाव">Village</span></label>
+                  <input type="text" id="p-village" class="ai-filled"/>
+                </div>
+                <div class="form-group">
+                  <label>📮 <span data-en="PIN Code" data-mr="पिन कोड">PIN Code</span></label>
+                  <input type="text" id="p-pin" class="ai-filled" placeholder="6-digit PIN" maxlength="6"/>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn-back-form" onclick="goStep(1)">← <span data-en="Back" data-mr="मागे">Back</span></button>
+                <button class="btn-next-form" onclick="goStep(3)"><span data-en="Next: Farm Details" data-mr="पुढे: शेती तपशील">Next: Farm Details</span> →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 3: FARM ── -->
+        <div class="step-panel" id="sp3">
+          <div class="form-card">
+            <div class="form-card-header">
+              <span class="fch-icon">🌾</span>
+              <div>
+                <div class="fch-title" data-en="Farm Details" data-mr="शेती तपशील">Farm Details</div>
+                <div class="fch-sub" data-en="Step 3 of 5 — Your land and crop information" data-mr="पायरी ३ पैकी ५ — जमीन आणि पीक माहिती">Step 3 of 5 — Your land and crop information</div>
+              </div>
+            </div>
+            <div class="form-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>📐 <span data-en="Gut Number (Survey No.)" data-mr="गट नंबर">Gut Number (Survey No.)</span></label>
+                  <input type="text" id="f-gut" placeholder="e.g. 234/1A"/>
+                </div>
+                <div class="form-group">
+                  <label>📐 <span data-en="Total Land (Acres)" data-mr="एकूण जमीन (एकर)">Total Land (Acres)</span></label>
+                  <input type="text" id="f-land" class="ai-filled"/>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>🌱 <span data-en="Current Crop" data-mr="सध्याचे पीक">Current Crop</span></label>
+                  <input type="text" id="f-crop" class="ai-filled"/>
+                </div>
+                <div class="form-group">
+                  <label>💧 <span data-en="Current Water Source" data-mr="सध्याचा पाण्याचा स्रोत">Water Source</span></label>
+                  <input type="text" id="f-water" class="ai-filled"/>
+                </div>
+              </div>
+              <!-- Scheme-specific fields removed per request -->
+              <div class="form-row full">
+                <div class="form-group">
+                  <label>📝 <span data-en="Additional Farm Information" data-mr="अतिरिक्त शेती माहिती">Additional Farm Information</span></label>
+                  <textarea placeholder="Any additional info about your farm..." style="min-height:70px;"></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn-back-form" onclick="goStep(2)">← <span data-en="Back" data-mr="मागे">Back</span></button>
+                <button class="btn-next-form" onclick="goStep(4)"><span data-en="Next: Upload Documents" data-mr="पुढे: कागदपत्रे अपलोड">Next: Upload Documents</span> →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 4: DOCUMENTS ── -->
+        <div class="step-panel" id="sp4">
+          <div class="form-card">
+            <div class="form-card-header">
+              <span class="fch-icon">📄</span>
+              <div>
+                <div class="fch-title" data-en="Upload Documents" data-mr="कागदपत्रे अपलोड करा">Upload Documents</div>
+                <div class="fch-sub" data-en="Step 4 of 5 — AI will verify your documents" data-mr="पायरी ४ पैकी ५ — AI तुमची कागदपत्रे तपासेल">Step 4 of 5 — AI will verify your documents ✨</div>
+              </div>
+            </div>
+            <div class="form-body">
+              <div class="info-box">
+                <span style="font-size:1.1rem;flex-shrink:0;">🤖</span>
+                <span data-en="Upload clear photos or scanned copies. AI will automatically check if documents are correct before submission." data-mr="स्पष्ट फोटो किंवा स्कॅन केलेल्या प्रती अपलोड करा. सबमिशनपूर्वी AI आपोआप कागदपत्रे तपासेल.">Upload clear photos or scanned copies. AI will automatically check if documents are correct before submission.</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>📋 <span data-en="7/12 Utara (सातबारा)" data-mr="७/१२ उतारा">7/12 Utara (सातबारा) *</span></label>
+                  <div class="upload-zone" id="uz1" onclick="realUpload('uz1','7/12 Utara')">
+                    <div class="uz-icon">📋</div>
+                    <div class="uz-text" data-en="Click to upload 7/12" data-mr="७/१२ अपलोड करण्यासाठी क्लिक करा">Click to upload 7/12</div>
+                    <div class="uz-hint">PDF, JPG, PNG — Max 2MB</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>🪪 <span data-en="Aadhaar Card" data-mr="आधार कार्ड">Aadhaar Card *</span></label>
+                  <div class="upload-zone" id="uz2" onclick="realUpload('uz2','Aadhaar Card')">
+                    <div class="uz-icon">🪪</div>
+                    <div class="uz-text" data-en="Click to upload Aadhaar" data-mr="आधार अपलोड करा">Click to upload Aadhaar</div>
+                    <div class="uz-hint">PDF, JPG, PNG — Max 2MB</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>🏦 <span data-en="Bank Passbook" data-mr="बँक पासबुक">Bank Passbook *</span></label>
+                  <div class="upload-zone" id="uz3" onclick="realUpload('uz3','Bank Passbook')">
+                    <div class="uz-icon">🏦</div>
+                    <div class="uz-text" data-en="Click to upload Passbook" data-mr="पासबुक अपलोड करा">Click to upload Passbook</div>
+                    <div class="uz-hint">PDF, JPG, PNG — Max 2MB</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>🏷️ <span data-en="Caste Certificate (if applicable)" data-mr="जात प्रमाणपत्र (लागू असल्यास)">Caste Certificate</span></label>
+                  <div class="upload-zone" id="uz4" onclick="realUpload('uz4','Caste Certificate')">
+                    <div class="uz-icon">🏷️</div>
+                    <div class="uz-text" data-en="Click to upload Caste Cert." data-mr="जात प्रमाणपत्र अपलोड करा">Click to upload Caste Cert.</div>
+                    <div class="uz-hint">PDF, JPG, PNG — Max 2MB</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn-back-form" onclick="goStep(3)">← <span data-en="Back" data-mr="मागे">Back</span></button>
+                <button class="btn-next-form" onclick="goStep(5)"><span data-en="Next: Review & Submit" data-mr="पुढे: पुनरावलोकन आणि सबमिट">Next: Review & Submit</span> →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 5: REVIEW ── -->
+        <div class="step-panel" id="sp5">
+          <div class="form-card">
+            <div class="form-card-header">
+              <span class="fch-icon">✅</span>
+              <div>
+                <div class="fch-title" data-en="Review & Submit" data-mr="पुनरावलोकन आणि सबमिट">Review & Submit</div>
+                <div class="fch-sub" data-en="Step 5 of 5 — Final check before submission" data-mr="पायरी ५ पैकी ५ — सबमिशनपूर्वी अंतिम तपासणी">Step 5 of 5 — AI final check before submission</div>
+              </div>
+            </div>
+            <div class="form-body">
+              <div style="background:linear-gradient(135deg,#050f08,#0a1f12);border:1px solid rgba(0,200,255,0.15);border-radius:16px;padding:18px 20px;margin-bottom:20px;">
+                <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--ai-cyan);letter-spacing:1.5px;margin-bottom:12px;">🤖 AI APPLICATION SUMMARY</div>
+                <div id="reviewSummary" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
+              </div>
+
+              <div class="declaration-box">
+                <label>
+                  <input type="checkbox" id="decl"/>
+                  <span data-en="I hereby declare that all the information and documents submitted are true and correct. I understand that any false information may lead to rejection or legal action as per Maharashtra Government rules." data-mr="मी यावद्वारे घोषित करतो की सबमिट केलेली सर्व माहिती आणि कागदपत्रे सत्य आणि अचूक आहेत. खोटी माहिती नाकारणे किंवा कायदेशीर कारवाईस कारणीभूत ठरू शकते.">
+                    I hereby declare that all the information and documents submitted are true and correct. I understand that any false information may lead to rejection or legal action as per Maharashtra Government rules.
+                  </span>
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn-back-form" onclick="goStep(4)">← <span data-en="Back" data-mr="मागे">Back</span></button>
+                <button class="btn-submit-final" onclick="submitApplication()">
+                  🚀 <span data-en="Submit Application" data-mr="अर्ज सबमिट करा">Submit Application</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end form-panel -->
+    </div><!-- end apply-layout -->
+
+  </div><!-- end page-content -->
+</div><!-- end main -->
+
+<script src="../js/api.js"></script>
+<script>
+if (!AuthAPI.isLoggedIn()) { window.location.href = 'farmer-login.html'; }
+let currentLang = 'en';
+let currentStep = 1;
+let selectedScheme = 'drip';
+let farmerData = {};
+
+const SCHEMES_INFO = {
+  // ── Agriculture Dept ──
+  drip:       { name:'Drip Irrigation Subsidy',         nameMr:'ठिबक सिंचन अनुदान',           amount:'₹80,000',    dept:'MahaDBT / Agriculture Dept.' },
+  tractor:    { name:'Tractor Purchase Subsidy',         nameMr:'ट्रॅक्टर खरेदी अनुदान',        amount:'₹1,50,000',  dept:'MahaDBT / Agriculture Dept.' },
+  pond:       { name:'Farm Pond Scheme',                 nameMr:'शेत तलाव योजना',               amount:'₹75,000',    dept:'Agriculture Dept.' },
+  sprinkler:  { name:'Sprinkler Irrigation Subsidy',     nameMr:'तुषार सिंचन अनुदान',            amount:'₹50,000',    dept:'MahaDBT / Agriculture Dept.' },
+  seed:       { name:'Seed & Fertilizer Subsidy',        nameMr:'बियाणे व खत अनुदान',            amount:'₹15,000',    dept:'Agriculture Dept.' },
+  greenhouse: { name:'Greenhouse / Polyhouse Subsidy',   nameMr:'हरितगृह / पॉलीहाऊस अनुदान',    amount:'₹1,40,000',  dept:'MahaDBT / Horticulture Dept.' },
+  organic:    { name:'Organic Farming Scheme',           nameMr:'सेंद्रिय शेती योजना',           amount:'₹40,000',    dept:'Agriculture Dept.' },
+  agrimachine:{ name:'Farm Machinery Subsidy',           nameMr:'शेती यंत्र अनुदान',             amount:'₹1,00,000',  dept:'MahaDBT / Agriculture Dept.' },
+  warehouse:  { name:'Farm Warehouse & Cold Storage',    nameMr:'शेत गोदाम व शीतगृह',           amount:'₹3,00,000',  dept:'Agriculture Dept.' },
+  // ── Energy Dept ──
+  solar:      { name:'Mukhyamantri Solar Pump Scheme',   nameMr:'मुख्यमंत्री सौर कृषी पंप',     amount:'₹2,20,000',  dept:'MSEDCL / Energy Dept.' },
+  biogas:     { name:'Biogas Plant Subsidy',             nameMr:'बायोगॅस संयंत्र अनुदान',        amount:'₹40,000',    dept:'MNRE / Energy Dept.' },
+  solarfence: { name:'Solar Fencing Subsidy',            nameMr:'सौर कुंपण अनुदान',              amount:'₹90,000',    dept:'Agriculture Dept.' },
+  // ── Central Govt ──
+  pmkisan:    { name:'PM Kisan Samman Nidhi',            nameMr:'पीएम किसान सन्मान निधी',       amount:'₹6,000/yr',  dept:'Ministry of Agriculture, GOI' },
+  namo:       { name:'Namo Shetkari Maha Samman Nidhi',  nameMr:'नमो शेतकरी महासन्मान निधी',   amount:'₹6,000/yr',  dept:'Govt. of Maharashtra' },
+  bima:       { name:'PM Fasal Bima Yojana',             nameMr:'प्रधानमंत्री पीक विमा योजना', amount:'Up to ₹2,00,000', dept:'Ministry of Agriculture, GOI' },
+  kcc:        { name:'Kisan Credit Card Scheme',         nameMr:'किसान क्रेडिट कार्ड',          amount:'Up to ₹3,00,000', dept:'NABARD / Banks' },
+  pmkusum:    { name:'PM KUSUM Solar Scheme',            nameMr:'पीएम कुसुम सौर योजना',         amount:'90% Subsidy', dept:'MNRE, GOI' },
+  soil:       { name:'Soil Health Card Scheme',          nameMr:'मृद आरोग्य कार्ड',             amount:'Free',        dept:'Ministry of Agriculture, GOI' },
+  // ── Animal Husbandry ──
+  cattle:     { name:'Cattle Shed Construction Subsidy', nameMr:'गोठा बांधणी अनुदान',          amount:'₹70,000',    dept:'Animal Husbandry Dept.' },
+  dairy:      { name:'Dairy Development Scheme',         nameMr:'दुग्ध व्यवसाय विकास योजना',   amount:'₹2,50,000',  dept:'Animal Husbandry & Dairy Dept.' },
+  poultry:    { name:'Poultry Farming Subsidy',          nameMr:'कुक्कुटपालन अनुदान',           amount:'₹1,00,000',  dept:'Animal Husbandry Dept.' },
+  goat:       { name:'Goat & Sheep Rearing Scheme',      nameMr:'शेळी/मेंढी पालन योजना',        amount:'₹75,000',    dept:'Animal Husbandry Dept.' },
+  fishery:    { name:'Fishery Development Scheme',       nameMr:'मत्स्यव्यवसाय विकास योजना',   amount:'₹1,50,000',  dept:'Fisheries Dept., Maharashtra' },
+  // ── Horticulture ──
+  horti:      { name:'Horticulture Development Scheme',  nameMr:'फलोत्पादन विकास योजना',        amount:'₹1,00,000',  dept:'Horticulture Dept., Maharashtra' },
+  mango:      { name:'Mango & Fruit Development',        nameMr:'आंबा व फळपीक विकास',           amount:'₹80,000',    dept:'Horticulture Dept., Maharashtra' },
+  flower:     { name:'Floriculture Development Scheme',  nameMr:'फुलशेती विकास योजना',          amount:'₹60,000',    dept:'Horticulture Dept., Maharashtra' },
+  coldstorage:{ name:'Cold Storage & Pack House',        nameMr:'शीतगृह व पॅक हाऊस',            amount:'₹2,00,000',  dept:'Horticulture Dept., Maharashtra' },
+  // ── Water Conservation ──
+  borewell:   { name:'Borewell / Well Digging Subsidy',  nameMr:'विहीर / बोअरवेल खोदाई',       amount:'₹2,50,000',  dept:'Water Conservation Dept.' },
+  watershed:  { name:'Watershed Development Scheme',     nameMr:'पाणलोट क्षेत्र विकास',         amount:'₹5,000/ha',  dept:'Agriculture Dept., Maharashtra' },
+  jalayukt:   { name:'Jalyukt Shivar Abhiyan',           nameMr:'जलयुक्त शिवार अभियान',         amount:'₹50,000',    dept:'Water Conservation Dept.' },
+  // ── SC/ST/OBC Special ──
+  scst:       { name:'SC/ST Farmer Special Assistance',  nameMr:'SC/ST शेतकरी विशेष सहाय्य',   amount:'₹50,000',    dept:'Social Justice Dept., Maharashtra' },
+  leased:     { name:'Leased Land Farmer Support',       nameMr:'भाडेपट्टा शेतकरी सहाय्य',     amount:'₹25,000',    dept:'Agriculture Dept., Maharashtra' },
+};
+
+// AI messages per step
+const AI_MESSAGES = {
+  1: {
+    en: `Hello! 👋 I'm <strong>Krushi AI</strong>, your personal application assistant. I'll guide you through each step to make sure your application is <strong>100% correct</strong> before submission!`,
+    mr: `नमस्कार! 👋 मी <strong>कृषी AI</strong> आहे, तुमचा वैयक्तिक अर्ज सहाय्यक. सबमिशनपूर्वी तुमचा अर्ज <strong>१००% बरोबर</strong> असल्याची खात्री करण्यात मी मदत करेन!`
+  },
+  2: {
+    en: `I've <strong>auto-filled</strong> your personal details from your registered profile ✨. Please verify each field carefully — especially your Aadhaar number for government matching.`,
+    mr: `मी तुमच्या नोंदणीकृत प्रोफाइलमधून वैयक्तिक तपशील <strong>आपोआप भरले</strong> आहेत ✨. प्रत्येक क्षेत्र काळजीपूर्वक तपासा — विशेषतः आधार क्रमांक.`
+  },
+  3: {
+    en: `Great progress! 🌾 Now let me know your farm details. The <strong>Gut Number</strong> from your 7/12 Utara is very important — it must match your land records exactly.`,
+    mr: `छान प्रगती! 🌾 आता शेती तपशील सांगा. तुमच्या ७/१२ उताऱ्यावरील <strong>गट नंबर</strong> खूप महत्त्वाचा आहे — तो जमीन नोंदणीशी जुळणे आवश्यक आहे.`
+  },
+  4: {
+    en: `📄 Almost there! Upload <strong>clear, readable</strong> copies of your documents. Blurry or incomplete documents are the #1 reason applications get rejected. I'll verify them automatically!`,
+    mr: `📄 जवळपास पूर्ण! कागदपत्रांच्या <strong>स्पष्ट, वाचनीय</strong> प्रती अपलोड करा. अस्पष्ट कागदपत्रे हे अर्ज नाकारले जाण्याचे #१ कारण आहे. मी आपोआप तपासतो!`
+  },
+  5: {
+    en: `✅ Excellent! I've reviewed your entire application. Everything looks <strong>complete and correct</strong>. Read the declaration carefully and submit. Best of luck! 🍀`,
+    mr: `✅ उत्तम! मी तुमचा संपूर्ण अर्ज तपासला. सर्वकाही <strong>पूर्ण आणि बरोबर</strong> दिसते. घोषणापत्र काळजीपूर्वक वाचा आणि सबमिट करा. शुभेच्छा! 🍀`
+  }
+};
+
+const AI_TIPS = {
+  1: [
+    { icon:'💡', en:'Select the scheme that matches your AI recommendation for highest approval chance.', mr:'सर्वाधिक मंजुरीसाठी AI शिफारसींशी जुळणारी योजना निवडा.' },
+    { icon:'📋', en:'You can apply for multiple schemes simultaneously on MahaDBT portal.', mr:'तुम्ही MahaDBT पोर्टलवर एकाच वेळी अनेक योजनांसाठी अर्ज करू शकता.' },
+  ],
+  2: [
+    { icon:'🪪', en:'Make sure your Aadhaar is linked to your mobile number for OTP verification.', mr:'OTP पडताळणीसाठी तुमचे आधार मोबाईलशी जोडलेले असल्याची खात्री करा.' },
+    { icon:'📍', en:'Your district determines which agriculture officer will review your application.', mr:'तुमचा जिल्हा ठरवतो कोणते कृषी अधिकारी अर्जाचे पुनरावलोकन करतील.' },
+  ],
+  3: [
+    { icon:'📐', en:'Gut Number is found on your 7/12 Utara in the "Survey No." column.', mr:'गट नंबर तुमच्या ७/१२ उताऱ्यावर "सर्वे नंबर" स्तंभात आढळतो.' },
+    { icon:'🌾', en:'Mention the exact crop name as registered on your 7/12 land record.', mr:'तुमच्या ७/१२ जमीन नोंदणीवर नोंदवलेले अचूक पीक नाव नमूद करा.' },
+  ],
+  4: [
+    { icon:'📸', en:'Take photos in good lighting. The text on documents must be clearly visible.', mr:'चांगल्या प्रकाशात फोटो काढा. कागदपत्रांवरील मजकूर स्पष्टपणे दिसला पाहिजे.' },
+    { icon:'📄', en:'7/12 must be dated within the last 3 months to be valid.', mr:'वैध असण्यासाठी ७/१२ गेल्या ३ महिन्यांतील असणे आवश्यक आहे.' },
+  ],
+  5: [
+    { icon:'🔔', en:'Save your Application ID. You will need it to track your application status.', mr:'तुमचा अर्ज ID जतन करा. अर्जाची स्थिती ट्रॅक करण्यासाठी ती लागेल.' },
+    { icon:'⏰', en:'Applications are usually processed within 15–21 working days.', mr:'अर्ज साधारणपणे १५–२१ कामकाजाच्या दिवसांत प्रक्रिया केला जातो.' },
+  ],
+};
+
+const AI_DOCS = {
+  drip:       [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🏦','Bank Passbook','required'],['🏷️','Caste Certificate','optional']],
+  tractor:    [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['💼','Income Certificate','required'],['🏦','Bank Passbook','required'],['📃','Tractor Quotation','required']],
+  pond:       [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🏘️','Gram Panchayat NOC','required'],['🌱','Soil Test Report','optional']],
+  sprinkler:  [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🏦','Bank Passbook','required'],['💧','Water Source Proof','required']],
+  seed:       [['🪪','Aadhaar Card','required'],['📋','7/12 Utara','required'],['🏦','Bank Passbook','required']],
+  greenhouse: [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🏦','Bank Passbook','required'],['📐','Site Plan','required']],
+  organic:    [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['📜','Organic Cert. (optional)','optional'],['🏦','Bank Passbook','required']],
+  agrimachine:[['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['📃','Machine Quotation','required'],['🏦','Bank Passbook','required']],
+  warehouse:  [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['📐','Project Plan','required'],['🏦','Bank Passbook','required'],['🏘️','NOC','required']],
+  solar:      [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['📄','8A Land Record','required'],['💡','No-Elec. Certificate','required']],
+  biogas:     [['🪪','Aadhaar Card','required'],['🐄','Cattle Proof','required'],['📋','7/12 Utara','required'],['🏦','Bank Passbook','required']],
+  solarfence: [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🗺️','Field Map','required'],['🏦','Bank Passbook','required']],
+  pmkisan:    [['🪪','Aadhaar Card','required'],['🏦','Bank Passbook','required'],['📋','7/12 Utara','required']],
+  namo:       [['🪪','Aadhaar Card','required'],['📋','PM Kisan Registration','required'],['🏦','Bank Passbook','required']],
+  bima:       [['🪪','Aadhaar Card','required'],['📋','7/12 Utara','required'],['🌱','Sowing Declaration','required'],['🏦','Bank Passbook','required']],
+  kcc:        [['🪪','Aadhaar Card','required'],['📋','7/12 Utara','required'],['📸','Passport Photo','required'],['🏦','Bank Account','required']],
+  pmkusum:    [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['💡','Electricity Bill','required'],['🏦','Bank Passbook','required']],
+  soil:       [['🪪','Aadhaar Card','required'],['📋','7/12 Utara','required']],
+  cattle:     [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🐄','Cattle Proof','required'],['🏦','Bank Passbook','required']],
+  dairy:      [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🐄','Cattle Proof','required'],['🏦','Bank Passbook','required'],['📐','Project Plan','required']],
+  poultry:    [['🪪','Aadhaar Card','required'],['📋','7/12 Utara','required'],['📐','Project Plan','required'],['🏦','Bank Passbook','required']],
+  goat:       [['🪪','Aadhaar Card','required'],['📋','7/12 Utara','required'],['🏦','Bank Passbook','required']],
+  fishery:    [['🪪','Aadhaar Card','required'],['📄','Water Body Lease','required'],['🏦','Bank Passbook','required'],['📐','Project Plan','required']],
+  horti:      [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🌱','Crop Certificate','required'],['🏦','Bank Passbook','required']],
+  mango:      [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🌳','Plantation Certificate','required'],['🏦','Bank Passbook','required']],
+  flower:     [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🌸','Crop Declaration','required'],['🏦','Bank Passbook','required']],
+  coldstorage:[['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['📐','Project Plan','required'],['🏦','Bank Passbook','required'],['🏘️','NOC','required']],
+  borewell:   [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🗺️','Site Plan','required'],['🏦','Bank Passbook','required']],
+  watershed:  [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🏘️','Gram Panchayat NOC','required'],['🌱','Soil Test Report','required']],
+  jalayukt:   [['📋','7/12 Utara','required'],['🪪','Aadhaar Card','required'],['🏘️','Gram Panchayat NOC','required'],['🏦','Bank Passbook','required']],
+  scst:       [['🪪','Aadhaar Card','required'],['🏷️','Caste Certificate','required'],['📋','7/12 Utara','required'],['🏦','Bank Passbook','required']],
+  leased:     [['📜','Lease Agreement','required'],['🪪','Aadhaar Card','required'],['📋','7/12 Utara','required'],['🏦','Bank Passbook','required']],
+};
+
+// ════ SCHEME ID TO KEY MAPPING ════
+// Maps scheme IDs from schemes.html to apply-scheme.html scheme keys
+const SCHEME_ID_MAPPING = {
+  '1': 'drip',           // Drip Irrigation Subsidy
+  '2': 'sprinkler',      // Sprinkler Irrigation Subsidy
+  '3': 'tractor',        // Tractor Purchase Subsidy
+  '4': 'solar',          // Atal Solar Agriculture Pump
+  '5': 'pmkisan',        // PM Kisan Samman Nidhi
+  '6': 'pond',           // Farm Pond Scheme
+  '7': 'cattle',         // Cattle Shed Construction
+  '8': 'bima',           // PM Fasal Bima Yojana
+  '9': 'agrimachine',    // Power Thresher / Combine Harvester
+  '10': 'namo',          // Shetkari Sanman Yojana
+  '11': 'jalayukt',      // Jalyukt Shivar Yojana
+  '12': 'agrimachine',   // Rotavator / Power Weeder
+  '13': 'borewell',      // Irrigation Well Construction
+  '14': 'kcc',           // PM Kisan Maan Dhan Yojana
+  '15': 'namo',          // Namo Shetkari Maha Samman Nidhi
+  '16': 'goat',          // Goat / Sheep Rearing Subsidy
+  '17': 'solar',         // Rooftop Solar Scheme
+  '18': 'kcc',           // Kisan Credit Card
+  '19': 'greenhouse',    // Greenhouse / Polyhouse Subsidy
+  '20': 'organic',       // Organic Farming Scheme
+  '21': 'biogas',        // Biogas Plant Subsidy
+  '22': 'dairy',         // Dairy Development Scheme
+  '23': 'poultry',       // Poultry Farming Subsidy
+  '24': 'horti',         // Horticulture Development Scheme
+  '25': 'fishery',       // Fishery Development Scheme
+  '26': 'flower',        // Floriculture Development Scheme
+  '27': 'pmkusum',       // PM KUSUM Solar Scheme
+  '28': 'solarfence',    // Solar Fencing Subsidy
+  '29': 'watershed',     // Watershed Development
+  '30': 'scst',          // SC/ST Farmer Special Assistance
+  '31': 'leased',        // Leased Land Farmer Support
+  '32': 'soil',          // Soil Health Card Scheme
+};
+
+// ════ WARNING MODAL ════
+function showSchemeWarning() {
+  const lang = currentLang || 'en';
+  const modal = document.createElement('div');
+  modal.id = 'schemeWarningModal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  `;
+  
+  const content = document.createElement('div');
+  content.style.cssText = `
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 500px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+  `;
+  
+  const icon = document.createElement('div');
+  icon.style.cssText = 'font-size: 4rem; margin-bottom: 20px;';
+  icon.textContent = '⚠️';
+  
+  const title = document.createElement('h2');
+  title.style.cssText = 'color: #e8650a; margin-bottom: 16px; font-size: 1.4rem; font-family: "Baloo 2", sans-serif;';
+  title.textContent = lang === 'mr' ? '⛔ योजना निवडा' : '⛔ Please Select a Scheme';
+  
+  const msg = document.createElement('p');
+  msg.style.cssText = 'color: #3a5a3a; margin-bottom: 24px; line-height: 1.6; font-size: 0.95rem;';
+  msg.textContent = lang === 'mr' 
+    ? 'तुम्ही अर्ज करण्यासाठी सरकारी योजना निवडली नाही आहे. कृपया "सर्व योजना पहा" टॅबमध्ये जा, योजना निवडा आणि त्या योजनेवरून "अर्ज करा" बटणावर क्लिक करा.'
+    : 'You have not selected a government scheme to apply for. Please go to the "View All Schemes" tab, select a scheme, and click "Apply" on that scheme card.';
+  
+  const btnContainer = document.createElement('div');
+  btnContainer.style.cssText = 'display: flex; gap: 12px; justify-content: center;';
+  
+  const btnSchemes = document.createElement('button');
+  btnSchemes.style.cssText = `
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #1a7a3c, #0d5c2e);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.25s;
+  `;
+  btnSchemes.textContent = lang === 'mr' ? '📋 योजना पहा' : '📋 View Schemes';
+  btnSchemes.onmouseover = () => btnSchemes.style.transform = 'translateY(-2px)';
+  btnSchemes.onmouseout = () => btnSchemes.style.transform = 'none';
+  btnSchemes.onclick = () => window.location.href = 'schemes.html';
+  
+  const btnStay = document.createElement('button');
+  btnStay.style.cssText = `
+    padding: 12px 28px;
+    background: #f0f4f0;
+    color: #3a5a3a;
+    border: 2px solid #d4e8d4;
+    border-radius: 20px;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.25s;
+  `;
+  btnStay.textContent = lang === 'mr' ? 'रद्द' : 'Cancel';
+  btnStay.onmouseover = () => btnStay.style.borderColor = '#1a7a3c';
+  btnStay.onmouseout = () => btnStay.style.borderColor = '#d4e8d4';
+  btnStay.onclick = () => modal.remove();
+  
+  btnContainer.appendChild(btnSchemes);
+  btnContainer.appendChild(btnStay);
+  
+  content.appendChild(icon);
+  content.appendChild(title);
+  content.appendChild(msg);
+  content.appendChild(btnContainer);
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+}
+
+// ════ INIT ════
+window.addEventListener('DOMContentLoaded', () => {
+  farmerData = JSON.parse(localStorage.getItem('farmerData') || '{}');
+  if (!farmerData.name) farmerData = { name:'Ramesh Patil', district:'Solapur', village:'Akkalkot', land:'2to5', crop:'sugarcane', water:'well', mobile:'9876543210', id:'KS-2024-45231', category:'OBC' };
+  document.getElementById('sb-name').textContent = farmerData.name;
+  document.getElementById('sb-id').textContent   = farmerData.id || '';
+  autoFillStep2();
+  autoFillStep3();
+  updateAIPanel(1);
+
+  // ── Auto-select scheme from URL param ──
+  const urlParams = new URLSearchParams(window.location.search);
+  const schemeParam = urlParams.get('scheme');
+  let schemeToSelect = null;
+  
+  if (schemeParam) {
+    // First try mapping from numeric ID (from schemes.html)
+    if (SCHEME_ID_MAPPING[schemeParam] && SCHEMES_INFO[SCHEME_ID_MAPPING[schemeParam]]) {
+      schemeToSelect = SCHEME_ID_MAPPING[schemeParam];
+    }
+    // Fallback: try direct key match (e.g. ?scheme=pmkisan)
+    else if (SCHEMES_INFO[schemeParam]) {
+      schemeToSelect = schemeParam;
+    }
+    // Final fallback: try matching by name
+    else {
+      const nameMap = {
+        'pm kisan': 'pmkisan', 'pm kisan samman nidhi': 'pmkisan',
+        'drip irrigation': 'drip', 'solar pump': 'solar',
+        'mukhyamantri solar': 'solar', 'tractor': 'tractor',
+        'cattle shed': 'cattle', 'farm pond': 'pond',
+        'namo shetkari': 'namo', 'fasal bima': 'bima', 'seed': 'seed',
+      };
+      const lower = decodeURIComponent(schemeParam).toLowerCase();
+      const matchedKey = Object.keys(nameMap).find(k => lower.includes(k));
+      if (matchedKey) {
+        schemeToSelect = nameMap[matchedKey];
+      }
+    }
+  }
+  
+  // If a scheme was found in URL, select it
+  if (schemeToSelect) {
+    selectedScheme = schemeToSelect;
+    // Find the matching pill element (try text match then onclick match)
+    const allPills = Array.from(document.querySelectorAll('.scheme-pill'));
+    let pillFound = allPills.find(p => p.textContent.toLowerCase().includes((SCHEMES_INFO[schemeToSelect].name || '').toLowerCase()));
+    if (!pillFound) pillFound = allPills.find(p => (p.getAttribute('onclick') || '').toString().includes(schemeToSelect));
+    // If found, call selectScheme to populate fields and hints
+    if (pillFound) {
+      selectScheme(pillFound, schemeToSelect);
+    } else {
+      // still update AI panel if pill not rendered/matched
+      updateAIPanel(currentStep);
+    }
+    
+    // Hide the full scheme selector pills to avoid re-selection UI
+    const selector = document.querySelector('.scheme-selector');
+    if (selector) selector.style.display = 'none';
+
+    // Show compact selected-scheme banner with Change option
+    const formPanel = document.querySelector('.form-panel');
+    if (formPanel) {
+      let banner = document.getElementById('selectedSchemeBanner');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'selectedSchemeBanner';
+        banner.style.cssText = 'background:#f0fff4;border:1px solid #d4e8d4;padding:12px 16px;border-radius:12px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;';
+        const left = document.createElement('div');
+        left.innerHTML = `📌 <strong>${SCHEMES_INFO[schemeToSelect].name}</strong>`;
+        const right = document.createElement('div');
+        const changeBtn = document.createElement('button');
+        changeBtn.textContent = currentLang === 'mr' ? 'बदल करा' : 'Change';
+        changeBtn.style.cssText = 'background:transparent;border:1px solid #d4e8d4;padding:6px 12px;border-radius:10px;cursor:pointer;font-weight:700;';
+        changeBtn.onclick = () => {
+          // Reveal selector again and remove banner
+          if (selector) selector.style.display = '';
+          banner.remove();
+        };
+        right.appendChild(changeBtn);
+        banner.appendChild(left);
+        banner.appendChild(right);
+        formPanel.insertBefore(banner, formPanel.firstChild);
+      }
+    }
+    // Advance to Personal step so farmer can continue (scheme already chosen)
+    goStep(2);
+  } else if (!schemeParam) {
+    // No URL param at all - show warning modal
+    showSchemeWarning();
+  }
+  
+  // Show default hint for pre-selected scheme (if no URL param was provided)
+  if (!schemeParam) {
+    const defaultPill = document.querySelector('.scheme-pill.selected');
+    if (defaultPill) selectScheme(defaultPill, selectedScheme);
+  }
+});
+
+function landLabel(l){ const m={less1:'< 1 Acre','1to2':'1–2 Acres','2to5':'2–5 Acres','5to10':'5–10 Acres',more10:'> 10 Acres'}; return m[l]||'2–5 Acres'; }
+function cropLabel(c){ const m={sugarcane:'Sugarcane',cotton:'Cotton',soybean:'Soybean',wheat:'Wheat',rice:'Rice',onion:'Onion',grape:'Grapes',orange:'Orange',turmeric:'Turmeric'}; return m[c]||'Sugarcane'; }
+function waterLabel(w){ const m={well:'Well / Bore Well',canal:'Canal',drip:'Drip Irrigation',rain:'Rain Fed',river:'River / Lake'}; return m[w]||'Well / Bore Well'; }
+
+function autoFillStep2() {
+  const d = farmerData;
+  // Personal details
+  if (document.getElementById('p-name'))     document.getElementById('p-name').value     = d.name     || '';
+  if (document.getElementById('p-mobile'))   document.getElementById('p-mobile').value   = d.mobile   || '';
+  if (document.getElementById('p-aadhaar'))  document.getElementById('p-aadhaar').value  = d.aadhaar  || '';
+  // Location details
+  if (document.getElementById('p-district')) document.getElementById('p-district').value = d.district || '';
+  if (document.getElementById('p-taluka'))   document.getElementById('p-taluka').value   = d.taluka   || '';
+  if (document.getElementById('p-village'))  document.getElementById('p-village').value  = d.village  || '';
+  if (document.getElementById('p-pin'))      document.getElementById('p-pin').value      = d.pincode  || '';
+  // Category dropdown - robust matching
+  const catEl = document.getElementById('p-category');
+  if (catEl && d.category) { 
+    const categoryValue = String(d.category).trim();
+    for (let i = 0; i < catEl.options.length; i++) {
+      if (catEl.options[i].value.toLowerCase() === categoryValue.toLowerCase()) {
+        catEl.selectedIndex = i;
+        break;
+      }
+    }
+  }
+}
+
+function autoFillStep3() {
+  const d = farmerData;
+  // Land and farm details
+  if (document.getElementById('f-land'))     document.getElementById('f-land').value     = (d.landSize ? d.landSize + ' Acres' : '');
+  if (document.getElementById('f-crop'))     document.getElementById('f-crop').value     = d.mainCrop || '';
+  if (document.getElementById('f-water'))    document.getElementById('f-water').value    = d.irrigation || 'well';
+}
+
+// ════ SCHEME SELECT ════
+// ── Department filter function ──
+function filterDept(btn, dept) {
+  document.querySelectorAll('.dept-btn').forEach(b => {
+    b.style.background = '#fff';
+    b.style.color = '#3a5a3a';
+    b.style.borderColor = '#d4e8d4';
+  });
+  btn.style.background = 'var(--green-main)';
+  btn.style.color = '#fff';
+  btn.style.borderColor = 'var(--green-main)';
+  document.querySelectorAll('.scheme-pill').forEach(p => {
+    p.style.display = (dept === 'all' || p.dataset.dept === dept) ? 'inline-flex' : 'none';
+  });
+}
+
+// ── Scheme-specific reason hints ──
+const SCHEME_REASON_HINTS = {
+  drip:    {
+    placeholder: 'e.g. I want to save water and increase my sugarcane yield using drip irrigation...',
+    hint: '💡 Tip: Mention your crop, water scarcity issue and how drip irrigation will help you.'
+  },
+  solar:   {
+    placeholder: 'e.g. I want to reduce my electricity bill for pump and switch to solar energy...',
+    hint: '💡 Tip: Mention your current electricity cost and irrigation dependency.'
+  },
+  pmkisan: {
+    placeholder: 'e.g. I am a small farmer and need financial support to buy seeds and fertilizers...',
+    hint: '💡 Tip: Mention your land size and how the ₹6,000/year will help your farming.'
+  },
+  tractor: {
+    placeholder: 'e.g. I want to reduce labour cost and improve farm productivity by purchasing a tractor...',
+    hint: '💡 Tip: Mention your land size, current labour cost and crops you grow.'
+  },
+  cattle:  {
+    placeholder: 'e.g. I have 4 cattle and want to build a proper shed to improve milk production...',
+    hint: '💡 Tip: Mention number of cattle you have and current housing condition.'
+  },
+  pond:       { placeholder: 'e.g. I want to build a farm pond to store rainwater for dry season irrigation...', hint: '💡 Tip: Mention your water scarcity issue and how pond will help during drought.' },
+  sprinkler:  { placeholder: 'e.g. I want to install sprinkler irrigation to water my crops efficiently...', hint: '💡 Tip: Mention your current water source and crops you grow.' },
+  seed:       { placeholder: 'e.g. I need quality seeds and fertilizers to improve my crop yield this season...', hint: '💡 Tip: Mention your crop type and current challenges with seed quality.' },
+  greenhouse: { placeholder: 'e.g. I want to build a polyhouse for vegetable farming to get better yields...', hint: '💡 Tip: Mention what crops you plan to grow inside the greenhouse.' },
+  organic:    { placeholder: 'e.g. I want to switch to organic farming to get premium prices for my produce...', hint: '💡 Tip: Mention your current farming method and why you want to go organic.' },
+  agrimachine:{ placeholder: 'e.g. I want to buy a rotavator/power tiller to reduce manual labour cost...', hint: '💡 Tip: Mention which machine you need and how it will help your farm.' },
+  warehouse:  { placeholder: 'e.g. I want to build a storage warehouse to avoid distress selling of my produce...', hint: '💡 Tip: Mention your crop, current storage problems and estimated storage capacity needed.' },
+  biogas:     { placeholder: 'e.g. I have 4 cattle and want to build a biogas plant for free cooking gas...', hint: '💡 Tip: Mention number of cattle you have and current LPG expenses.' },
+  solarfence: { placeholder: 'e.g. I want solar fencing to protect my crops from wild animals...', hint: '💡 Tip: Mention how wild animals are damaging your crops currently.' },
+  namo:       { placeholder: 'e.g. I am already registered in PM Kisan and want to avail Namo Shetkari benefit...', hint: '💡 Tip: Mention your PM Kisan registration status and farming details.' },
+  bima:       { placeholder: 'e.g. I want to insure my kharif crop against drought and unseasonal rain risk...', hint: '💡 Tip: Mention your crop, area under cultivation and previous weather losses.' },
+  kcc:        { placeholder: 'e.g. I need Kisan Credit Card to meet working capital needs for my farm...', hint: '💡 Tip: Mention your crop, land size and estimated credit requirement.' },
+  pmkusum:    { placeholder: 'e.g. I want to install rooftop solar under PM KUSUM to reduce electricity bills...', hint: '💡 Tip: Mention your current electricity consumption and irrigation needs.' },
+  soil:       { placeholder: 'e.g. I want soil health card to know exact fertilizer requirement for my land...', hint: '💡 Tip: Mention your land size and crops you grow currently.' },
+  dairy:      { placeholder: 'e.g. I want to start a dairy unit with 10 cows to earn regular income...', hint: '💡 Tip: Mention how many cattle you plan to buy and estimated milk production.' },
+  poultry:    { placeholder: 'e.g. I want to start a poultry farm of 500 birds for egg production...', hint: '💡 Tip: Mention the type of poultry (broiler/layer) and scale of unit.' },
+  goat:       { placeholder: 'e.g. I want to start goat rearing with 20 goats for meat and milk income...', hint: '💡 Tip: Mention breed of goat/sheep you want and available land/shed.' },
+  fishery:    { placeholder: 'e.g. I have a pond and want to start fish farming for additional income...', hint: '💡 Tip: Mention the water body area and fish species you plan to rear.' },
+  horti:      { placeholder: 'e.g. I want to develop my grape/pomegranate orchard with new technology...', hint: '💡 Tip: Mention the fruit crop, orchard area and what development work you need.' },
+  mango:      { placeholder: 'e.g. I have a mango orchard and want to improve yield with new varieties...', hint: '💡 Tip: Mention orchard age, area and current problems like disease or low yield.' },
+  flower:     { placeholder: 'e.g. I want to grow roses/marigold commercially for market demand...', hint: '💡 Tip: Mention which flowers you want to grow and your target market.' },
+  coldstorage:{ placeholder: 'e.g. I want to build a cold storage unit to preserve my horticultural produce...', hint: '💡 Tip: Mention your crop, expected production and why cold storage is needed.' },
+  borewell:   { placeholder: 'e.g. I want to dig a borewell as my farm has no reliable water source...', hint: '💡 Tip: Mention your current water situation and crops that need irrigation.' },
+  watershed:  { placeholder: 'e.g. I want watershed development work on my farm to conserve rainwater...', hint: '💡 Tip: Mention your land area, slope and water conservation challenges.' },
+  jalayukt:   { placeholder: 'e.g. I want my village to benefit from Jalyukt Shivar water conservation work...', hint: '💡 Tip: Mention your village water scarcity situation and land details.' },
+  scst:       { placeholder: 'e.g. As an SC/ST farmer I want to avail special financial assistance for farming...', hint: '💡 Tip: Make sure your caste certificate is ready. Mention your farming needs clearly.' },
+  leased:     { placeholder: 'e.g. I farm on leased land and need financial support to buy inputs and equipment...', hint: '💡 Tip: Mention your lease agreement details and what support you need.' },
+};
+
+function selectScheme(el, key) {
+  selectedScheme = key;
+  document.querySelectorAll('.scheme-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  const s = SCHEMES_INFO[key];
+  document.getElementById('schemeName').value   = s.name;
+  document.getElementById('schemeAmount').value = s.amount;
+
+  // ── Update scheme info box message ──
+  const schemeInfoText = document.getElementById('schemeInfoText');
+  if (schemeInfoText) {
+    const d = farmerData;
+    const landLabel = d.land ? (d.land === 'less1' ? '< 1 Acre' : d.land === '1to2' ? '1–2 Acres' : d.land === '2to5' ? '2–5 Acres' : d.land === '5to10' ? '5–10 Acres' : '> 10 Acres') : 'your farm';
+    const infoEn = `You selected: ${s.name}. This scheme provides up to ${s.amount} subsidy. Ideal for your ${d.mainCrop || 'farm'}!`;
+    const infoMr = `तुम्ही निवडले: ${s.nameMr || s.name}. ही योजना ${s.amount} पर्यंत अनुदान देते.`;
+    schemeInfoText.textContent = currentLang === 'mr' ? infoMr : infoEn;
+    schemeInfoText.removeAttribute('data-en');
+    schemeInfoText.removeAttribute('data-mr');
+  }
+
+  // ── Update reason placeholder and hint ──
+  const hints = SCHEME_REASON_HINTS[key] || SCHEME_REASON_HINTS.drip;
+  const textarea = document.getElementById('applyReason');
+  textarea.placeholder = hints.placeholder;
+
+  // Update or create hint text below textarea
+  let hintEl = document.getElementById('reasonHint');
+  if (!hintEl) {
+    hintEl = document.createElement('div');
+    hintEl.id = 'reasonHint';
+    hintEl.style.cssText = 'font-size:0.75rem;color:#1a7a3c;background:#e8f5ee;border-radius:8px;padding:8px 12px;margin-top:8px;border:1px solid rgba(26,122,60,0.2);';
+    textarea.parentNode.insertBefore(hintEl, textarea.nextSibling);
+  }
+  hintEl.textContent = hints.hint;
+
+  updateAIPanel(currentStep);
+  showToast(currentLang==='mr' ? `✅ "${s.nameMr}" निवडली` : `✅ "${s.name}" selected`, 'green');
+}
+
+// ════ STEP NAV ════
+function validateStep(fromStep) {
+  const lang = currentLang;
+
+  // ── Step 1: Scheme selection + reason ──
+  if (fromStep === 1) {
+    const reason = document.getElementById('applyReason').value.trim();
+    if (!selectedScheme) {
+      showToast(lang==='mr' ? '⚠️ कृपया एक योजना निवडा' : '⚠️ Please select a scheme', 'red');
+      return false;
+    }
+    if (reason.length < 10) {
+      showToast(lang==='mr' ? '⚠️ कृपया अर्ज करण्याचे कारण लिहा (किमान १० अक्षरे)' : '⚠️ Please write your reason for applying (min 10 characters)', 'red');
+      document.getElementById('applyReason').focus();
+      return false;
+    }
+  }
+
+  // ── Step 2: Personal details ──
+  if (fromStep === 2) {
+    const name    = document.getElementById('p-name').value.trim();
+    const mobile  = document.getElementById('p-mobile').value.trim();
+    const aadhaar = document.getElementById('p-aadhaar').value.trim();
+    const taluka  = document.getElementById('p-taluka').value.trim();
+    const village = document.getElementById('p-village').value.trim();
+    const pin     = document.getElementById('p-pin').value.trim();
+
+    if (name.length < 3) {
+      showToast(lang==='mr' ? '⚠️ कृपया पूर्ण नाव प्रविष्ट करा' : '⚠️ Please enter your full name', 'red');
+      document.getElementById('p-name').focus(); return false;
+    }
+    if (!/^\d{10}$/.test(mobile)) {
+      showToast(lang==='mr' ? '⚠️ कृपया १०-अंकी मोबाइल नंबर टाका' : '⚠️ Please enter valid 10-digit mobile number', 'red');
+      document.getElementById('p-mobile').focus(); return false;
+    }
+    if (!/^\d{12}$/.test(aadhaar)) {
+      showToast(lang==='mr' ? '⚠️ कृपया १२-अंकी आधार नंबर टाका' : '⚠️ Please enter valid 12-digit Aadhaar number', 'red');
+      document.getElementById('p-aadhaar').focus(); return false;
+    }
+    if (!taluka) {
+      showToast(lang==='mr' ? '⚠️ कृपया तालुका प्रविष्ट करा' : '⚠️ Please enter your taluka', 'red');
+      document.getElementById('p-taluka').focus(); return false;
+    }
+    if (!village) {
+      showToast(lang==='mr' ? '⚠️ कृपया गाव प्रविष्ट करा' : '⚠️ Please enter your village', 'red');
+      document.getElementById('p-village').focus(); return false;
+    }
+    if (!/^\d{6}$/.test(pin)) {
+      showToast(lang==='mr' ? '⚠️ कृपया ६-अंकी पिन कोड टाका' : '⚠️ Please enter valid 6-digit PIN code', 'red');
+      document.getElementById('p-pin').focus(); return false;
+    }
+  }
+
+  // ── Step 3: Farm details ──
+  if (fromStep === 3) {
+    const gut       = document.getElementById('f-gut').value.trim();
+    const land      = document.getElementById('f-land').value.trim();
+    const crop      = document.getElementById('f-crop').value.trim();
+
+    if (!gut) {
+      showToast(lang==='mr' ? '⚠️ कृपया गट नंबर प्रविष्ट करा' : '⚠️ Please enter Gut/Survey number', 'red');
+      document.getElementById('f-gut').focus(); return false;
+    }
+    if (!land) {
+      showToast(lang==='mr' ? '⚠️ कृपया जमीन क्षेत्र प्रविष्ट करा' : '⚠️ Please enter land size', 'red');
+      document.getElementById('f-land').focus(); return false;
+    }
+    if (!crop) {
+      showToast(lang==='mr' ? '⚠️ कृपया मुख्य पीक प्रविष्ट करा' : '⚠️ Please enter main crop', 'red');
+      document.getElementById('f-crop').focus(); return false;
+    }
+  }
+
+  // ── Step 4: Documents ──
+  if (fromStep === 4) {
+    if (!uploadedFiles['uz1']) {
+      showToast(lang==='mr' ? '⚠️ कृपया ७/१२ उतारा अपलोड करा' : '⚠️ Please upload 7/12 Utara document', 'red');
+      return false;
+    }
+    if (!uploadedFiles['uz2']) {
+      showToast(lang==='mr' ? '⚠️ कृपया आधार कार्ड अपलोड करा' : '⚠️ Please upload Aadhaar Card', 'red');
+      return false;
+    }
+    if (!uploadedFiles['uz3']) {
+      showToast(lang==='mr' ? '⚠️ कृपया बँक पासबुक अपलोड करा' : '⚠️ Please upload Bank Passbook', 'red');
+      return false;
+    }
+  }
+
+  return true; // all validations passed
+}
+
+function goStep(step) {
+  // Validate current step before moving forward
+  if (step > currentStep && !validateStep(currentStep)) return;
+
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('sp'+step).classList.add('active');
+  for (let i=1;i<=5;i++) {
+    const d = document.getElementById('stk'+i);
+    d.classList.remove('active','done');
+    if (i < step)  d.classList.add('done');
+    if (i === step) d.classList.add('active');
+    if (i<=4) { const l=document.getElementById('stl'+i); l.classList.toggle('done', i<step); }
+  }
+  currentStep = step;
+  updateAIPanel(step);
+  if (step===5) buildReviewSummary();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ════ AI PANEL UPDATE ════
+function updateAIPanel(step) {
+  // Chat bubble
+  const chatArea = document.getElementById('aiChatArea');
+  chatArea.innerHTML = '';
+  setTimeout(() => {
+    const bubble = document.createElement('div');
+    bubble.className = 'ai-bubble';
+    bubble.innerHTML = (currentLang==='mr' ? AI_MESSAGES[step].mr : AI_MESSAGES[step].en);
+    chatArea.appendChild(bubble);
+  }, 100);
+
+  // Tips
+  const tipsArea = document.getElementById('aiTipsArea');
+  tipsArea.innerHTML = (AI_TIPS[step]||[]).map(t => `
+    <div class="ai-tip-chip">
+      <span class="atc-icon">${t.icon}</span>
+      <span>${currentLang==='mr'?t.mr:t.en}</span>
+    </div>
+  `).join('');
+
+  // Docs
+  const docsArea = document.getElementById('aiDocsArea');
+  const docs = AI_DOCS[selectedScheme] || AI_DOCS.drip;
+  docsArea.innerHTML = `
+    <div class="ai-docs-title">${currentLang==='mr'?'आवश्यक कागदपत्रे':'REQUIRED DOCUMENTS'}</div>
+    ${docs.map(([icon,name,status]) => `
+      <div class="doc-item">
+        <span class="di-icon">${icon}</span>
+        <span class="di-name">${name}</span>
+        <span class="di-status ${status==='required'?'ds-required':'ds-ready'}">${status==='required'?(currentLang==='mr'?'आवश्यक':'Required'):(currentLang==='mr'?'पर्यायी':'Optional')}</span>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ════ REVIEW SUMMARY ════
+function buildReviewSummary() {
+  const s = SCHEMES_INFO[selectedScheme];
+  const d = farmerData;
+  const rows = [
+    ['🌾', currentLang==='mr'?'योजना':'Scheme', currentLang==='mr'?s.nameMr:s.name],
+    ['💰', currentLang==='mr'?'लाभ':'Benefit', s.amount],
+    ['👤', currentLang==='mr'?'शेतकरी':'Farmer', d.name||''],
+    ['📍', currentLang==='mr'?'जिल्हा':'District', d.district||''],
+    ['🌱', currentLang==='mr'?'पीक':'Crop', cropLabel(d.crop)],
+    ['📐', currentLang==='mr'?'जमीन':'Land', landLabel(d.land)],
+    ['💧', currentLang==='mr'?'पाणी':'Water', waterLabel(d.water)],
+    ['🏛️', currentLang==='mr'?'विभाग':'Dept.', s.dept],
+  ];
+  document.getElementById('reviewSummary').innerHTML = rows.map(([icon,label,val]) => `
+    <div style="background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 12px;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.3);margin-bottom:3px;">${icon} ${label}</div>
+      <div style="font-size:0.82rem;color:#fff;font-weight:600;">${val}</div>
+    </div>
+  `).join('');
+}
+
+// ════ UPLOAD (simulated) ════
+// ── Uploaded files store ──
+const uploadedFiles = {};
+
+function realUpload(zoneId, docName) {
+  // Create hidden file input and trigger click
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.pdf,.jpg,.jpeg,.png';
+  input.style.display = 'none';
+  document.body.appendChild(input);
+
+  input.onchange = function() {
+    const file = input.files[0];
+    document.body.removeChild(input);
+
+    if (!file) return;
+
+    // Check file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      showToast(currentLang==='mr' ? '⚠️ फाइल २MB पेक्षा मोठी आहे' : '⚠️ File too large! Max 2MB allowed', 'red');
+      return;
+    }
+
+    const zone = document.getElementById(zoneId);
+    zone.innerHTML = `<div class="uz-icon">⏳</div><div class="uz-text">Uploading ${docName}...</div>`;
+
+    // Simulate upload progress
+    setTimeout(() => {
+      uploadedFiles[zoneId] = { name: file.name, size: file.size, file };
+      const sizeMB = (file.size / 1024).toFixed(0);
+      zone.innerHTML = `
+        <div class="uz-icon">✅</div>
+        <div class="uz-text" style="color:var(--green-main);font-weight:700;">${docName} uploaded!</div>
+        <div class="uz-hint" style="color:#1a7a3c;">📄 ${file.name} (${sizeMB}KB) — AI verified ✓</div>
+        <div style="font-size:0.65rem;color:#aaa;margin-top:4px;">Click to change file</div>`;
+      zone.classList.add('uploaded');
+      showToast(currentLang==='mr' ? `✅ ${docName} यशस्वीरित्या अपलोड केले` : `✅ ${docName} uploaded & verified!`, 'green');
+    }, 800);
+  };
+
+  input.click();
+}
+
+// ════ SUBMIT ════                          ← CHANGED: now calls ApplicationAPI
+async function submitApplication() {
+  if (!document.getElementById('decl').checked) {
+    showToast(currentLang==='mr'?'⚠️ कृपया घोषणापत्र स्वीकारा':'⚠️ Please accept the declaration','red');
+    return;
+  }
+
+  try {
+    const s = SCHEMES_INFO[selectedScheme];
+    console.log('📤 Submitting application...', {
+      schemeId: selectedScheme,
+      schemeName: s.name,
+      token: AuthAPI.getToken() ? 'PRESENT' : 'MISSING'
+    });
+
+    const result = await ApplicationAPI.submit({
+      schemeId:    selectedScheme,
+      schemeName:  s.name,
+      schemeAmount: s.amount,
+      schemeDept:  s.dept,
+      farmerNote:  document.getElementById('applyReason').value,
+    });
+
+    console.log('✅ Application submitted successfully!', result);
+
+    document.getElementById('finalAppId').textContent = result.application.appId;
+    document.getElementById('applyLayout').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  } catch (err) {
+    console.error('❌ Application submission failed:', err);
+    showToast('❌ ' + err.message, 'red');
+  }
+}
+
+// ════ LANGUAGE ════
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang==='mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length===0) el.textContent = lang==='mr'?el.dataset.mr:el.dataset.en;
+  });
+  updateAIPanel(currentStep);
+}
+
+function doLogout() {                        // ← CHANGED: now calls AuthAPI
+  if (confirm(currentLang==='mr'?'लॉगआउट करायचे आहे का?':'Logout?')) {
+    AuthAPI.logout();
+  }
+}
+
+function showToast(msg, type) {
+  let t = document.getElementById('toast');
+  if (!t) { t=document.createElement('div');t.id='toast';t.style.cssText=`position:fixed;bottom:28px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:50px;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.15);white-space:nowrap;transition:opacity 0.3s;`;document.body.appendChild(t); }
+  t.textContent=msg; t.style.background=type==='green'?'var(--green-main)':'#c0392b'; t.style.color='#fff'; t.style.opacity='1'; t.style.display='block';
+  clearTimeout(t._t); t._t=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.style.display='none',300);},3000);
+}
+</script>
+<script src="../js/main.js"></script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

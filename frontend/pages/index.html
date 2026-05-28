@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krushi Sahayak</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --green-dark: #0d5c2e;
+      --green-main: #1a7a3c;
+      --green-mid: #25a050;
+      --green-light: #e8f5ee;
+      --saffron: #e8650a;
+      --saffron-light: #fff3eb;
+      --saffron-glow: #ff8c3a;
+      --gold: #f0a500;
+      --cream: #fffdf7;
+      --text-dark: #1a2e1a;
+      --text-mid: #3a5a3a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Baloo 2', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    body.mr {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: rgba(13, 92, 46, 0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 3px solid var(--saffron);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 3px 12px rgba(232, 101, 10, 0.4);
+    }
+
+    .logo-text {
+      line-height: 1.1;
+    }
+
+    .logo-text .logo-en {
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      display: block;
+    }
+
+    .logo-text .logo-mr {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 0.72rem;
+      color: var(--gold);
+      display: block;
+    }
+
+    .gov-badge {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lang-switch {
+      display: flex;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 25px;
+      padding: 3px;
+      gap: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .lang-btn {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: none;
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      color: rgba(255, 255, 255, 0.7);
+      background: transparent;
+    }
+
+    .lang-btn.active {
+      background: var(--saffron);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(232, 101, 10, 0.4);
+    }
+
+    .btn-nav {
+      padding: 8px 18px;
+      border-radius: 25px;
+      border: none;
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-nav-outline {
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      color: #fff;
+      background: transparent;
+    }
+
+    .btn-nav-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-nav-saffron {
+      background: linear-gradient(135deg, var(--saffron), var(--saffron-glow));
+      color: #fff;
+      box-shadow: 0 3px 12px rgba(232, 101, 10, 0.4);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(to right,
+          rgba(235, 250, 250, 1.5) 0%,
+          rgba(235, 250, 250, 1.5) 20%,
+          rgba(235, 250, 250, 0) 80%),
+        url('../images/farm-bg.jpeg') no-repeat right center;
+      background-size: auto 100%;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      padding: 90px 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232, 101, 10, 0.18) 0%, transparent 70%);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -80px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37, 160, 80, 0.25) 0%, transparent 70%);
+    }
+
+    .hero-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 0 0 1.5cm;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232, 101, 10, 0.15);
+      border: 1px solid rgba(232, 101, 10, 0.3);
+      color: var(--saffron);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 25px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'Yatra One', cursive;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      color: var(--green-dark);
+      line-height: 1.05;
+      margin-bottom: 10px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-title .saffron-word {
+      color: var(--saffron);
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 480px;
+      font-weight: 500;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .btn-hero-primary {
+      padding: 14px 30px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--saffron), #ff8c00);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      box-shadow: 0 6px 24px rgba(232, 101, 10, 0.4);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(232, 101, 10, 0.5);
+    }
+
+    .btn-hero-secondary {
+      padding: 14px 30px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--green-dark);
+      border: 2px solid var(--green-main);
+      cursor: pointer;
+      font-family: 'Baloo 2', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateY(-3px);
+      border-color: var(--saffron);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+    }
+
+    .stat-num {
+      font-family: 'Yatra One', cursive;
+      font-size: 2rem;
+      color: var(--saffron-glow);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 2px;
+    }
+
+    /* Hero Visual */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .farm-scene {
+      width: 100%;
+      max-width: 500px;
+      aspect-ratio: 1;
+      position: relative;
+    }
+
+    .scene-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 80% at 50% 60%, rgba(37, 160, 80, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .farm-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.4));
+    }
+
+    .float-card {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 0.82rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      animation: floatAnim 3s ease-in-out infinite;
+      white-space: nowrap;
+    }
+
+    .fc-icon {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .fc-val {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--gold);
+    }
+
+    .fc-label {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .fc1 {
+      top: 5%;
+      left: -5%;
+      animation-delay: 0s;
+    }
+
+    .fc2 {
+      top: 10%;
+      right: -8%;
+      animation-delay: 1s;
+    }
+
+    .fc3 {
+      bottom: 12%;
+      left: -8%;
+      animation-delay: 1.7s;
+    }
+
+    .fc4 {
+      bottom: 5%;
+      right: -5%;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes floatAnim {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      padding: 90px 2rem;
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: var(--saffron-light);
+      color: var(--saffron);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      border: 1px solid rgba(232, 101, 10, 0.2);
+    }
+
+    .section-title {
+      font-family: 'Yatra One', cursive;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: var(--green-dark);
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: #5a7a5a;
+      max-width: 580px;
+      margin: 12px auto 0;
+      line-height: 1.6;
+    }
+
+    /* Steps */
+    .steps-track {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .steps-track::before {
+      content: '';
+      position: absolute;
+      top: 52px;
+      left: calc(12.5% + 24px);
+      right: calc(12.5% + 24px);
+      height: 3px;
+      background: linear-gradient(90deg, var(--saffron), var(--green-main), var(--saffron));
+      border-radius: 2px;
+      z-index: 0;
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      padding: 32px 16px 28px;
+      background: #fff;
+      border-radius: 20px;
+      border: 2px solid var(--green-light);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+    }
+
+    .step-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--green-main);
+      box-shadow: 0 16px 48px rgba(26, 122, 60, 0.15);
+    }
+
+    .step-num-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      position: relative;
+    }
+
+    .step-num {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--saffron);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #fff;
+    }
+
+    .s1 .step-num-wrap {
+      background: linear-gradient(135deg, #e8f5ee, #c8eedd);
+    }
+
+    .s2 .step-num-wrap {
+      background: linear-gradient(135deg, #fff3eb, #ffe0c5);
+    }
+
+    .s3 .step-num-wrap {
+      background: linear-gradient(135deg, #e8f0ff, #ccdaf5);
+    }
+
+    .s4 .step-num-wrap {
+      background: linear-gradient(135deg, #f5ffe8, #ddf5c0);
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--green-dark);
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: #6a8a6a;
+      line-height: 1.5;
+    }
+
+    /* Schemes */
+    .schemes-section {
+      background: var(--green-light);
+    }
+
+    .schemes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .scheme-preview-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 24px 20px;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scheme-preview-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green-main), var(--saffron));
+    }
+
+    .scheme-preview-card:hover {
+      border-color: var(--green-main);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(26, 122, 60, 0.15);
+    }
+
+    .sc-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
+
+    .sc-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--green-dark);
+      margin-bottom: 8px;
+    }
+
+    .sc-amount {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* Benefits */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .benefit-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 20px;
+      text-align: center;
+      border: 2px solid var(--green-light);
+      transition: all 0.3s;
+    }
+
+    .benefit-card:hover {
+      border-color: var(--saffron);
+      box-shadow: 0 12px 40px rgba(232, 101, 10, 0.1);
+      transform: translateY(-6px);
+    }
+
+    .benefit-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 20px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .b1 .benefit-icon {
+      background: linear-gradient(135deg, #e8f5ee, #c5e8d5);
+    }
+
+    .b2 .benefit-icon {
+      background: linear-gradient(135deg, #fff3eb, #ffe0c5);
+    }
+
+    .b3 .benefit-icon {
+      background: linear-gradient(135deg, #e8f0ff, #c5d5f5);
+    }
+
+    .b4 .benefit-icon {
+      background: linear-gradient(135deg, #fffbe8, #f5eac0);
+    }
+
+    .benefit-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--green-dark);
+      margin-bottom: 8px;
+    }
+
+    .benefit-desc {
+      font-size: 0.82rem;
+      color: #6a8a6a;
+      line-height: 1.5;
+    }
+
+    /* Testimonials */
+    .testimonial-band {
+      background: linear-gradient(135deg, var(--green-dark) 0%, #0a4020 100%);
+      padding: 60px 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .testimonial-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(6px);
+    }
+
+    .tc-stars {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .tc-text {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .tc-author {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tc-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .tc-name {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #fff;
+    }
+
+    .tc-loc {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Helpline */
+    .helpline-section {
+      background: linear-gradient(135deg, var(--saffron) 0%, #e05500 100%);
+      padding: 48px 2rem;
+    }
+
+    .helpline-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .helpline-text h2 {
+      font-family: 'Yatra One', cursive;
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .helpline-text p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.95rem;
+    }
+
+    .helpline-num {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 16px;
+      padding: 16px 32px;
+      text-align: center;
+    }
+
+    .helpline-num .num {
+      font-family: 'Yatra One', cursive;
+      font-size: 2.2rem;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+
+    .helpline-num .label {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 2px;
+    }
+
+    /* Footer */
+    footer {
+      background: #050f08;
+      padding: 48px 2rem 24px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    .footer-col h4 {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #fff;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--saffron);
+      display: inline-block;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--saffron-glow);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Voice FAB */
+    .voice-fab {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 998;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-main), var(--green-dark));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 6px 24px rgba(26, 122, 60, 0.45);
+      transition: all 0.3s;
+      animation: pulseFab 2.5s ease-in-out infinite;
+    }
+
+    .voice-fab:hover {
+      transform: scale(1.1);
+    }
+
+    .voice-fab.speaking {
+      background: linear-gradient(135deg, var(--saffron), #e05500);
+      animation: pulseFabSpeak 0.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseFab {
+
+      0%,
+      100% {
+        box-shadow: 0 6px 24px rgba(26, 122, 60, 0.45), 0 0 0 0 rgba(26, 122, 60, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 6px 24px rgba(26, 122, 60, 0.45), 0 0 0 14px rgba(26, 122, 60, 0);
+      }
+    }
+
+    @keyframes pulseFabSpeak {
+
+      0%,
+      100% {
+        box-shadow: 0 6px 24px rgba(232, 101, 10, 0.6), 0 0 0 0 rgba(232, 101, 10, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 6px 24px rgba(232, 101, 10, 0.6), 0 0 0 18px rgba(232, 101, 10, 0);
+      }
+    }
+
+    /* Voice tooltip */
+    .voice-tooltip {
+      position: fixed;
+      bottom: 106px;
+      right: 32px;
+      z-index: 997;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 8px 14px;
+      border-radius: 10px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .voice-tooltip.show {
+      opacity: 1;
+    }
+
+    /* Animations */
+  </style>
+
+<body>
+  <!-- ════════════════ NAVBAR ════════════════ -->
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <div class="logo-icon">🌾</div>
+      <div class="logo-text">
+        <span class="logo-en">Krushi Sahayak</span>
+        <span class="logo-mr">कृषी सहायक</span>
+      </div>
+    </a>
+    <div>
+      <span class="gov-badge" data-en="🏛️ Maharashtra Govt. Initiative" data-mr="🏛️ महाराष्ट्र शासन उपक्रम">
+        🏛️ Maharashtra Govt. Initiative
+      </span>
+    </div>
+    <div class="nav-right">
+      <!-- Language Switch -->
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+      <a href="farmer-login.html" class="btn-nav btn-nav-outline" data-en="👨‍🌾 Farmer Login"
+        data-mr="👨‍🌾 शेतकरी लॉगिन">
+        👨‍🌾 Farmer Login
+      </a>
+      <a href="authority-login.html" class="btn-nav btn-nav-saffron" data-en="🏛️ Authority" data-mr="🏛️ अधिकारी">
+        🏛️ Authority
+      </a>
+    </div>
+  </nav>
+
+  <!-- ════════════════ HERO ════════════════ -->
+  <section class="hero">
+    <div class="hero-dots"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge" data-en="🇮🇳 Maharashtra Farmer Welfare Scheme"
+          data-mr="🇮🇳 महाराष्ट्र शेतकरी कल्याण योजना">
+          🇮🇳 Maharashtra Farmer Welfare Scheme
+        </div>
+
+        <h1 class="hero-title"><span class="saffron-word">Krushi</span><br />Sahayak</h1>
+
+        <p class="hero-tagline"
+          data-en="Smart Subsidy Support for Farmers — AI-powered scheme recommendations & step-by-step application guidance for every farmer in Maharashtra."
+          data-mr="शेतकऱ्यांसाठी स्मार्ट अनुदान सहाय्य — महाराष्ट्रातील प्रत्येक शेतकऱ्यासाठी AI-आधारित योजना शिफारसी आणि चरण-दर-चरण अर्ज मार्गदर्शन.">
+          Smart Subsidy Support for Farmers — AI-powered scheme recommendations & step-by-step application guidance for
+          every farmer in Maharashtra.
+        </p>
+
+        <div class="hero-cta">
+          <a href="farmer-register.html" class="btn-hero-primary" data-en="📋 Register as Farmer"
+            data-mr="📋 शेतकरी म्हणून नोंदणी करा">
+            📋 Register as Farmer
+          </a>
+          <a href="farmer-login.html" class="btn-hero-secondary" data-en="🔐 Already Registered? Login"
+            data-mr="🔐 आधीच नोंदणी केली? लॉगिन करा">
+            🔐 Already Registered? Login
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ HOW IT WORKS ════════════════ -->
+  <section class="section" id="how-it-works">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-badge" data-en="📖 Simple Process" data-mr="📖 सोपी प्रक्रिया">📖 Simple Process</div>
+        <h2 class="section-title" data-en="How It Works" data-mr="हे कसे कार्य करते">How It Works</h2>
+        <p class="section-sub" data-en="From registration to subsidy in 4 easy steps — designed for every farmer."
+          data-mr="नोंदणीपासून अनुदानापर्यंत ४ सोप्या पायऱ्यांमध्ये — प्रत्येक शेतकऱ्यासाठी.">From registration to
+          subsidy in 4 easy steps — designed for every farmer.</p>
+      </div>
+      <div class="steps-track">
+        <div class="step-card s1 reveal">
+          <div class="step-num-wrap">🌱<span class="step-num">1</span></div>
+          <div class="step-title" data-en="Register" data-mr="नोंदणी करा">Register</div>
+          <div class="step-desc" data-en="Create your farmer profile with land, crop and bank details in minutes."
+            data-mr="काही मिनिटांत जमीन, पीक आणि बँक तपशिलासह शेतकरी प्रोफाइल तयार करा.">Create your farmer profile with
+            land, crop and bank details in minutes.</div>
+        </div>
+        <div class="step-card s2 reveal">
+          <div class="step-num-wrap">🤖<span class="step-num">2</span></div>
+          <div class="step-title" data-en="Get AI Recommendations" data-mr="AI शिफारसी मिळवा">Get AI Recommendations
+          </div>
+          <div class="step-desc" data-en="Our AI matches your profile to the best government schemes for you."
+            data-mr="आमचे AI तुमच्या प्रोफाइलशी जुळणाऱ्या सर्वोत्तम सरकारी योजना शोधते.">Our AI matches your profile to
+            the best government schemes for you.</div>
+        </div>
+        <div class="step-card s3 reveal">
+          <div class="step-num-wrap">📄<span class="step-num">3</span></div>
+          <div class="step-title" data-en="Apply with Guidance" data-mr="मार्गदर्शनासह अर्ज करा">Apply with Guidance
+          </div>
+          <div class="step-desc" data-en="Step-by-step document guidance — AI tells you exactly what to upload."
+            data-mr="चरण-दर-चरण कागदपत्र मार्गदर्शन — AI तुम्हाला नक्की काय अपलोड करायचे ते सांगते.">Step-by-step
+            document guidance — AI tells you exactly what to upload.</div>
+        </div>
+        <div class="step-card s4 reveal">
+          <div class="step-num-wrap">💰<span class="step-num">4</span></div>
+          <div class="step-title" data-en="Track & Receive" data-mr="ट्रॅक करा आणि मिळवा">Track & Receive</div>
+          <div class="step-desc" data-en="Real-time tracking of your application. Subsidy directly to your bank."
+            data-mr="अर्जाचे रिअल-टाइम ट्रॅकिंग. अनुदान थेट तुमच्या बँकेत.">Real-time tracking of your application.
+            Subsidy directly to your bank.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ SCHEMES ════════════════ -->
+  <section class="section schemes-section" id="schemes">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-badge" data-en="🗂️ Government Schemes" data-mr="🗂️ सरकारी योजना">🗂️ Government Schemes
+        </div>
+        <h2 class="section-title" data-en="Popular Schemes" data-mr="लोकप्रिय योजना">Popular Schemes</h2>
+        <p class="section-sub" data-en="Explore schemes available for Maharashtra farmers. Login to apply."
+          data-mr="महाराष्ट्र शेतकऱ्यांसाठी उपलब्ध योजना पहा. अर्ज करण्यासाठी लॉगिन करा.">Explore schemes available for
+          Maharashtra farmers. Login to apply.</p>
+      </div>
+      <div class="schemes-grid">
+        <div class="scheme-preview-card reveal">
+          <div class="sc-icon">💧</div>
+          <div class="sc-name" data-en="Drip Irrigation Subsidy" data-mr="ठिबक सिंचन अनुदान">Drip Irrigation Subsidy
+          </div>
+          <span class="sc-amount" data-en="Up to ₹80,000" data-mr="₹८०,००० पर्यंत">Up to ₹80,000</span>
+        </div>
+        <div class="scheme-preview-card reveal">
+          <div class="sc-icon">🚜</div>
+          <div class="sc-name" data-en="Tractor Subsidy" data-mr="ट्रॅक्टर अनुदान">Tractor Subsidy</div>
+          <span class="sc-amount" data-en="Up to ₹1,50,000" data-mr="₹१,५०,००० पर्यंत">Up to ₹1,50,000</span>
+        </div>
+        <div class="scheme-preview-card reveal">
+          <div class="sc-icon">☀️</div>
+          <div class="sc-name" data-en="Solar Pump Scheme" data-mr="सौर पंप योजना">Solar Pump Scheme</div>
+          <span class="sc-amount" data-en="Up to ₹2,20,000" data-mr="₹२,२०,००० पर्यंत">Up to ₹2,20,000</span>
+        </div>
+        <div class="scheme-preview-card reveal">
+          <div class="sc-icon">🏞️</div>
+          <div class="sc-name" data-en="Farm Pond Scheme" data-mr="शेत तलाव योजना">Farm Pond Scheme</div>
+          <span class="sc-amount" data-en="Up to ₹75,000" data-mr="₹७५,००० पर्यंत">Up to ₹75,000</span>
+        </div>
+        <div class="scheme-preview-card reveal">
+          <div class="sc-icon">🐄</div>
+          <div class="sc-name" data-en="Cattle Shed Subsidy" data-mr="गोठा अनुदान">Cattle Shed Subsidy</div>
+          <span class="sc-amount" data-en="Up to ₹70,000" data-mr="₹७०,००० पर्यंत">Up to ₹70,000</span>
+        </div>
+        <div class="scheme-preview-card reveal">
+          <div class="sc-icon">🌾</div>
+          <div class="sc-name" data-en="PM Kisan Samman Nidhi" data-mr="पीएम किसान सन्मान निधी">PM Kisan Samman Nidhi
+          </div>
+          <span class="sc-amount" data-en="₹6,000 / year" data-mr="₹६,००० / वर्ष">₹6,000 / year</span>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:40px;" class="reveal">
+        <a href="farmer-login.html" class="btn-hero-primary" style="display:inline-flex;"
+          data-en="🔐 Login to View All 18 Schemes" data-mr="🔐 सर्व १८ योजना पाहण्यासाठी लॉगिन करा">
+          🔐 Login to View All 18 Schemes
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ BENEFITS ════════════════ -->
+  <section class="section" id="benefits">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-badge" data-en="⭐ Why Krushi Sahayak?" data-mr="⭐ कृषी सहायक का?">⭐ Why Krushi Sahayak?
+        </div>
+        <h2 class="section-title" data-en="Platform Benefits" data-mr="व्यासपीठाचे फायदे">Platform Benefits</h2>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card b1 reveal">
+          <div class="benefit-icon">🤖</div>
+          <div class="benefit-title" data-en="AI-Powered" data-mr="AI-आधारित">AI-Powered</div>
+          <div class="benefit-desc"
+            data-en="Smart engine that recommends the best schemes based on your farm profile automatically."
+            data-mr="स्मार्ट इंजिन जे तुमच्या शेत प्रोफाइलवर आधारित सर्वोत्तम योजना आपोआप सुचवते.">Smart engine that
+            recommends the best schemes based on your farm profile automatically.</div>
+        </div>
+        <div class="benefit-card b2 reveal">
+          <div class="benefit-icon">📋</div>
+          <div class="benefit-title" data-en="Doc Guidance" data-mr="कागदपत्र मार्गदर्शन">Doc Guidance</div>
+          <div class="benefit-desc"
+            data-en="Never get confused about documents. AI tells you exactly what you need and where to get it."
+            data-mr="कागदपत्रांबद्दल कधीही गोंधळ नाही. AI तुम्हाला नक्की काय हवे आणि कुठून मिळेल ते सांगते.">Never get
+            confused about documents. AI tells you exactly what you need and where to get it.</div>
+        </div>
+        <div class="benefit-card b3 reveal">
+          <div class="benefit-icon">📱</div>
+          <div class="benefit-title" data-en="Mobile Friendly" data-mr="मोबाईल अनुकूल">Mobile Friendly</div>
+          <div class="benefit-desc"
+            data-en="Works perfectly on any phone. Designed for farmers with simple, large buttons."
+            data-mr="कोणत्याही फोनवर उत्तम काम करते. साध्या, मोठ्या बटणांसह शेतकऱ्यांसाठी तयार केलेले.">Works perfectly
+            on any phone. Designed for farmers with simple, large buttons.</div>
+        </div>
+        <div class="benefit-card b4 reveal">
+          <div class="benefit-icon">🔔</div>
+          <div class="benefit-title" data-en="Live Tracking" data-mr="थेट ट्रॅकिंग">Live Tracking</div>
+          <div class="benefit-desc"
+            data-en="Track your application status live. Get notified on every update via SMS and app."
+            data-mr="अर्जाची स्थिती थेट ट्रॅक करा. SMS आणि अ‍ॅपद्वारे प्रत्येक अपडेटवर सूचना मिळवा.">Track your
+            application status live. Get notified on every update via SMS and app.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ TESTIMONIALS ════════════════ -->
+  <section class="testimonial-band">
+    <div class="section-inner">
+      <div class="section-header reveal" style="margin-bottom:40px;">
+        <h2 class="section-title" style="color:#fff;" data-en="What Farmers Say" data-mr="शेतकरी काय म्हणतात">What
+          Farmers Say</h2>
+      </div>
+      <div class="testimonial-inner">
+        <div class="testimonial-card reveal">
+          <div class="tc-stars">★★★★★</div>
+          <div class="tc-text"
+            data-en='"Got drip irrigation subsidy approved in just 3 weeks. The AI told me exactly which documents to upload. Very easy!"'
+            data-mr='"ठिबक सिंचन अनुदान फक्त ३ आठवड्यांत मंजूर झाले. AI ने मला नक्की कोणती कागदपत्रे अपलोड करायची ते सांगितले. खूप सोपे!"'>
+            "Got drip irrigation subsidy approved in just 3 weeks. The AI told me exactly which documents to upload.
+            Very easy!"
+          </div>
+          <div class="tc-author">
+            <div class="tc-avatar">👨‍🌾</div>
+            <div>
+              <div class="tc-name">Maharashtra Farmer</div>
+              <div class="tc-loc">📍 Solapur</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="tc-stars">★★★★★</div>
+          <div class="tc-text"
+            data-en='"I was afraid of all the paperwork. But this app told me exactly what to bring. It became very simple!"'
+            data-mr='"मला आधी खूप कागदपत्रांची भीती वाटत होती. पण या अ‍ॅपने सांगितले काय आणले पाहिजे ते. खूप सोपे झाले!"'>
+            "I was afraid of all the paperwork. But this app told me exactly what to bring. It became very simple!"
+          </div>
+          <div class="tc-author">
+            <div class="tc-avatar">👩‍🌾</div>
+            <div>
+              <div class="tc-name">Sunita Mane</div>
+              <div class="tc-loc">📍 Pune</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="tc-stars">★★★★☆</div>
+          <div class="tc-text"
+            data-en='"Solar pump scheme approved. ₹2.2 lakh received directly in bank. The tracking feature is very helpful."'
+            data-mr='"सौर पंप योजना मंजूर. ₹२.२ लाख थेट बँकेत मिळाले. ट्रॅकिंग वैशिष्ट्य खूप उपयुक्त आहे."'>
+            "Solar pump scheme approved. ₹2.2 lakh received directly in bank. The tracking feature is very helpful."
+          </div>
+          <div class="tc-author">
+            <div class="tc-avatar">👨‍🌾</div>
+            <div>
+              <div class="tc-name">Vijay Shinde</div>
+              <div class="tc-loc">📍 Nashik</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ HELPLINE ════════════════ -->
+  <section class="helpline-section">
+    <div class="helpline-inner">
+      <div class="helpline-text">
+        <h2 data-en="Need Help? 🙋" data-mr="मदत हवी आहे? 🙋">Need Help? 🙋</h2>
+        <p data-en="Helpline available Mon–Sat, 9am to 6pm" data-mr="हेल्पलाइन सोम-शनि, सकाळी ९ ते सायंकाळी ६ उपलब्ध">
+          Helpline available Mon–Sat, 9am to 6pm</p>
+      </div>
+      <div class="helpline-num">
+        <div class="num">📞 1800-123-4567</div>
+        <div class="label" data-en="Toll Free" data-mr="टोल फ्री">Toll Free</div>
+      </div>
+      <a href="farmer-register.html" class="btn-hero-primary"
+        style="background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);"
+        data-en="🌱 Start Your Application" data-mr="🌱 अर्ज सुरू करा">
+        🌱 Start Your Application
+      </a>
+    </div>
+  </section>
+
+  <!-- ════════════════ FOOTER ════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="nav-logo" style="margin-bottom:14px;">
+            <div class="logo-icon">🌾</div>
+            <div class="logo-text">
+              <span class="logo-en">Krushi Sahayak</span>
+              <span class="logo-mr">कृषी सहायक</span>
+            </div>
+          </div>
+          <p class="footer-tagline"
+            data-en="An AI-powered initiative by the Government of Maharashtra to simplify farm subsidy access for every farmer."
+            data-mr="महाराष्ट्र शासनाचा AI-आधारित उपक्रम — प्रत्येक शेतकऱ्यासाठी शेती अनुदान सुलभ करण्यासाठी.">
+            An AI-powered initiative by the Government of Maharashtra to simplify farm subsidy access for every farmer.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 data-en="Quick Links" data-mr="द्रुत दुवे">Quick Links</h4>
+          <ul>
+            <li><a href="index.html" data-en="🏠 Home" data-mr="🏠 मुख्यपृष्ठ">🏠 Home</a></li>
+            <li><a href="schemes.html" data-en="📋 All Schemes" data-mr="📋 सर्व योजना">📋 All Schemes</a></li>
+            <li><a href="farmer-login.html" data-en="👨‍🌾 Farmer Login" data-mr="👨‍🌾 शेतकरी लॉगिन">👨‍🌾 Farmer
+                Login</a></li>
+            <li><a href="authority-login.html" data-en="🏛️ Authority Login" data-mr="🏛️ अधिकारी लॉगिन">🏛️ Authority
+                Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-en="Schemes" data-mr="योजना">Schemes</h4>
+          <ul>
+            <li><a href="schemes.html" data-en="💧 Drip Irrigation" data-mr="💧 ठिबक सिंचन">💧 Drip Irrigation</a></li>
+            <li><a href="schemes.html" data-en="🚜 Tractor Subsidy" data-mr="🚜 ट्रॅक्टर अनुदान">🚜 Tractor Subsidy</a>
+            </li>
+            <li><a href="schemes.html" data-en="☀️ Solar Pump" data-mr="☀️ सौर पंप">☀️ Solar Pump</a></li>
+            <li><a href="schemes.html" data-en="🌾 PM Kisan" data-mr="🌾 पीएम किसान">🌾 PM Kisan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-en="Support" data-mr="सहाय्य">Support</h4>
+          <ul>
+            <li><a href="#" data-en="📞 Helpline" data-mr="📞 हेल्पलाइन">📞 Helpline</a></li>
+            <li><a href="#" data-en="❓ FAQ" data-mr="❓ वारंवार प्रश्न">❓ FAQ</a></li>
+            <li><a href="#" data-en="🔒 Privacy Policy" data-mr="🔒 गोपनीयता धोरण">🔒 Privacy Policy</a></li>
+            <li><a href="#" data-en="🐛 Report Issue" data-mr="🐛 समस्या नोंदवा">🐛 Report Issue</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p data-en="© 2026 Krushi Sahayak · Government of Maharashtra · All Rights Reserved"
+          data-mr="© २०२४ कृषी सहायक · महाराष्ट्र शासन · सर्व हक्क राखीव">
+          © 2026 Krushi Sahayak · Government of Maharashtra · All Rights Reserved
+        </p>
+        <p style="color:rgba(255,255,255,0.2);" data-en="🇮🇳 Made with ❤️ for the Farmers of Maharashtra"
+          data-mr="🇮🇳 महाराष्ट्रातील शेतकऱ्यांसाठी ❤️ ने बनवले">
+          🇮🇳 Made with ❤️ for the Farmers of Maharashtra
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ════════════════ VOICE FAB ════════════════ -->
+  <div class="voice-tooltip" id="voiceTooltip"></div>
+  <button class="voice-fab" id="voiceBtn" onclick="voiceAssist()">🎙️</button>
+
+  <!-- ════════════════ SCRIPT ════════════════ -->
+  <script>
+    // ── State ──
+    let currentLang = 'en';
+    let isSpeaking = false;
+
+    // ── Load real stats from backend ──
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/applications/public-stats');
+        const data = await res.json();
+        if (data.success) {
+          animateCount('idx-farmers', data.totalFarmers || 0);
+          animateCount('idx-applications', data.totalApplications || 0);
+        }
+      } catch (err) {
+        animateCount('idx-farmers', 0);
+        animateCount('idx-applications', 0);
+      }
+    });
+
+    // ── Animated number counter ──
+    function animateCount(id, target) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (target === 0) { el.textContent = '0'; return; }
+      let start = 0;
+      const duration = 1500;
+      const step = Math.ceil(target / (duration / 30));
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) { start = target; clearInterval(timer); }
+        el.textContent = start >= 1000 ? (start / 1000).toFixed(1) + 'K' : start;
+      }, 30);
+    }
+
+    // ── All page text in both languages ──
+    const TEXTS = {
+      en: {
+        voice_tooltip: "🎙️ Tap to listen in English",
+        voice_stop: "🔊 Tap to stop",
+        speech: `Welcome to Krushi Sahayak — Smart Subsidy Support for Farmers.
+      This platform helps Maharashtra farmers find and apply for government subsidy schemes.
+      Register as a farmer to get started. Our AI will recommend the best schemes based on your land, crops, and location.
+      You will receive step by step document guidance. Track your application status in real time.
+      For help, call our toll free number: 1800 1 2 3 4 5 6 7. Available Monday to Saturday, 9 AM to 6 PM.`
+      },
+      mr: {
+        voice_tooltip: "🎙️ मराठीत ऐकण्यासाठी टॅप करा",
+        voice_stop: "🔊 थांबवण्यासाठी टॅप करा",
+        speech: `कृषी सहायकमध्ये आपले स्वागत आहे — शेतकऱ्यांसाठी स्मार्ट अनुदान सहाय्य.
+      हे व्यासपीठ महाराष्ट्रातील शेतकऱ्यांना सरकारी अनुदान योजना शोधण्यास आणि अर्ज करण्यास मदत करते.
+      सुरुवात करण्यासाठी शेतकरी म्हणून नोंदणी करा.
+      आमचे AI तुमची जमीन, पीक आणि स्थानावर आधारित सर्वोत्तम योजना सुचवेल.
+      तुम्हाला कागदपत्रांसाठी चरण-दर-चरण मार्गदर्शन मिळेल. अर्जाची स्थिती रिअल टाइममध्ये ट्रॅक करा.
+      मदतीसाठी आमच्या टोल फ्री नंबरवर कॉल करा: एक आठशे एक दोन तीन चार पाच सहा सात.
+      सोमवार ते शनिवार, सकाळी नऊ ते सायंकाळी सहा उपलब्ध.`
+      }
+    };
+
+    // ── Language Switch ──
+    function setLang(lang, btn) {
+      currentLang = lang;
+
+      // Active button
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Marathi font on body
+      document.body.classList.toggle('mr', lang === 'mr');
+
+      // Swap all data-en / data-mr text
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.textContent = (lang === 'mr') ? el.dataset.mr : el.dataset.en;
+      });
+
+      // Update tooltip
+      showTooltip(TEXTS[lang].voice_tooltip, 2500);
+
+      // Stop ongoing speech
+      if (isSpeaking) stopSpeech();
+    }
+
+    // ── Voice Assistance ──
+    function voiceAssist() {
+      if (isSpeaking) { stopSpeech(); return; }
+      startSpeech();
+    }
+
+    function startSpeech() {
+      if (!('speechSynthesis' in window)) {
+        alert(currentLang === 'mr'
+          ? '❌ तुमचा ब्राउझर आवाज सहाय्य समर्थित करत नाही.'
+          : '❌ Your browser does not support voice assistance.');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(TEXTS[currentLang].speech);
+      utterance.rate = 0.88;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+
+      // Smart voice selection with fallbacks
+      // Force-reload voices (Chrome async bug fix)
+      let voices = window.speechSynthesis.getVoices();
+      if (voices.length === 0) {
+        // Voices not loaded yet - wait and retry
+        window.speechSynthesis.onvoiceschanged = () => {
+          window.speechSynthesis.onvoiceschanged = null;
+          startSpeech();
+        };
+        return;
+      }
+      let chosenVoice = null;
+      let voiceNote = '';
+
+      if (currentLang === 'mr') {
+        // Try Marathi first → then Hindi (similar script) → then any Indian voice
+        chosenVoice = voices.find(v => v.lang === 'mr-IN')
+          || voices.find(v => v.lang.startsWith('mr'))
+          || voices.find(v => v.lang === 'hi-IN')
+          || voices.find(v => v.lang.startsWith('hi'))
+          || voices.find(v => v.lang.includes('IN'))
+          || null;
+
+        if (!chosenVoice) {
+          // No Indian voice - speak with default but set lang
+          utterance.lang = 'mr-IN';
+          Utils.toast('⚠️ मराठी आवाज डाउनलोड करा: Settings → Accessibility → Text-to-Speech', 'warning');
+        }
+
+        utterance.lang = chosenVoice.lang;
+
+        if (chosenVoice.lang.startsWith('hi')) {
+          voiceNote = '⚠️ मराठी आवाज उपलब्ध नाही — हिंदी आवाजात वाचत आहे';
+        } else if (chosenVoice.lang.startsWith('mr')) {
+          voiceNote = '✅ मराठी आवाज वापरत आहे';
+        }
+
+      } else {
+        // English
+        chosenVoice = voices.find(v => v.lang === 'en-IN')
+          || voices.find(v => v.lang.startsWith('en-IN'))
+          || voices.find(v => v.lang.startsWith('en'))
+          || null;
+        utterance.lang = 'en-IN';
+        voiceNote = '✅ English voice active';
+      }
+
+      if (chosenVoice) utterance.voice = chosenVoice;
+
+      // Show which voice is being used
+      if (voiceNote) showTooltip(voiceNote, 3000);
+
+      utterance.onstart = () => {
+        isSpeaking = true;
+        const btn = document.getElementById('voiceBtn');
+        btn.textContent = '🔊';
+        btn.classList.add('speaking');
+        showTooltip(TEXTS[currentLang].voice_stop, 99999);
+      };
+      utterance.onend = utterance.onerror = () => {
+        isSpeaking = false;
+        const btn = document.getElementById('voiceBtn');
+        btn.textContent = '🎙️';
+        btn.classList.remove('speaking');
+        hideTooltip();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeech() {
+      window.speechSynthesis.cancel();
+      isSpeaking = false;
+      const btn = document.getElementById('voiceBtn');
+      btn.textContent = '🎙️';
+      btn.classList.remove('speaking');
+      hideTooltip();
+    }
+
+    // ── Tooltip helpers ──
+    let tooltipTimer;
+    function showTooltip(msg, duration) {
+      clearTimeout(tooltipTimer);
+      const t = document.getElementById('voiceTooltip');
+      t.textContent = msg;
+      t.classList.add('show');
+      if (duration < 99999) tooltipTimer = setTimeout(hideTooltip, duration);
+    }
+    function hideTooltip() {
+      document.getElementById('voiceTooltip').classList.remove('show');
+    }
+
+    // Load voices early (Chrome fix)
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+    // Show tooltip on hover
+    document.getElementById('voiceBtn').addEventListener('mouseenter', () => {
+      if (!isSpeaking) showTooltip(TEXTS[currentLang].voice_tooltip, 2000);
+    });
+
+    // ── Scroll Reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+  <script src="../js/main.js"></script>
+
+  <script>document.addEventListener("DOMContentLoaded", () => { if (window.lucide) lucide.createIcons(); });</script>
+</body>
+
+</html>

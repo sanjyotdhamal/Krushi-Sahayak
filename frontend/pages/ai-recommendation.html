@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — AI Recommendation</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e; --green-main:#1a7a3c; --green-mid:#25a050;
+    --green-light:#e8f5ee; --saffron:#e8650a; --saffron-light:#fff3eb;
+    --gold:#f0a500; --cream:#fffdf7; --text-dark:#1a2e1a;
+    --border:#d4e8d4; --sidebar-w:260px;
+    --ai-blue:#1a3a6e; --ai-cyan:#00c8ff; --ai-glow:rgba(0,200,255,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Baloo 2',sans-serif; background:#f0f4f0; color:var(--text-dark); }
+  body.mr { font-family:'Noto Sans Devanagari',sans-serif; }
+
+  /* ══ SIDEBAR ══ */
+  .sidebar { position:fixed; top:0; left:0; bottom:0; width:var(--sidebar-w); background:linear-gradient(180deg,var(--green-dark) 0%,#0a4020 100%); z-index:100; display:flex; flex-direction:column; box-shadow:4px 0 24px rgba(0,0,0,0.15); transition:transform 0.3s; }
+  .sidebar-logo { padding:24px 20px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .sidebar-logo-icon { width:44px; height:44px; background:linear-gradient(135deg,var(--saffron),var(--gold)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+  .sidebar-logo-en { font-family:'Baloo 2',sans-serif; font-size:1.1rem; font-weight:800; color:#fff; display:block; }
+  .sidebar-logo-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:var(--gold); display:block; }
+  .sidebar-profile { padding:20px; border-bottom:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:12px; }
+  .sp-avatar { width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg,var(--saffron),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; border:2px solid rgba(255,255,255,0.3); }
+  .sp-name { font-size:0.88rem; font-weight:700; color:#fff; }
+  .sp-id   { font-size:0.7rem; color:rgba(255,255,255,0.5); margin-top:2px; }
+  .sp-badge { display:inline-block; background:rgba(37,160,80,0.3); border:1px solid rgba(37,160,80,0.5); color:#7deca0; font-size:0.62rem; font-weight:700; padding:2px 8px; border-radius:10px; margin-top:4px; }
+  .sidebar-nav { flex:1; padding:16px 12px; overflow-y:auto; }
+  .nav-section-label { font-size:0.62rem; font-weight:700; color:rgba(255,255,255,0.35); letter-spacing:1px; text-transform:uppercase; padding:8px 10px 6px; margin-top:8px; }
+  .nav-item { display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:12px; margin-bottom:3px; text-decoration:none; color:rgba(255,255,255,0.65); font-size:0.88rem; font-weight:600; transition:all 0.25s; }
+  .nav-item:hover { background:rgba(255,255,255,0.1); color:#fff; }
+  .nav-item.active { background:linear-gradient(135deg,var(--saffron),#e05500); color:#fff; box-shadow:0 4px 16px rgba(232,101,10,0.35); }
+  .nav-item .ni-icon { font-size:1.1rem; flex-shrink:0; }
+  .nav-item .ni-badge { margin-left:auto; background:var(--saffron); color:#fff; font-size:0.65rem; font-weight:800; padding:2px 7px; border-radius:10px; }
+  .nav-item .ni-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.65rem; color:rgba(255,255,255,0.35); display:block; line-height:1; }
+  .sidebar-footer { padding:16px 20px; border-top:1px solid rgba(255,255,255,0.1); }
+  .btn-logout { width:100%; padding:10px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.65); font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.25s; }
+  .btn-logout:hover { background:rgba(192,57,43,0.3); color:#ff9999; }
+
+  /* ══ MAIN ══ */
+  .main { margin-left:var(--sidebar-w); min-height:100vh; }
+  .topbar { background:#fff; border-bottom:2px solid var(--border); padding:0 28px; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+  .topbar-left { display:flex; align-items:center; gap:12px; }
+  .topbar-title { font-family:'Yatra One',cursive; font-size:1.2rem; color:var(--green-dark); }
+  .topbar-right { display:flex; align-items:center; gap:12px; }
+  .lang-switch { display:flex; background:var(--green-light); border-radius:25px; padding:3px; gap:2px; }
+  .lang-btn { padding:5px 14px; border-radius:20px; border:none; font-family:'Baloo 2',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer; transition:all 0.25s; color:var(--text-mid); background:transparent; }
+  .lang-btn.active { background:var(--saffron); color:#fff; }
+  .sidebar-toggle { display:none; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--green-dark); }
+
+  .page-content { padding:28px; }
+
+  /* ══ AI SCAN SCREEN ══ */
+  #aiScanScreen {
+    background:linear-gradient(135deg,#050f08 0%,#0a1a10 50%,#050f08 100%);
+    border-radius:24px; padding:48px 32px;
+    text-align:center; margin-bottom:28px;
+    position:relative; overflow:hidden; min-height:420px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+
+  /* Animated grid background */
+  #aiScanScreen::before {
+    content:'';
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
+    background-size:40px 40px;
+    animation:gridMove 8s linear infinite;
+  }
+  @keyframes gridMove { 0%{background-position:0 0;} 100%{background-position:40px 40px;} }
+
+  /* Particles */
+  .particle {
+    position:absolute; border-radius:50%;
+    background:var(--ai-cyan); opacity:0;
+    animation:particleFloat 4s ease-in-out infinite;
+  }
+  @keyframes particleFloat {
+    0%{opacity:0;transform:translateY(0) scale(0);}
+    20%{opacity:0.6;}
+    80%{opacity:0.3;}
+    100%{opacity:0;transform:translateY(-120px) scale(1.5);}
+  }
+
+  /* AI Bot Icon */
+  .ai-bot-wrap {
+    position:relative; width:120px; height:120px; margin:0 auto 24px;
+    z-index:2;
+  }
+  .ai-bot-ring {
+    position:absolute; inset:0; border-radius:50%;
+    border:2px solid rgba(0,200,255,0.3);
+    animation:ringPulse 2s ease-in-out infinite;
+  }
+  .ai-bot-ring:nth-child(2) { inset:-12px; animation-delay:0.5s; border-color:rgba(0,200,255,0.2); }
+  .ai-bot-ring:nth-child(3) { inset:-24px; animation-delay:1s;   border-color:rgba(0,200,255,0.1); }
+  @keyframes ringPulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.05);opacity:0.6;} }
+  .ai-bot-icon {
+    width:120px; height:120px; border-radius:50%;
+    background:linear-gradient(135deg,#0a2a4a,#1a4a7a);
+    border:3px solid var(--ai-cyan);
+    display:flex; align-items:center; justify-content:center;
+    font-size:3.5rem; position:relative; z-index:1;
+    box-shadow:0 0 40px rgba(0,200,255,0.3), inset 0 0 20px rgba(0,200,255,0.1);
+    animation:botBreathe 3s ease-in-out infinite;
+  }
+  @keyframes botBreathe { 0%,100%{box-shadow:0 0 40px rgba(0,200,255,0.3),inset 0 0 20px rgba(0,200,255,0.1);} 50%{box-shadow:0 0 70px rgba(0,200,255,0.5),inset 0 0 30px rgba(0,200,255,0.2);} }
+
+  .ai-title {
+    font-family:'Yatra One',cursive; font-size:1.8rem;
+    background:linear-gradient(135deg,#fff,var(--ai-cyan));
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+            color: transparent;
+    display: inline-block;
+    margin-bottom:8px; position:relative; z-index:2;
+  }
+  .ai-subtitle { font-size:0.88rem; color:rgba(255,255,255,0.5); margin-bottom:32px; position:relative; z-index:2; }
+
+  /* Scan Steps */
+  .scan-steps { display:flex; flex-direction:column; gap:10px; width:100%; max-width:480px; position:relative; z-index:2; }
+  .scan-step {
+    display:flex; align-items:center; gap:14px;
+    background:rgba(0,200,255,0.05); border:1px solid rgba(0,200,255,0.1);
+    border-radius:12px; padding:12px 18px; opacity:0.3;
+    transition:all 0.5s;
+  }
+  .scan-step.scanning { opacity:1; border-color:rgba(0,200,255,0.4); background:rgba(0,200,255,0.1); }
+  .scan-step.done     { opacity:1; border-color:rgba(37,160,80,0.5);  background:rgba(37,160,80,0.1); }
+  .scan-step-icon { font-size:1.3rem; flex-shrink:0; }
+  .scan-step-text { flex:1; text-align:left; }
+  .scan-step-text .sst { font-size:0.82rem; font-weight:700; color:rgba(255,255,255,0.8); }
+  .scan-step-text .ssv { font-size:0.72rem; color:rgba(255,255,255,0.4); display:block; font-family:'Share Tech Mono',monospace; }
+  .scan-step-status { font-size:1rem; flex-shrink:0; }
+
+  /* Typing cursor */
+  .typing-text::after { content:'|'; animation:blink 0.8s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+  /* Progress bar */
+  .scan-progress-wrap { width:100%; max-width:480px; margin-top:24px; position:relative; z-index:2; }
+  .scan-progress-bar { height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden; }
+  .scan-progress-fill { height:100%; background:linear-gradient(90deg,var(--ai-cyan),var(--green-mid)); border-radius:3px; width:0%; transition:width 0.5s ease; box-shadow:0 0 10px var(--ai-cyan); }
+  .scan-progress-label { font-size:0.72rem; color:var(--ai-cyan); font-family:'Share Tech Mono',monospace; text-align:right; margin-top:6px; }
+
+  /* ══ RESULTS SECTION ══ */
+  #resultsSection { display:none; animation:fadeUp 0.6s ease forwards; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;} }
+
+  /* Farmer profile read card */
+  .profile-read-card {
+    background:linear-gradient(135deg,#050f08,#0a2015);
+    border:1px solid rgba(0,200,255,0.2);
+    border-radius:20px; padding:24px 28px; margin-bottom:24px;
+    position:relative; overflow:hidden;
+  }
+  .profile-read-card::before { content:''; position:absolute; inset:0; background-image:radial-gradient(rgba(0,200,255,0.03) 1px,transparent 1px); background-size:20px 20px; }
+  .prc-title { font-family:'Share Tech Mono',monospace; font-size:0.75rem; color:var(--ai-cyan); letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .prc-title::before { content:''; width:8px; height:8px; background:var(--ai-cyan); border-radius:50%; animation:blink 1s infinite; }
+  .prc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; position:relative; z-index:1; }
+  .prc-item { background:rgba(0,200,255,0.06); border:1px solid rgba(0,200,255,0.12); border-radius:12px; padding:12px 14px; }
+  .prc-item .pci-label { font-size:0.68rem; color:rgba(255,255,255,0.4); font-family:'Share Tech Mono',monospace; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:4px; }
+  .prc-item .pci-val   { font-size:0.9rem; font-weight:700; color:#fff; }
+  .prc-item .pci-icon  { font-size:1.2rem; margin-bottom:4px; }
+
+  /* AI Analysis summary */
+  .ai-analysis-box {
+    background:rgba(37,160,80,0.08); border:1px solid rgba(37,160,80,0.25);
+    border-radius:14px; padding:16px 20px; margin-top:16px;
+    display:flex; gap:14px; align-items:flex-start; position:relative; z-index:1;
+  }
+  .ai-analysis-box .aab-icon { font-size:1.8rem; flex-shrink:0; }
+  .ai-analysis-box .aab-text { font-size:0.85rem; color:rgba(255,255,255,0.75); line-height:1.6; }
+  .aab-text strong { color:var(--ai-cyan); }
+
+  /* Results header */
+  .results-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+  .results-title { font-family:'Yatra One',cursive; font-size:1.5rem; color:var(--green-dark); display:flex; align-items:center; gap:10px; }
+  .results-count { background:var(--green-light); color:var(--green-main); font-weight:800; font-size:0.82rem; padding:6px 16px; border-radius:20px; border:1px solid rgba(26,122,60,0.2); }
+  .btn-rescan { padding:10px 20px; border-radius:25px; border:2px solid var(--green-main); background:#fff; color:var(--green-main); font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.25s; display:flex; align-items:center; gap:6px; }
+  .btn-rescan:hover { background:var(--green-main); color:#fff; }
+
+  /* Recommendation cards */
+  .rec-cards { display:flex; flex-direction:column; gap:20px; }
+  .rec-card {
+    background:#fff; border-radius:20px;
+    border:2px solid var(--border);
+    overflow:hidden; transition:all 0.3s;
+    box-shadow:0 4px 16px rgba(0,0,0,0.05);
+    animation:cardSlide 0.5s ease forwards; opacity:0;
+  }
+  @keyframes cardSlide { from{opacity:0;transform:translateX(-20px);}to{opacity:1;transform:none;} }
+  .rec-card:hover { box-shadow:0 12px 40px rgba(26,122,60,0.15); border-color:var(--green-main); transform:translateY(-3px); }
+
+  .rec-card-top { display:grid; grid-template-columns:auto 1fr auto; gap:16px; padding:22px 24px; align-items:flex-start; }
+
+  /* Match score circle */
+  .match-circle {
+    width:72px; height:72px; border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-weight:800; flex-shrink:0; position:relative;
+    background:conic-gradient(var(--mc,#1a7a3c) var(--mp,0%), #e8e8e8 0%);
+  }
+  .match-circle::before { content:''; position:absolute; inset:5px; border-radius:50%; background:#fff; }
+  .match-circle .mc-num { font-size:1rem; color:var(--green-dark); position:relative; z-index:1; line-height:1; }
+  .match-circle .mc-pct { font-size:0.55rem; color:#aaa; position:relative; z-index:1; }
+
+  /* Card content */
+  .rc-content { min-width:0; }
+  .rc-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
+  .rc-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
+  .rc-name { font-weight:800; font-size:1.05rem; color:var(--green-dark); }
+  .rc-name-mr { font-family:'Noto Sans Devanagari',sans-serif; font-size:0.72rem; color:#aaa; display:block; }
+  .rc-amount { display:inline-flex; align-items:center; gap:5px; background:var(--green-light); color:var(--green-dark); font-size:0.82rem; font-weight:800; padding:4px 12px; border-radius:20px; margin-bottom:8px; border:1px solid rgba(26,122,60,0.15); }
+
+  /* AI Reason box */
+  .ai-reason {
+    background:linear-gradient(135deg,#f0f8ff,#e8f0ff);
+    border:1px solid rgba(58,91,181,0.2);
+    border-left:4px solid var(--ai-blue);
+    border-radius:0 12px 12px 0;
+    padding:12px 16px; margin-top:10px;
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .ai-reason .air-bot { font-size:1.3rem; flex-shrink:0; }
+  .ai-reason .air-text { font-size:0.8rem; color:#3a5a8a; line-height:1.6; }
+  .air-text strong { color:var(--ai-blue); font-weight:700; }
+
+  /* Tags */
+  .rc-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .rc-tag  { padding:3px 10px; border-radius:20px; font-size:0.68rem; font-weight:700; background:#f0f4f0; color:#7a9a7a; border:1px solid #e0e8e0; }
+  .rc-tag.match { background:#e8f5ee; color:var(--green-main); border-color:rgba(26,122,60,0.2); }
+
+  /* Card right - priority */
+  .rc-priority { display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0; }
+  .priority-badge { padding:5px 12px; border-radius:20px; font-size:0.7rem; font-weight:800; text-align:center; white-space:nowrap; }
+  .pb-high   { background:#ffe8e8; color:#c0392b; border:1px solid rgba(192,57,43,0.2); }
+  .pb-medium { background:#fff3eb; color:#e8650a; border:1px solid rgba(232,101,10,0.2); }
+  .pb-low    { background:#e8f5ee; color:#1a7a3c; border:1px solid rgba(26,122,60,0.2); }
+
+  /* Card footer */
+  .rec-card-footer { padding:14px 24px; background:#fafff8; border-top:2px solid var(--green-light); display:flex; gap:10px; align-items:center; justify-content:space-between; }
+  .rc-docs { font-size:0.75rem; color:#7a9a7a; display:flex; align-items:center; gap:6px; flex:1; }
+  .rc-docs span { background:var(--saffron-light); color:var(--saffron); padding:2px 8px; border-radius:20px; font-weight:700; font-size:0.68rem; border:1px solid rgba(232,101,10,0.15); }
+  .btn-apply-ai { padding:10px 22px; border-radius:25px; background:linear-gradient(135deg,var(--green-main),var(--green-dark)); color:#fff; border:none; font-family:'Baloo 2',sans-serif; font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.25s; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 4px 14px rgba(26,122,60,0.25); }
+  .btn-apply-ai:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(26,122,60,0.35); }
+
+  /* Bottom tip */
+  .ai-tip-box { background:linear-gradient(135deg,#fffbe8,#fff3d0); border:2px solid rgba(240,165,0,0.25); border-radius:16px; padding:18px 22px; margin-top:24px; display:flex; gap:14px; align-items:flex-start; }
+  .ai-tip-icon { font-size:2rem; flex-shrink:0; }
+  .ai-tip-title { font-weight:800; font-size:0.9rem; color:#8a6000; margin-bottom:4px; }
+  .ai-tip-text  { font-size:0.82rem; color:#7a6020; line-height:1.5; }
+
+  /* Responsive */
+  @media(max-width:860px) { .sidebar{transform:translateX(-100%);} .sidebar.open{transform:translateX(0);} .main{margin-left:0;} .sidebar-toggle{display:block;} }
+  @media(max-width:700px) { .prc-grid{grid-template-columns:1fr 1fr;} .rec-card-top{grid-template-columns:auto 1fr;} .rc-priority{display:none;} }
+  @media(max-width:500px) { .page-content{padding:16px;} .prc-grid{grid-template-columns:1fr 1fr;} }
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-logo" href="index.html">
+    <div class="sidebar-logo-icon">🌾</div>
+    <div>
+      <span class="sidebar-logo-en">Krushi Sahayak</span>
+      <span class="sidebar-logo-mr">कृषी सहायक</span>
+    </div>
+  </a>
+  <div class="sidebar-profile">
+    <div class="sp-avatar">👨‍🌾</div>
+    <div>
+      <div class="sp-name" id="sb-name">—</div>
+      <div class="sp-id"  id="sb-id">—</div>
+      <span class="sp-badge">✅ Verified Farmer</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">MAIN MENU</div>
+    <a class="nav-item" href="farmer-dashboard.html"><span class="ni-icon"><i data-lucide="home" class="lucide"></i></span><span><span>Dashboard</span><span class="ni-mr">डॅशबोर्ड</span></span></a>
+    <a class="nav-item" href="schemes.html"><span class="ni-icon"><i data-lucide="clipboard-list" class="lucide"></i></span><span><span>View All Schemes</span><span class="ni-mr">सर्व योजना</span></span><span class="ni-badge">32</span></a>
+    <a class="nav-item active" href="ai-recommendation.html"><span class="ni-icon"><i data-lucide="bot" class="lucide"></i></span><span><span>AI Recommendation</span><span class="ni-mr">AI शिफारस</span></span></a>
+    <a class="nav-item" href="apply-scheme.html"><span class="ni-icon"><i data-lucide="file-pen-line" class="lucide"></i></span><span><span>Apply for Scheme</span><span class="ni-mr">अर्ज करा</span></span></a>
+    <div class="nav-section-label" style="margin-top:12px;">TRACK & MANAGE</div>
+    <a class="nav-item" href="tracking.html"><span class="ni-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span><span><span>My Applications</span><span class="ni-mr">माझे अर्ज</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="notifications.html"><span class="ni-icon"><i data-lucide="bell" class="lucide"></i></span><span><span>Notifications</span><span class="ni-mr">सूचना</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="edit-profile.html"><span class="ni-icon"><i data-lucide="user-pen" class="lucide"></i></span><span><span>Edit Profile</span><span class="ni-mr">प्रोफाइल</span></span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()"><i data-lucide="log-out" class="lucide"></i> <span>Logout</span></button>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" data-en="🤖 AI Recommendation Engine" data-mr="🤖 AI शिफारस इंजिन">🤖 AI Recommendation Engine</div>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ════ AI SCAN SCREEN ════ -->
+    <div id="aiScanScreen">
+      <!-- Particles (injected by JS) -->
+      <div class="ai-bot-wrap">
+        <div class="ai-bot-ring"></div>
+        <div class="ai-bot-ring"></div>
+        <div class="ai-bot-ring"></div>
+        <div class="ai-bot-icon">🤖</div>
+      </div>
+
+      <h1 class="ai-title" id="aiTitle">Krushi AI Analyzing...</h1>
+      <p class="ai-subtitle" id="aiSubtitle">Reading your farmer profile and matching government schemes</p>
+
+      <div class="scan-steps" id="scanSteps">
+        <div class="scan-step" id="ss1">
+          <span class="scan-step-icon">👤</span>
+          <div class="scan-step-text">
+            <span class="sst" data-en="Reading Farmer Profile" data-mr="शेतकरी प्रोफाइल वाचत आहे">Reading Farmer Profile</span>
+            <span class="ssv" id="ssv1">waiting...</span>
+          </div>
+          <span class="scan-step-status" id="sss1">⏳</span>
+        </div>
+        <div class="scan-step" id="ss2">
+          <span class="scan-step-icon">📍</span>
+          <div class="scan-step-text">
+            <span class="sst" data-en="Analyzing Location & District" data-mr="स्थान आणि जिल्हा विश्लेषण">Analyzing Location & District</span>
+            <span class="ssv" id="ssv2">waiting...</span>
+          </div>
+          <span class="scan-step-status" id="sss2">⏳</span>
+        </div>
+        <div class="scan-step" id="ss3">
+          <span class="scan-step-icon">🌾</span>
+          <div class="scan-step-text">
+            <span class="sst" data-en="Matching Crops & Land Size" data-mr="पिके आणि जमीन क्षेत्र जुळवणे">Matching Crops & Land Size</span>
+            <span class="ssv" id="ssv3">waiting...</span>
+          </div>
+          <span class="scan-step-status" id="sss3">⏳</span>
+        </div>
+        <div class="scan-step" id="ss4">
+          <span class="scan-step-icon">🗂️</span>
+          <div class="scan-step-text">
+            <span class="sst" data-en="Scanning 18 Government Schemes" data-mr="१८ सरकारी योजना स्कॅन करत आहे">Scanning 18 Government Schemes</span>
+            <span class="ssv" id="ssv4">waiting...</span>
+          </div>
+          <span class="scan-step-status" id="sss4">⏳</span>
+        </div>
+        <div class="scan-step" id="ss5">
+          <span class="scan-step-icon">✅</span>
+          <div class="scan-step-text">
+            <span class="sst" data-en="Generating Personalized Recommendations" data-mr="वैयक्तिक शिफारसी तयार करत आहे">Generating Personalized Recommendations</span>
+            <span class="ssv" id="ssv5">waiting...</span>
+          </div>
+          <span class="scan-step-status" id="sss5">⏳</span>
+        </div>
+      </div>
+
+      <div class="scan-progress-wrap">
+        <div class="scan-progress-bar">
+          <div class="scan-progress-fill" id="scanProgress"></div>
+        </div>
+        <div class="scan-progress-label" id="scanLabel">0% complete</div>
+      </div>
+    </div>
+
+    <!-- ════ RESULTS SECTION ════ -->
+    <div id="resultsSection">
+
+      <!-- Farmer Profile Read -->
+      <div class="profile-read-card" id="profileReadCard">
+        <div class="prc-title" data-en="✦ AI PROFILE SCAN COMPLETE" data-mr="✦ AI प्रोफाइल स्कॅन पूर्ण">✦ AI PROFILE SCAN COMPLETE</div>
+        <div class="prc-grid" id="prcGrid">
+          <!-- Filled by JS -->
+        </div>
+        <div class="ai-analysis-box" id="aiAnalysisBox">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- Results Header -->
+      <div class="results-header">
+        <div class="results-title">
+          🎯 <span data-en="Recommended Schemes For You" data-mr="तुमच्यासाठी शिफारस केलेल्या योजना">Recommended Schemes For You</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span class="results-count" id="recCount">6 matches found</span>
+          <button class="btn-rescan" onclick="startScan()">🔄 <span data-en="Re-scan" data-mr="पुन्हा स्कॅन">Re-scan</span></button>
+        </div>
+      </div>
+
+      <!-- Recommendation Cards -->
+      <div class="rec-cards" id="recCards">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- AI Tip -->
+      <div class="ai-tip-box" id="aiTipBox" style="margin-top:24px;">
+        <div class="ai-tip-icon">💡</div>
+        <div>
+          <div class="ai-tip-title" data-en="AI Pro Tip for You!" data-mr="तुमच्यासाठी AI टिप!">AI Pro Tip for You!</div>
+          <div class="ai-tip-text" id="aiTipText">Apply for the highest match scheme first to maximize your chances of approval.</div>
+        </div>
+      </div>
+
+    </div><!-- end resultsSection -->
+
+  </div>
+</div>
+
+<script>
+if (localStorage.getItem('loggedIn') !== 'true') { window.location.href = 'farmer-login.html'; }
+let currentLang = 'en';
+let farmerData  = {};
+
+// ════ LOAD DATA ════
+window.addEventListener('DOMContentLoaded', () => {
+  const _raw = JSON.parse(localStorage.getItem('farmerData') || '{}');
+  // ── Normalise field names (register saves mainCrop/landSize/irrigation/farmerId/bankName) ──
+  farmerData = {
+    name:      _raw.name      || '',
+    district:  _raw.district  || '',
+    village:   _raw.village   || '',
+    category:  _raw.category  || '',
+    // Farm — use exact saved keys, fallback to old keys just in case
+    crop:      _raw.mainCrop  || _raw.crop       || 'sugarcane',
+    landSize:  _raw.landSize  || _raw.land       || '2',
+    landType:  _raw.landType  || '',
+    water:     _raw.irrigation|| _raw.water      || 'well',
+    hasCattle: _raw.hasCattle || 'no',
+    cattleCount: _raw.cattleCount || '0',
+    // Bank / ID
+    bank:      _raw.bankName  || _raw.bank       || 'SBI',
+    id:        _raw.farmerId  || _raw.id         || '',
+  };
+  document.getElementById('sb-name').textContent = farmerData.name;
+  document.getElementById('sb-id').textContent   = farmerData.id || '';
+
+  // Add particles
+  addParticles();
+  // Start scan
+  setTimeout(startScan, 400);
+});
+
+// ════ PARTICLES ════
+function addParticles() {
+  const screen = document.getElementById('aiScanScreen');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      width:${3+Math.random()*5}px; height:${3+Math.random()*5}px;
+      left:${Math.random()*100}%; bottom:${Math.random()*30}%;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${3+Math.random()*3}s;
+    `;
+    screen.appendChild(p);
+  }
+}
+
+// ════ SCAN ANIMATION ════
+function startScan() {
+  document.getElementById('aiScanScreen').style.display = 'flex';
+  document.getElementById('resultsSection').style.display = 'none';
+
+  // Reset
+  for (let i=1;i<=5;i++) {
+    document.getElementById('ss'+i).className = 'scan-step';
+    document.getElementById('ssv'+i).textContent = 'waiting...';
+    document.getElementById('sss'+i).textContent = '⏳';
+  }
+  document.getElementById('scanProgress').style.width = '0%';
+  document.getElementById('scanLabel').textContent = '0% complete';
+
+  const steps = [
+    { id:1, delay:600,  val: () => farmerData.name + ' · ' + (farmerData.id||'KS-2024-45231'),  progress:20  },
+    { id:2, delay:1400, val: () => (farmerData.district||'Solapur') + ', Maharashtra',            progress:40  },
+    { id:3, delay:2200, val: () => cropLabel(farmerData.crop) + ' · ' + landLabel(farmerData.landSize), progress:60 },
+    { id:4, delay:3000, val: () => 'Scanning 18 schemes... AI matching',                       progress:80  },
+    { id:5, delay:3800, val: () => 'Top 4 schemes found by Gemini AI!',                                 progress:100 },
+  ];
+
+  steps.forEach(s => {
+    // Start scanning
+    setTimeout(() => {
+      document.getElementById('ss'+s.id).className = 'scan-step scanning';
+      typeText('ssv'+s.id, s.val());
+    }, s.delay);
+    // Mark done
+    setTimeout(() => {
+      document.getElementById('ss'+s.id).className = 'scan-step done';
+      document.getElementById('sss'+s.id).textContent = '✅';
+      document.getElementById('scanProgress').style.width = s.progress + '%';
+      document.getElementById('scanLabel').textContent = s.progress + '% complete';
+    }, s.delay + 600);
+  });
+
+  // Show results
+  setTimeout(showResults, 5000);
+}
+
+// Typewriter
+function typeText(elId, text) {
+  const el = document.getElementById(elId);
+  el.textContent = '';
+  el.classList.add('typing-text');
+  let i = 0;
+  const t = setInterval(() => {
+    el.textContent += text[i++];
+    if (i >= text.length) { clearInterval(t); el.classList.remove('typing-text'); }
+  }, 28);
+}
+
+// ════ GEMINI API KEY — PASTE YOUR KEY BELOW ════
+const GEMINI_API_KEY = 'AIzaSyC4mXlBT-P07XXPdmBxobzMOjZN5CEY6SY';
+const GEMINI_CACHE_KEY = 'ks_gemini_cache';
+
+// ════ GEMINI AI RECOMMENDATION ════
+async function buildRecommendationsAI() {
+  const d = farmerData;
+
+  // ── Check session cache — avoids 429 on re-visits ──
+  try {
+    const cached = sessionStorage.getItem(GEMINI_CACHE_KEY);
+    if (cached) {
+      const { farmerId, schemes } = JSON.parse(cached);
+      if (farmerId === (d.id||d.farmerId) && schemes && schemes.length > 0) {
+        console.log('Using cached Gemini results ✅');
+        renderAISchemes(schemes);
+        return;
+      }
+    }
+  } catch(e) { sessionStorage.removeItem(GEMINI_CACHE_KEY); }
+
+  const prompt = `You are an expert on Maharashtra government agricultural schemes. 
+A farmer has the following profile:
+- Name: ${d.name || 'Farmer'}
+- District: ${d.district || 'Maharashtra'}
+- Crop: ${d.crop || 'Not specified'}
+- Land Size: ${d.landSize || '1'} acres (${d.landType || 'owned'})
+- Irrigation: ${d.water || 'well'}
+- Cattle: ${d.hasCattle === 'yes' ? 'Yes, ' + (d.cattleCount || 1) + ' animals' : 'No'}
+- Category: ${d.category || 'general'}
+
+From the following 14 schemes, recommend the TOP 4 most relevant for this farmer. 
+For each scheme, give a match score (0-99), a priority (high/medium/low), and a 1-2 sentence personalized reason why this farmer qualifies.
+
+Available Maharashtra Government Schemes (use ALL of these to find best matches):
+1. Drip Irrigation Subsidy — Up to ₹80,000 — For farmers with min 0.5 acre, SC/ST get 90% subsidy
+2. Sprinkler Irrigation Subsidy — Up to ₹45,000 — Small farmers up to 5 acres, priority to women farmers
+3. Tractor Purchase Subsidy — Up to ₹1,50,000 — Min 2 acres land, income below ₹2 lakh
+4. Atal Solar Agriculture Pump Scheme — 90% subsidy up to ₹2,20,000 — No electricity connection, min 0.5 acre
+5. PM Kisan Samman Nidhi — ₹6,000/year — All landholding farmers, direct bank transfer
+6. Farm Pond Scheme — Up to ₹75,000 — Drought-prone districts, min 0.6 acres, 10% own contribution
+7. Cattle Shed Construction — Up to ₹70,000 — Min 2 cattle (cow/buffalo)
+8. PM Fasal Bima Yojana — Compensation up to ₹2,00,000 — All farmers, 2% premium for Kharif
+9. Power Thresher / Combine Harvester Subsidy — Up to ₹1,00,000 — Min 3 acres, SC/ST get extra 10%
+10. Shetkari Sanman Yojana — ₹12,000/year — Maharashtra state farmers
+11. Jalyukt Shivar Yojana — Free (Govt. funded) — Water conservation, drought-prone areas
+12. Rotavator / Power Weeder Subsidy — Up to ₹55,000 — Small and marginal farmers
+13. Irrigation Well Construction Subsidy — Up to ₹1,25,000 — No irrigation source, owned land
+14. PM Kisan Maan Dhan Yojana — ₹3,000/month pension — Farmers aged 18-40, small/marginal
+15. Namo Shetkari Maha Samman Nidhi — ₹6,000 extra/year — Maharashtra farmers enrolled in PM Kisan
+16. Goat / Sheep Rearing Subsidy — Up to ₹50,000 — Farmers interested in livestock, SC/ST priority
+17. Rooftop Solar Scheme — Up to ₹78,000 — Farmers with permanent electricity connection
+18. Kisan Credit Card — Loan up to ₹3,00,000 at 4% interest — All farmers needing working capital
+
+Respond ONLY with a valid JSON array, no markdown, no explanation outside JSON:
+[
+  {
+    "name": "scheme name",
+    "score": 85,
+    "priority": "high",
+    "reason": "personalized reason in 1-2 sentences",
+    "amount": "subsidy amount",
+    "docs": "required documents",
+    "icon": "relevant emoji"
+  }
+]`;
+
+  // Try models in order — fallback if one hits rate limit
+  const MODELS = [
+    'gemini-2.0-flash',
+    'gemini-2.0-flash-lite',
+    'gemini-2.0-flash-001',
+  ];
+
+  let response, lastError;
+  for (const model of MODELS) {
+    try {
+      response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.3, maxOutputTokens: 1500 }
+          })
+        }
+      );
+      if (response.ok) break; // success — stop trying
+      lastError = 'Gemini API error: ' + response.status;
+      if (response.status !== 429) break; // only retry on rate limit
+    } catch(e) { lastError = e.message; }
+  }
+
+  if (!response || !response.ok) throw new Error(lastError || 'All models failed');
+
+  const data = await response.json();
+  let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+  // Clean JSON — remove markdown fences if present
+  text = text.replace(/```json|```/g, '').trim();
+  const schemes = JSON.parse(text);
+
+  if (!schemes || schemes.length === 0) throw new Error('No schemes returned');
+
+  // ── Save to session cache ──
+  try {
+    sessionStorage.setItem(GEMINI_CACHE_KEY, JSON.stringify({ farmerId: d.id||d.farmerId, schemes }));
+  } catch(e) {}
+
+  renderAISchemes(schemes);
+}
+
+// ── Render AI scheme cards ──
+function renderAISchemes(schemes) {
+  document.getElementById('recCount').textContent =
+    schemes.length + (currentLang === 'mr' ? ' जुळणाऱ्या योजना' : ' AI-matched schemes found');
+
+  document.getElementById('recCards').innerHTML = schemes.map((r, i) => {
+    const pct = Math.min(parseInt(r.score) || 70, 99);
+    const col = pct >= 80 ? '#1a7a3c' : pct >= 60 ? '#e8650a' : '#3a7bd5';
+    const deg = Math.round(pct * 3.6);
+    const priCls = r.priority === 'high' ? 'pb-high' : r.priority === 'medium' ? 'pb-medium' : 'pb-low';
+    const priLabel = r.priority === 'high' ? '🔴 HIGH' : r.priority === 'medium' ? '🟠 MEDIUM' : '🟢 LOW';
+
+    return `
+    <div class="rec-card" style="animation-delay:${i*0.12}s">
+      <div class="rec-card-top">
+
+        <div class="match-circle" style="--mc:${col};--mp:${deg}deg">
+          <span class="mc-num">${pct}%</span>
+          <span class="mc-pct">MATCH</span>
+        </div>
+
+        <div class="rc-content">
+          <div class="rc-header">
+            <div class="rc-icon" style="background:linear-gradient(135deg,#e8f5ee,#c5e8d5)">${r.icon || '🌾'}</div>
+            <div><div class="rc-name">${r.name}</div></div>
+          </div>
+          <div class="rc-amount">💰 ${r.amount}</div>
+          <div class="rc-tags">
+            <span class="rc-tag match">🤖 Gemini AI</span>
+            <span class="rc-tag match">${r.priority === 'high' ? '⭐ Top Pick' : r.priority === 'medium' ? '✅ Recommended' : '📋 Consider'}</span>
+          </div>
+          <div class="ai-reason">
+            <span class="air-bot">🤖</span>
+            <span class="air-text">${r.reason}</span>
+          </div>
+          <div style="margin-top:8px;font-size:0.72rem;color:#7a9a7a;">
+            📄 Required: ${r.docs || 'Aadhaar, 7/12, Bank Account'}
+          </div>
+        </div>
+
+        <div class="rc-priority">
+          <span class="priority-badge ${priCls}">${priLabel}</span>
+          <span style="font-size:0.68rem;color:#aaa;text-align:center;">Priority</span>
+        </div>
+      </div>
+
+      <div class="rec-card-footer">
+        <div class="rc-docs">📄 AI Recommended based on your profile</div>
+        <a class="btn-apply-ai" href="apply-scheme.html?scheme=${encodeURIComponent(r.name)}">📝 Apply Now</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ════ SHOW RESULTS ════
+async function showResults() {
+  document.getElementById('aiScanScreen').style.display = 'none';
+  document.getElementById('resultsSection').style.display = 'block';
+
+  buildProfileCard();
+  buildTip();
+
+  // Show loading spinner
+  document.getElementById('recCards').innerHTML = `
+    <div style="text-align:center;padding:48px 24px;grid-column:1/-1;">
+      <div style="font-size:2.5rem;margin-bottom:16px;">🤖</div>
+      <div style="font-size:1rem;font-weight:700;color:#1a7a3c;margin-bottom:8px;">Gemini AI is analysing your profile...</div>
+      <div style="font-size:0.8rem;color:#aaa;">Finding the best government schemes for you</div>
+    </div>`;
+  document.getElementById('recCount').textContent = 'AI is thinking...';
+
+  // Try Gemini AI first, fallback to weighted scoring
+  try {
+    await buildRecommendationsAI();
+  } catch(err) {
+    console.warn('Gemini failed, using weighted scoring:', err.message);
+    buildRecommendations();
+  }
+}
+
+function cropLabel(c)  {
+  // Registration saves exact values: sugarcane, cotton, soybean, wheat, rice, onion, tomato, grapes, pomegranate, jowar, bajra, tur, other
+  const m = {
+    sugarcane:'Sugarcane', cotton:'Cotton', soybean:'Soybean',
+    wheat:'Wheat', rice:'Rice', onion:'Onion', tomato:'Tomato',
+    grapes:'Grapes', pomegranate:'Pomegranate', jowar:'Jowar',
+    bajra:'Bajra', tur:'Tur Dal', other:'Other'
+  };
+  const v = (c||'').toLowerCase().trim();
+  return m[v] || (c ? c.charAt(0).toUpperCase()+c.slice(1) : 'Sugarcane');
+}
+function landLabel(l)  {
+  // Registration saves actual number e.g. "2.5" or "0.5"
+  const num = parseFloat(l);
+  if (!isNaN(num)) {
+    return num + ' Acres';
+  }
+  // Fallback for old code-style values
+  const m = {less1:'< 1 Acre','1to2':'1–2 Acres','2to5':'2–5 Acres','5to10':'5–10 Acres',more10:'> 10 Acres'};
+  return m[l] || (l || '—') + ' Acres';
+}
+function waterLabel(w) {
+  // Registration saves exact values: well, borewell, canal, drip, rain, none
+  const m = {
+    well:     'Well',
+    borewell: 'Borewell',
+    canal:    'Canal Irrigation',
+    drip:     'Drip Irrigation',
+    rain:     'Rain-fed Only',
+    none:     'No Irrigation'
+  };
+  const v = (w||'').toLowerCase().trim();
+  return m[v] || (w ? w.charAt(0).toUpperCase()+w.slice(1) : '—');
+}
+function cattleLabel(hasCattle, cattleCount) {
+  // Registration saves hasCattle:"yes"/"no" and cattleCount as a number string
+  if (!hasCattle || hasCattle === 'no') return 'No Cattle';
+  const n = parseInt(cattleCount) || 0;
+  return n > 0 ? n + (n === 1 ? ' Animal' : ' Animals') : 'Yes (count not specified)';
+}
+
+function buildProfileCard() {
+  const d = farmerData;
+  const _cattle = cattleLabel(d.hasCattle, d.cattleCount);
+  const _land   = landLabel(d.landSize);
+  const _water  = waterLabel(d.water);
+  const _crop   = cropLabel(d.crop);
+  document.getElementById('prcGrid').innerHTML = `
+    <div class="prc-item"><div class="pci-icon">👨‍🌾</div><div class="pci-label">FARMER</div><div class="pci-val">${d.name}</div></div>
+    <div class="prc-item"><div class="pci-icon">📍</div><div class="pci-label">LOCATION</div><div class="pci-val">${d.district}, MH</div></div>
+    <div class="prc-item"><div class="pci-icon">📐</div><div class="pci-label">LAND SIZE</div><div class="pci-val">${_land}</div></div>
+    <div class="prc-item"><div class="pci-icon">🌾</div><div class="pci-label">PRIMARY CROP</div><div class="pci-val">${_crop}</div></div>
+    <div class="prc-item"><div class="pci-icon">💧</div><div class="pci-label">IRRIGATION SOURCE</div><div class="pci-val">${_water}</div></div>
+    <div class="prc-item"><div class="pci-icon">🐄</div><div class="pci-label">CATTLE</div><div class="pci-val">${_cattle}</div></div>
+  `;
+
+  document.getElementById('aiAnalysisBox').innerHTML = `
+    <span class="aab-icon">🤖</span>
+    <span class="aab-text">
+      ${currentLang==='mr'
+        ? `AI विश्लेषण: <strong>${d.name}</strong> हे <strong>${d.district}</strong> जिल्ह्यातील <strong>${_crop}</strong> उत्पादक आहेत. <strong>${_land}</strong> जमीन, <strong>${_water}</strong> सिंचन आणि ${_cattle === 'No Cattle' ? 'जनावरे नाहीत' : '<strong>' + _cattle + '</strong> जनावरे'}. महाराष्ट्र MahaDBT आणि केंद्र सरकारच्या योजनांमधून <strong>उच्च संबंधित योजना</strong> निवडल्या आहेत.`
+        : `AI Analysis: <strong>${d.name}</strong> from <strong>${d.district}</strong> grows <strong>${_crop}</strong> on <strong>${_land}</strong> using <strong>${_water}</strong>${_cattle !== 'No Cattle' ? ' with <strong>' + _cattle + '</strong>' : ' with <strong>no cattle</strong>'}. Matching schemes identified from Maharashtra's MahaDBT and Central Govt. portals.`
+      }
+    </span>
+  `;
+}
+
+// ════ RECOMMENDATIONS ════
+// ════════════════════════════════════════════════════════════
+// WEIGHTED SCORING ALGORITHM
+// Each scheme has criteria with individual weights (total = 100)
+// Score = Σ(earned_weight) / 100 × 100  → capped at 99
+// Parameters: crop, landSize, landType, water, hasCattle,
+//             cattleCount, district, category
+// ════════════════════════════════════════════════════════════
+
+const WATER_INTENSIVE_CROPS = ['sugarcane','cotton','vegetables','flowers','banana','grapes','pomegranate'];
+const MECHANIZABLE_CROPS    = ['sugarcane','wheat','rice','soybean','cotton','corn'];
+const DROUGHT_DISTRICTS     = ['solapur','osmanabad','latur','beed','jalna','aurangabad','ahmednagar','sangli','satara','nashik'];
+const SC_ST_CATS            = ['sc','st'];
+const RESERVED_CATS         = ['sc','st','obc','nt','vjnt'];
+const HORTICULTURE_CROPS    = ['grapes','banana','pomegranate','mango','orange','vegetables','flowers'];
+const RAIN_CROPS            = ['jowar','bajra','tur','moong','urad','groundnut'];
+const SMALL_FARMER_ACRES    = 2;
+const LARGE_FARMER_ACRES    = 5;
+
+const SCHEME_DEFS = [
+  // ── 1. Drip Irrigation ── (water crops + irrigation source)
+  {
+    id:'drip', icon:'💧', color:'background:linear-gradient(135deg,#e8f5ee,#c5e8d5)',
+    name:'Drip Irrigation Subsidy', nameMr:'ठिबक सिंचन अनुदान',
+    amount:'Up to ₹80,000', amountMr:'₹८०,००० पर्यंत',
+    tags:['💧 Water Saving','🌾 Crop Match','MahaDBT'],
+    docsNeeded:'7/12, Aadhaar, Bank Account', docsCount:'3 docs needed',
+    criteria:[
+      { label:'Water-intensive crop',    labelMr:'पाणी-लागणारे पीक',    weight:35, check: d => WATER_INTENSIVE_CROPS.includes((d.crop||'').toLowerCase()) },
+      { label:'Has irrigation source',   labelMr:'सिंचन स्रोत उपलब्ध',  weight:30, check: d => d.water && !['rain','none',''].includes((d.water||'').toLowerCase()) },
+      { label:'Land ≥ 1 acre',          labelMr:'जमीन ≥ १ एकर',        weight:20, check: d => parseFloat(d.landSize)||0 >= 1 },
+      { label:'SC/ST category bonus',   labelMr:'SC/ST प्रवर्ग बोनस',   weight:15, check: d => SC_ST_CATS.includes((d.category||'').toLowerCase()) },
+    ],
+    reason: (d,sc) => `Recommended because <strong>you grow ${cropLabel(d.crop)}</strong> which needs regular water. Drip irrigation saves 40% water & boosts yield by 25%. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>${cropLabel(d.crop)}</strong> पिकासाठी ठिबक सिंचन ४०% पाणी वाचवते. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 2. Solar Pump ── (irrigation source + drought district)
+  {
+    id:'solar', icon:'☀️', color:'background:linear-gradient(135deg,#fffbe8,#f5eac0)',
+    name:'Mukhyamantri Solar Pump Scheme', nameMr:'मुख्यमंत्री सौर कृषी पंप योजना',
+    amount:'90% Subsidy — Up to ₹2,20,000', amountMr:'९०% अनुदान — ₹२,२०,००० पर्यंत',
+    tags:['☀️ Solar','💰 High Amount','90% Subsidy'],
+    docsNeeded:'7/12, Aadhaar, 8A Record', docsCount:'3 docs needed',
+    criteria:[
+      { label:'Has irrigation source',   labelMr:'सिंचन स्रोत उपलब्ध',  weight:40, check: d => d.water && !['rain','none',''].includes((d.water||'').toLowerCase()) },
+      { label:'Drought-prone district',  labelMr:'दुष्काळी जिल्हा',      weight:30, check: d => DROUGHT_DISTRICTS.includes((d.district||'').toLowerCase()) },
+      { label:'Land ≥ 0.5 acre',        labelMr:'जमीन ≥ ०.५ एकर',      weight:20, check: d => parseFloat(d.landSize)||0 >= 0.5 },
+      { label:'SC/ST category bonus',   labelMr:'SC/ST प्रवर्ग बोनस',   weight:10, check: d => SC_ST_CATS.includes((d.category||'').toLowerCase()) },
+    ],
+    reason: (d,sc) => `<strong>${d.district||'Your district'}</strong> is water-scarce. Solar pump eliminates electricity bills completely with <strong>90% subsidy</strong>. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>${d.district||'तुमचा जिल्हा'}</strong> पाणीटंचाई क्षेत्र. सौर पंप वीज बिल पूर्णपणे संपवेल. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 3. PM Kisan ── (universal but prefers small + owned)
+  {
+    id:'pmkisan', icon:'🌾', color:'background:linear-gradient(135deg,#fff8e8,#fcecc0)',
+    name:'PM Kisan Samman Nidhi', nameMr:'पीएम किसान सन्मान निधी',
+    amount:'₹6,000 per year', amountMr:'₹६,००० प्रतिवर्ष',
+    tags:['💰 Direct Transfer','🇮🇳 Central','Most Popular'],
+    docsNeeded:'Aadhaar, Bank Account, 7/12', docsCount:'2 docs needed',
+    criteria:[
+      { label:'Registered farmer',       labelMr:'नोंदणीकृत शेतकरी',    weight:35, check: () => true },
+      { label:'Owns agricultural land',  labelMr:'शेतजमीन मालकी',       weight:35, check: d => (d.landType||'').toLowerCase() === 'owned' },
+      { label:'Small farmer (< 2 ac)',   labelMr:'लहान शेतकरी (< २ एकर)',weight:20, check: d => parseFloat(d.landSize)||0 < SMALL_FARMER_ACRES },
+      { label:'Has bank account',        labelMr:'बँक खाते आहे',        weight:10, check: d => !!d.bank },
+    ],
+    reason: (d,sc) => `Every registered farmer is eligible. <strong>Direct bank transfer</strong> of ₹6,000/year — fastest to get approved. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `प्रत्येक नोंदणीकृत शेतकरी पात्र. <strong>थेट बँक हस्तांतरण</strong> ₹६,०००/वर्ष. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 4. Namo Shetkari ── (Maharashtra + PM Kisan)
+  {
+    id:'namo', icon:'🌻', color:'background:linear-gradient(135deg,#ffe8e8,#f5c0c0)',
+    name:'Namo Shetkari Maha Samman', nameMr:'नमो शेतकरी महासन्मान निधी',
+    amount:'Extra ₹6,000 / year', amountMr:'अतिरिक्त ₹६,०००/वर्ष',
+    tags:['🏛️ State Govt.','Auto Enroll','Top-up Benefit'],
+    docsNeeded:'PM Kisan registration', docsCount:'1 doc needed',
+    criteria:[
+      { label:'Maharashtra resident',    labelMr:'महाराष्ट्र रहिवासी',   weight:40, check: () => true },
+      { label:'PM Kisan eligible',       labelMr:'PM किसान पात्र',       weight:35, check: () => true },
+      { label:'Owns land',               labelMr:'जमीन मालकी',           weight:25, check: d => (d.landType||'').toLowerCase() === 'owned' },
+    ],
+    reason: (d,sc) => `Auto-eligible with PM Kisan. Combined total <strong>₹12,000/year</strong>. Maharashtra's extra support for farmers. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `PM किसान सोबत आपोआप पात्र. एकूण <strong>₹१२,०००/वर्ष</strong>. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 5. Tractor ── (big land + mechanizable crop)
+  {
+    id:'tractor', icon:'🚜', color:'background:linear-gradient(135deg,#fff3eb,#ffe0c5)',
+    name:'Tractor Purchase Subsidy', nameMr:'ट्रॅक्टर खरेदी अनुदान',
+    amount:'Up to ₹1,50,000', amountMr:'₹१,५०,००० पर्यंत',
+    tags:['🚜 Equipment','MahaDBT','Mechanization'],
+    docsNeeded:'7/12, Aadhaar, Income Certificate', docsCount:'4 docs needed',
+    criteria:[
+      { label:'Land ≥ 2 acres',          labelMr:'जमीन ≥ २ एकर',        weight:40, check: d => parseFloat(d.landSize)||0 >= SMALL_FARMER_ACRES },
+      { label:'Mechanizable crop',       labelMr:'यांत्रिक पीक',         weight:30, check: d => MECHANIZABLE_CROPS.includes((d.crop||'').toLowerCase()) },
+      { label:'Owned land',              labelMr:'स्वमालकी जमीन',       weight:20, check: d => (d.landType||'').toLowerCase() === 'owned' },
+      { label:'Reserved category bonus', labelMr:'आरक्षित प्रवर्ग बोनस',weight:10, check: d => RESERVED_CATS.includes((d.category||'').toLowerCase()) },
+    ],
+    reason: (d,sc) => `With <strong>${landLabel(d.landSize)}</strong> of ${cropLabel(d.crop)}, a tractor reduces labour cost by 60%. Subsidy up to <strong>₹1,50,000</strong>. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>${landLabel(d.landSize)}</strong> ${cropLabel(d.crop)} शेतीसाठी ट्रॅक्टर मजुरी ६०% कमी करतो. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 6. Cattle Shed ── (has cattle)
+  {
+    id:'cattle', icon:'🐄', color:'background:linear-gradient(135deg,#fff0f0,#f5c8c8)',
+    name:'Cattle Shed Construction Subsidy', nameMr:'गोठा बांधणी अनुदान',
+    amount:'Up to ₹70,000', amountMr:'₹७०,००० पर्यंत',
+    tags:['🐄 Livestock','Animal Husbandry','MahaDBT'],
+    docsNeeded:'7/12, Aadhaar, Cattle Proof', docsCount:'3 docs needed',
+    criteria:[
+      { label:'Has cattle',              labelMr:'जनावरे आहेत',          weight:55, check: d => d.hasCattle === 'yes' },
+      { label:'Cattle count ≥ 2',       labelMr:'जनावरे संख्या ≥ २',   weight:25, check: d => parseInt(d.cattleCount)||0 >= 2 },
+      { label:'Owned land',              labelMr:'स्वमालकी जमीन',       weight:20, check: d => (d.landType||'').toLowerCase() === 'owned' },
+    ],
+    reason: (d,sc) => d.hasCattle==='yes'
+      ? `You have <strong>${cattleLabel(d.hasCattle,d.cattleCount)} cattle</strong> — directly eligible. Permanent shed improves milk yield significantly. <em>Score: ${sc}/100</em>`
+      : `No cattle currently. If you plan dairy farming, get <strong>₹70,000</strong> for shed construction. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => d.hasCattle==='yes'
+      ? `तुमच्याकडे <strong>${cattleLabel(d.hasCattle,d.cattleCount)} जनावरे</strong> — थेट पात्र. <em>गुण: ${sc}/100</em>`
+      : `दुग्ध व्यवसायासाठी ₹७०,०००चे अनुदान उपलब्ध. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 7. Fasal Bima ── (drought district + small farmer)
+  {
+    id:'bima', icon:'🌱', color:'background:linear-gradient(135deg,#e8ffe8,#c0f0c0)',
+    name:'PM Fasal Bima Yojana', nameMr:'प्रधानमंत्री पीक विमा योजना',
+    amount:'Compensation up to ₹2,00,000', amountMr:'₹२,००,००० पर्यंत भरपाई',
+    tags:['🛡️ Insurance','Risk Cover','2% Premium'],
+    docsNeeded:'7/12, Aadhaar, Sowing Declaration', docsCount:'3 docs needed',
+    criteria:[
+      { label:'Drought-prone district',  labelMr:'दुष्काळी जिल्हा',      weight:35, check: d => DROUGHT_DISTRICTS.includes((d.district||'').toLowerCase()) },
+      { label:'Rain-fed / risky crop',   labelMr:'पावसावर अवलंबित पीक',  weight:30, check: d => RAIN_CROPS.includes((d.crop||'').toLowerCase()) || (d.water||'').toLowerCase() === 'rain' },
+      { label:'Registered farmer',       labelMr:'नोंदणीकृत शेतकरी',    weight:20, check: () => true },
+      { label:'Small farmer (< 2 ac)',   labelMr:'लहान शेतकरी',          weight:15, check: d => parseFloat(d.landSize)||0 < SMALL_FARMER_ACRES },
+    ],
+    reason: (d,sc) => `<strong>${cropLabel(d.crop)}</strong> in <strong>${d.district||'your district'}</strong> faces weather risk. Crop insurance at <strong>2% premium</strong> protects your full investment. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>${d.district||'तुमच्या जिल्ह्यात'}</strong> हवामान धोका. फक्त <strong>२% प्रीमियम</strong>मध्ये संपूर्ण पीक संरक्षण. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 8. Horticulture Scheme ── (fruit/vegetable crops only)
+  {
+    id:'horti', icon:'🍇', color:'background:linear-gradient(135deg,#f5e8ff,#e0c5f5)',
+    name:'Horticulture Development Scheme', nameMr:'फलोत्पादन विकास योजना',
+    amount:'Up to ₹1,00,000', amountMr:'₹१,००,००० पर्यंत',
+    tags:['🍇 Horticulture','MahaDBT','High Value'],
+    docsNeeded:'7/12, Aadhaar, Crop Certificate', docsCount:'3 docs needed',
+    criteria:[
+      { label:'Horticulture crop',       labelMr:'फळबाग/भाजीपाला पीक',  weight:60, check: d => HORTICULTURE_CROPS.includes((d.crop||'').toLowerCase()) },
+      { label:'Land ≥ 0.5 acre',        labelMr:'जमीन ≥ ०.५ एकर',      weight:25, check: d => parseFloat(d.landSize)||0 >= 0.5 },
+      { label:'Has irrigation source',   labelMr:'सिंचन स्रोत उपलब्ध',  weight:15, check: d => d.water && !['rain','none',''].includes((d.water||'').toLowerCase()) },
+    ],
+    reason: (d,sc) => `<strong>${cropLabel(d.crop)}</strong> is a high-value horticulture crop. This scheme funds plantation, drip setup & cold storage access up to <strong>₹1,00,000</strong>. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>${cropLabel(d.crop)}</strong> उच्च-मूल्य फळपीक आहे. लागवड, ठिबक व कोल्ड स्टोरेजसाठी <strong>₹१,००,०००</strong> पर्यंत. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 9. Shetkari Anudan (Leased land) ── (leased land farmers)
+  {
+    id:'leased', icon:'📜', color:'background:linear-gradient(135deg,#e8f0ff,#c5d5f5)',
+    name:'Leased Land Farmer Support', nameMr:'भाडेपट्टा शेतकरी सहाय्य योजना',
+    amount:'Up to ₹25,000', amountMr:'₹२५,००० पर्यंत',
+    tags:['📜 Leased Land','State Govt.','Tenant Farmer'],
+    docsNeeded:'Lease Agreement, Aadhaar, 7/12', docsCount:'3 docs needed',
+    criteria:[
+      { label:'Leased / tenant farmer',  labelMr:'भाडेपट्टा शेतकरी',    weight:60, check: d => ['leased','both'].includes((d.landType||'').toLowerCase()) },
+      { label:'SC/ST/OBC category',      labelMr:'SC/ST/OBC प्रवर्ग',    weight:25, check: d => RESERVED_CATS.includes((d.category||'').toLowerCase()) },
+      { label:'Small land (< 2 ac)',     labelMr:'लहान जमीन (< २ एकर)', weight:15, check: d => parseFloat(d.landSize)||0 < SMALL_FARMER_ACRES },
+    ],
+    reason: (d,sc) => `You farm on <strong>leased land</strong> — this scheme specifically supports tenant farmers with direct financial assistance up to <strong>₹25,000</strong>. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `तुम्ही <strong>भाडेपट्टा जमिनीवर</strong> शेती करता — या योजनेत थेट <strong>₹२५,०००</strong> सहाय्य. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 10. Biogas / Organic ── (cattle + small farm)
+  {
+    id:'biogas', icon:'♻️', color:'background:linear-gradient(135deg,#e8fff0,#b8f0c8)',
+    name:'Biogas Plant Subsidy', nameMr:'बायोगॅस संयंत्र अनुदान',
+    amount:'Up to ₹40,000', amountMr:'₹४०,००० पर्यंत',
+    tags:['♻️ Green Energy','🐄 Cattle','Rural Energy'],
+    docsNeeded:'7/12, Aadhaar, Cattle Proof', docsCount:'3 docs needed',
+    criteria:[
+      { label:'Has cattle (dung source)', labelMr:'जनावरे आहेत (शेण स्रोत)',weight:50, check: d => d.hasCattle === 'yes' },
+      { label:'Cattle count ≥ 2',        labelMr:'जनावरे संख्या ≥ २',    weight:25, check: d => parseInt(d.cattleCount)||0 >= 2 },
+      { label:'SC/ST category bonus',    labelMr:'SC/ST प्रवर्ग बोनस',    weight:15, check: d => SC_ST_CATS.includes((d.category||'').toLowerCase()) },
+      { label:'Small farm (< 2 ac)',     labelMr:'लहान शेत (< २ एकर)',   weight:10, check: d => parseFloat(d.landSize)||0 < SMALL_FARMER_ACRES },
+    ],
+    reason: (d,sc) => `You have cattle — biogas plant converts dung to <strong>free cooking gas</strong> and organic fertilizer. Save ₹500/month on LPG. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `जनावरांच्या शेणापासून <strong>मोफत स्वयंपाकाचा गॅस</strong> व सेंद्रिय खत. LPG वर दरमहा ₹५०० बचत. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 11. Warehouse / Cold Storage ── (large land + commercial crops)
+  {
+    id:'warehouse', icon:'🏭', color:'background:linear-gradient(135deg,#fff5e8,#f5ddb0)',
+    name:'Farm Warehouse & Cold Storage', nameMr:'शेत गोदाम व शीतगृह अनुदान',
+    amount:'Up to ₹3,00,000', amountMr:'₹३,००,००० पर्यंत',
+    tags:['🏭 Storage','High Value','Post-harvest'],
+    docsNeeded:'7/12, Aadhaar, Project Plan', docsCount:'5 docs needed',
+    criteria:[
+      { label:'Land ≥ 5 acres',          labelMr:'जमीन ≥ ५ एकर',        weight:40, check: d => parseFloat(d.landSize)||0 >= LARGE_FARMER_ACRES },
+      { label:'Commercial crop',         labelMr:'व्यावसायिक पीक',       weight:35, check: d => [...HORTICULTURE_CROPS,...MECHANIZABLE_CROPS].includes((d.crop||'').toLowerCase()) },
+      { label:'Owned land',              labelMr:'स्वमालकी जमीन',       weight:25, check: d => (d.landType||'').toLowerCase() === 'owned' },
+    ],
+    reason: (d,sc) => `With <strong>${landLabel(d.landSize)}</strong> of ${cropLabel(d.crop)}, a warehouse prevents post-harvest losses worth 30% of your crop value. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>${landLabel(d.landSize)}</strong> ${cropLabel(d.crop)} उत्पादनासाठी गोदाम काढणीनंतरचे ३०% नुकसान टाळते. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 12. SC/ST Special Scheme ── (SC/ST only)
+  {
+    id:'scst', icon:'🎯', color:'background:linear-gradient(135deg,#e8f5ff,#c0d8f5)',
+    name:'SC/ST Farmer Special Assistance', nameMr:'SC/ST शेतकरी विशेष सहाय्य',
+    amount:'Up to ₹50,000', amountMr:'₹५०,००० पर्यंत',
+    tags:['🎯 SC/ST Special','State Govt.','Priority'],
+    docsNeeded:'7/12, Aadhaar, Caste Certificate', docsCount:'3 docs needed',
+    criteria:[
+      { label:'SC or ST category',       labelMr:'SC किंवा ST प्रवर्ग',  weight:70, check: d => SC_ST_CATS.includes((d.category||'').toLowerCase()) },
+      { label:'Small farmer (< 2 ac)',   labelMr:'लहान शेतकरी (< २ एकर)',weight:20, check: d => parseFloat(d.landSize)||0 < SMALL_FARMER_ACRES },
+      { label:'Registered farmer',       labelMr:'नोंदणीकृत शेतकरी',    weight:10, check: () => true },
+    ],
+    reason: (d,sc) => `As an <strong>SC/ST farmer</strong>, you get priority access to special financial assistance up to <strong>₹50,000</strong> for farm inputs and equipment. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>SC/ST शेतकरी</strong> म्हणून तुम्हाला <strong>₹५०,०००</strong> पर्यंत विशेष प्राधान्य सहाय्य मिळते. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 13. Seed & Fertilizer Subsidy ── (small farmer + rain crops)
+  {
+    id:'seed', icon:'🌰', color:'background:linear-gradient(135deg,#fff8e0,#f5e8a0)',
+    name:'Seed & Fertilizer Subsidy', nameMr:'बियाणे व खत अनुदान',
+    amount:'Up to ₹15,000', amountMr:'₹१५,००० पर्यंत',
+    tags:['🌰 Inputs','Every Farmer','Easy Apply'],
+    docsNeeded:'7/12, Aadhaar', docsCount:'2 docs needed',
+    criteria:[
+      { label:'Registered farmer',       labelMr:'नोंदणीकृत शेतकरी',    weight:30, check: () => true },
+      { label:'Rain-fed crop',           labelMr:'पावसावर अवलंबित पीक',  weight:30, check: d => RAIN_CROPS.includes((d.crop||'').toLowerCase()) || (d.water||'').toLowerCase() === 'rain' },
+      { label:'Small farmer (< 2 ac)',   labelMr:'लहान शेतकरी (< २ एकर)',weight:25, check: d => parseFloat(d.landSize)||0 < SMALL_FARMER_ACRES },
+      { label:'Reserved category',       labelMr:'आरक्षित प्रवर्ग',      weight:15, check: d => RESERVED_CATS.includes((d.category||'').toLowerCase()) },
+    ],
+    reason: (d,sc) => `Easy to apply — every farmer with <strong>${cropLabel(d.crop)}</strong> crop gets subsidized seeds & fertilizer worth <strong>₹15,000</strong> directly. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `<strong>${cropLabel(d.crop)}</strong> पिकासाठी सर्व शेतकऱ्यांना <strong>₹१५,०००</strong> चे बियाणे व खत थेट अनुदान. <em>गुण: ${sc}/100</em>`,
+  },
+
+  // ── 14. Women Farmer Scheme ── (general open scheme scored by multiple params)
+  {
+    id:'wellbore', icon:'🔩', color:'background:linear-gradient(135deg,#e0f8ff,#b8eaf5)',
+    name:'Borewell / Well Digging Subsidy', nameMr:'विहीर / बोअरवेल खोदाई अनुदान',
+    amount:'Up to ₹2,50,000', amountMr:'₹२,५०,००० पर्यंत',
+    tags:['💧 Water','Borewell','MahaDBT'],
+    docsNeeded:'7/12, Aadhaar, Site Plan', docsCount:'4 docs needed',
+    criteria:[
+      { label:'Rain-fed / no irrigation', labelMr:'पावसावर अवलंबित / सिंचन नाही',weight:40, check: d => ['rain','none',''].includes((d.water||'').toLowerCase()) },
+      { label:'Drought-prone district',   labelMr:'दुष्काळी जिल्हा',      weight:30, check: d => DROUGHT_DISTRICTS.includes((d.district||'').toLowerCase()) },
+      { label:'Owned land',              labelMr:'स्वमालकी जमीन',        weight:20, check: d => (d.landType||'').toLowerCase() === 'owned' },
+      { label:'SC/ST category bonus',    labelMr:'SC/ST प्रवर्ग बोनस',   weight:10, check: d => SC_ST_CATS.includes((d.category||'').toLowerCase()) },
+    ],
+    reason: (d,sc) => `You depend on <strong>rain water</strong> — a borewell/well provides year-round irrigation security. Subsidy up to <strong>₹2,50,000</strong>. <em>Score: ${sc}/100</em>`,
+    reasonMr:(d,sc) => `तुम्ही <strong>पावसावर अवलंबित</strong> आहात — विहीर/बोअरवेलमुळे वर्षभर सिंचन. <strong>₹२,५०,०००</strong> पर्यंत अनुदान. <em>गुण: ${sc}/100</em>`,
+  },
+];
+
+
+function calculateScore(scheme, farmerData) {
+  let earned = 0;
+  const breakdown = scheme.criteria.map(c => {
+    const matched = c.check(farmerData);
+    if (matched) earned += c.weight;
+    return { label: c.label, labelMr: c.labelMr, weight: c.weight, matched };
+  });
+  const score = Math.min(earned, 99); // cap at 99 (nothing is ever 100%)
+  return { score, breakdown };
+}
+
+// ── Priority from score ──
+function scoreToPriority(score) {
+  if (score >= 80) return { en:'high',   mr:'उच्च',   label:'🔴 HIGH',   labelMr:'🔴 उच्च',   cls:'pb-high'   };
+  if (score >= 60) return { en:'medium', mr:'मध्यम', label:'🟠 MEDIUM', labelMr:'🟠 मध्यम', cls:'pb-medium' };
+  return               { en:'low',    mr:'कमी',   label:'🟢 LOW',    labelMr:'🟢 कमी',   cls:'pb-low'    };
+}
+
+function buildRecommendations() {
+  const d = farmerData;
+  const _cropDisp = cropLabel(d.crop);
+
+  // ── Score all schemes ──
+  const scored = SCHEME_DEFS.map(scheme => {
+    const { score, breakdown } = calculateScore(scheme, d);
+    return { ...scheme, score, breakdown };
+  })
+  .filter(r => r.score >= 30)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 4);
+
+  document.getElementById('recCount').textContent =
+    scored.length + (currentLang === 'mr' ? ' जुळणाऱ्या योजना' : ' matching schemes found');
+
+  document.getElementById('recCards').innerHTML = scored.map((r, i) => {
+    const pct  = r.score;
+    const col  = pct >= 80 ? '#1a7a3c' : pct >= 60 ? '#e8650a' : '#3a7bd5';
+    const deg  = Math.round(pct * 3.6);
+    const pri  = scoreToPriority(pct);
+    const reason = currentLang === 'mr' ? r.reasonMr(d, pct) : r.reason(d, pct);
+
+    // ── Score breakdown bars ──
+    const breakdownHTML = r.breakdown.map(b => `
+      <div style="margin-bottom:5px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
+          <span style="font-size:0.66rem;color:#3a5a3a;font-weight:600;">${currentLang==='mr'?b.labelMr:b.label}</span>
+          <span style="font-size:0.66rem;font-weight:800;color:${b.matched?'#1a7a3c':'#ccc'};">${b.matched?b.weight:0}/${b.weight}</span>
+        </div>
+        <div style="height:5px;background:#e8f0e8;border-radius:4px;overflow:hidden;">
+          <div style="height:100%;width:${b.matched?100:0}%;background:${b.matched?'linear-gradient(90deg,#1a7a3c,#25a050)':'transparent'};border-radius:4px;transition:width 0.8s ease ${i*0.12+0.3}s;"></div>
+        </div>
+      </div>`).join('');
+
+    return `
+    <div class="rec-card" style="animation-delay:${i*0.12}s">
+      <div class="rec-card-top">
+
+        <!-- Match circle -->
+        <div class="match-circle" style="--mc:${col};--mp:${deg}deg">
+          <span class="mc-num">${pct}%</span>
+          <span class="mc-pct">MATCH</span>
+        </div>
+
+        <!-- Content -->
+        <div class="rc-content">
+          <div class="rc-header">
+            <div class="rc-icon" style="${r.color}">${r.icon}</div>
+            <div>
+              <div class="rc-name">${currentLang==='mr'?r.nameMr:r.name}</div>
+            </div>
+          </div>
+          <div class="rc-amount">💰 ${currentLang==='mr'?r.amountMr:r.amount}</div>
+          <div class="rc-tags">
+            ${r.tags.map(t=>`<span class="rc-tag match">${t}</span>`).join('')}
+          </div>
+
+          <!-- AI Reason -->
+          <div class="ai-reason">
+            <span class="air-bot">📊</span>
+            <span class="air-text">${reason}</span>
+          </div>
+
+          <!-- Score Breakdown -->
+          <details style="margin-top:10px;">
+            <summary style="font-size:0.72rem;font-weight:700;color:#1a7a3c;cursor:pointer;user-select:none;">
+              📈 ${currentLang==='mr'?'गुण तपशील पाहा':'View Score Breakdown'}
+            </summary>
+            <div style="margin-top:8px;padding:10px;background:#f8fdf8;border-radius:10px;border:1px solid #d4e8d4;">
+              ${breakdownHTML}
+              <div style="margin-top:8px;padding-top:8px;border-top:1px solid #d4e8d4;display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.7rem;font-weight:700;color:#3a5a3a;">${currentLang==='mr'?'एकूण गुण':'Total Score'}</span>
+                <span style="font-size:0.82rem;font-weight:800;color:${col};">${pct} / 100</span>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Priority -->
+        <div class="rc-priority">
+          <span class="priority-badge ${pri.cls}">
+            ${currentLang==='mr'?pri.labelMr:pri.label}
+          </span>
+          <span style="font-size:0.68rem;color:#aaa;text-align:center;">${currentLang==='mr'?'प्राधान्य':'Priority'}</span>
+        </div>
+      </div>
+
+      <div class="rec-card-footer">
+        <div class="rc-docs">
+          📄 ${currentLang==='mr'?'आवश्यक:':'Required:'} <span>${r.docsCount}</span>
+          &nbsp;·&nbsp; ${currentLang==='mr'?r.docsNeeded.replace('Aadhaar','आधार').replace('Bank Account','बँक खाते'):r.docsNeeded}
+        </div>
+        <a class="btn-apply-ai" href="apply-scheme.html?scheme=${r.id}">
+          📝 ${currentLang==='mr'?'अर्ज करा':'Apply Now'}
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildTip() {
+  const _cropDisp = cropLabel(farmerData.crop);
+  const tips = {
+    en:[
+      `Apply for PM Kisan first — it takes only 2 docs and has the fastest approval time of all schemes!`,
+      `Your ${_cropDisp} farm is perfect for the Solar Pump scheme. With 90% subsidy, your cost is only ₹22,000!`,
+      `Stack multiple schemes! You can apply for PM Kisan + Namo Shetkari + Drip Irrigation all at the same time.`,
+    ],
+    mr:[
+      `प्रथम PM Kisan साठी अर्ज करा — फक्त 2 कागदपत्रे आणि सर्वात जलद मंजुरी!`,
+      `तुमचे ${_cropDisp} शेत सौर पंप योजनेसाठी उत्तम आहे. ९०% अनुदानात फक्त ₹२२,०००!`,
+      `एकापेक्षा जास्त योजना एकत्र मिळवा! पीएम किसान + नमो शेतकरी + ठिबक सिंचन एकत्र अर्ज करा.`,
+    ]
+  };
+  const t = tips[currentLang][Math.floor(Math.random()*3)];
+  document.getElementById('aiTipText').textContent = t;
+}
+
+// ════ LANGUAGE ════
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang === 'mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length === 0) el.textContent = lang==='mr'?el.dataset.mr:el.dataset.en;
+  });
+  // Re-render results in new language if visible
+  if (document.getElementById('resultsSection').style.display !== 'none') {
+    buildProfileCard();
+    buildRecommendations();
+    buildTip();
+  }
+}
+
+function doLogout() {
+  if (confirm(currentLang==='mr'?'लॉगआउट करायचे आहे का?':'Are you sure you want to logout?')) {
+    localStorage.removeItem('loggedIn');
+    window.location.href = 'farmer-login.html';
+  }
+}
+</script>
+<script src="../js/main.js"></script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

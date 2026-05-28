@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krushi Sahayak — Track Applications</title>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green-dark:#0d5c2e;--green-main:#1a7a3c;--green-mid:#25a050;
+    --green-light:#e8f5ee;--saffron:#e8650a;--saffron-light:#fff3eb;
+    --gold:#f0a500;--cream:#fffdf7;--text-dark:#1a2e1a;--text-mid:#3a5a3a;
+    --border:#d4e8d4;--sidebar-w:260px;
+    --ai-cyan:#00c8ff;--ai-dark:#050f08;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Baloo 2',sans-serif;background:#f0f4f0;color:var(--text-dark);}
+  body.mr{font-family:'Noto Sans Devanagari',sans-serif;}
+
+  /* ══ SIDEBAR ══ */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:linear-gradient(180deg,var(--green-dark) 0%,#0a4020 100%);z-index:100;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.15);transition:transform 0.3s;}
+  .sidebar-logo{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:12px;text-decoration:none;}
+  .sidebar-logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--saffron),var(--gold));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .sidebar-logo-en{font-family:'Baloo 2',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;display:block;}
+  .sidebar-logo-mr{font-family:'Noto Sans Devanagari',sans-serif;font-size:0.65rem;color:var(--gold);display:block;}
+  .sidebar-profile{padding:20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:12px;}
+  .sp-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--gold));display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;border:2px solid rgba(255,255,255,0.3);}
+  .sp-name{font-size:0.88rem;font-weight:700;color:#fff;}
+  .sp-id{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:2px;}
+  .sp-badge{display:inline-block;background:rgba(37,160,80,0.3);border:1px solid rgba(37,160,80,0.5);color:#7deca0;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:4px;}
+  .sidebar-nav{flex:1;padding:16px 12px;overflow-y:auto;}
+  .nav-section-label{font-size:0.62rem;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1px;text-transform:uppercase;padding:8px 10px 6px;margin-top:8px;}
+  .nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;margin-bottom:3px;text-decoration:none;color:rgba(255,255,255,0.65);font-size:0.88rem;font-weight:600;transition:all 0.25s;}
+  .nav-item:hover{background:rgba(255,255,255,0.1);color:#fff;}
+  .nav-item.active{background:linear-gradient(135deg,var(--saffron),#e05500);color:#fff;box-shadow:0 4px 16px rgba(232,101,10,0.35);}
+  .nav-item .ni-icon{font-size:1.1rem;flex-shrink:0;}
+  .nav-item .ni-badge{margin-left:auto;background:var(--saffron);color:#fff;font-size:0.65rem;font-weight:800;padding:2px 7px;border-radius:10px;}
+  .nav-item .ni-mr{font-family:'Noto Sans Devanagari',sans-serif;font-size:0.65rem;color:rgba(255,255,255,0.35);display:block;line-height:1;}
+  .sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.1);}
+  .btn-logout{width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.65);font-family:'Baloo 2',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.25s;}
+  .btn-logout:hover{background:rgba(192,57,43,0.3);color:#ff9999;}
+
+  /* ══ MAIN ══ */
+  .main{margin-left:var(--sidebar-w);min-height:100vh;}
+  .topbar{background:#fff;border-bottom:2px solid var(--border);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+  .topbar-left{display:flex;align-items:center;gap:12px;}
+  .topbar-title{font-family:'Yatra One',cursive;font-size:1.2rem;color:var(--green-dark);}
+  .topbar-right{display:flex;align-items:center;gap:12px;}
+  .lang-switch{display:flex;background:var(--green-light);border-radius:25px;padding:3px;gap:2px;}
+  .lang-btn{padding:5px 14px;border-radius:20px;border:none;font-family:'Baloo 2',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.25s;color:var(--text-mid);background:transparent;}
+  .lang-btn.active{background:var(--saffron);color:#fff;}
+  .sidebar-toggle{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--green-dark);}
+
+  .page-content{padding:28px;}
+
+  /* ══ AI RADAR HEADER ══ */
+  .ai-radar-header{
+    background:linear-gradient(135deg,var(--ai-dark) 0%,#0a1f12 60%,#050f08 100%);
+    border-radius:24px;padding:32px;margin-bottom:28px;
+    position:relative;overflow:hidden;
+    display:flex;align-items:center;gap:32px;
+    border:1px solid rgba(0,200,255,0.12);
+  }
+  .ai-radar-header::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,200,255,0.03) 1px,transparent 1px);background-size:24px 24px;}
+
+  /* Radar animation */
+  .radar-wrap{position:relative;width:110px;height:110px;flex-shrink:0;}
+  .radar-circle{position:absolute;border-radius:50%;border:1px solid rgba(0,200,255,0.2);}
+  .rc1{inset:0;}
+  .rc2{inset:20%;}
+  .rc3{inset:40%;}
+  .radar-line{
+    position:absolute;top:50%;left:50%;
+    width:50%;height:2px;transform-origin:left center;
+    background:linear-gradient(90deg,transparent,var(--ai-cyan));
+    animation:radarSpin 3s linear infinite;
+    box-shadow:0 0 8px var(--ai-cyan);
+  }
+  @keyframes radarSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  .radar-dot{
+    position:absolute;border-radius:50%;background:var(--ai-cyan);
+    box-shadow:0 0 8px var(--ai-cyan);
+    animation:radarBlink 2s ease-in-out infinite;
+  }
+  .rd1{width:8px;height:8px;top:20%;left:60%;}
+  .rd2{width:6px;height:6px;top:55%;left:30%;animation-delay:0.7s;}
+  .rd3{width:7px;height:7px;top:70%;left:68%;animation-delay:1.3s;}
+  @keyframes radarBlink{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.3;transform:scale(0.5);}}
+  .radar-center{position:absolute;inset:42%;background:var(--ai-cyan);border-radius:50%;box-shadow:0 0 12px var(--ai-cyan);}
+
+  .radar-info{flex:1;position:relative;z-index:1;}
+  .ri-label{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--ai-cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .ri-label::before{content:'';width:8px;height:8px;background:var(--ai-cyan);border-radius:50%;animation:radarBlink 1s infinite;}
+  .ri-title{font-family:'Yatra One',cursive;font-size:1.7rem;color:#fff;margin-bottom:6px;line-height:1.1;}
+  .ri-title .hl{color:var(--ai-cyan);}
+  .ri-sub{font-size:0.82rem;color:rgba(255,255,255,0.5);margin-bottom:20px;line-height:1.5;}
+  .ri-stats{display:flex;gap:16px;flex-wrap:wrap;}
+  .ri-stat{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 18px;text-align:center;}
+  .ris-num{font-family:'Yatra One',cursive;font-size:1.4rem;color:#fff;}
+  .ris-lbl{font-size:0.65rem;color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;letter-spacing:0.5px;text-transform:uppercase;}
+
+  /* ══ AI INSIGHT STRIP ══ */
+  .ai-insight-strip{
+    background:linear-gradient(135deg,rgba(0,200,255,0.08),rgba(0,200,255,0.03));
+    border:1px solid rgba(0,200,255,0.2);border-radius:16px;
+    padding:16px 20px;margin-bottom:24px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .ais-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0a2a4a,#1a4a7a);border:2px solid var(--ai-cyan);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;box-shadow:0 0 16px rgba(0,200,255,0.25);animation:aiGlow 3s ease-in-out infinite;}
+  @keyframes aiGlow{0%,100%{box-shadow:0 0 16px rgba(0,200,255,0.25);}50%{box-shadow:0 0 28px rgba(0,200,255,0.5);}}
+  .ais-text{flex:1;font-size:0.85rem;color:var(--text-dark);line-height:1.6;}
+  .ais-text strong{color:var(--green-dark);}
+  .ais-text .ais-mr{font-family:'Noto Sans Devanagari',sans-serif;}
+
+  /* ══ MAIN GRID ══ */
+  .track-grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start;}
+
+  /* ══ APPLICATION CARDS ══ */
+  .app-cards{display:flex;flex-direction:column;gap:20px;}
+
+  .app-track-card{
+    background:#fff;border-radius:22px;border:2px solid var(--border);
+    overflow:hidden;transition:all 0.3s;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    animation:cardSlide 0.5s ease forwards;opacity:0;
+  }
+  @keyframes cardSlide{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  .app-track-card:hover{box-shadow:0 12px 40px rgba(26,122,60,0.12);border-color:var(--green-main);}
+
+  /* Card header */
+  .atc-header{
+    padding:20px 24px;display:flex;align-items:center;gap:16px;
+    border-bottom:2px solid var(--green-light);
+    background:linear-gradient(135deg,#fafff8,#fff);
+  }
+  .atc-scheme-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0;}
+  .atc-info{flex:1;min-width:0;}
+  .atc-name{font-weight:800;font-size:1rem;color:var(--green-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .atc-id{font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#aaa;margin-top:2px;}
+  .atc-amount{font-size:0.85rem;font-weight:800;color:var(--green-main);background:var(--green-light);padding:4px 12px;border-radius:20px;border:1px solid rgba(26,122,60,0.15);white-space:nowrap;}
+
+  /* Status badge */
+  .atc-status-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+  .status-badge{padding:6px 14px;border-radius:25px;font-size:0.75rem;font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+  .sb-approved  {background:linear-gradient(135deg,#d4f5e0,#a8edbc);color:#0d5c2e;border:1px solid rgba(13,92,46,0.2);}
+  .sb-review    {background:linear-gradient(135deg,#fff3eb,#ffe8d0);color:#e8650a;border:1px solid rgba(232,101,10,0.2);}
+  .sb-submitted {background:linear-gradient(135deg,#e8f0ff,#d0dcf5);color:#2a4ab0;border:1px solid rgba(42,74,176,0.2);}
+  .sb-rejected  {background:linear-gradient(135deg,#ffe8e8,#f5d0d0);color:#c0392b;border:1px solid rgba(192,57,43,0.2);}
+  .sb-pending   {background:linear-gradient(135deg,#fffbe8,#f5f0d0);color:#a07800;border:1px solid rgba(160,120,0,0.2);}
+
+  /* Pulse dot for active */
+  .live-dot{width:8px;height:8px;background:var(--green-mid);border-radius:50%;animation:livePulse 1.5s infinite;flex-shrink:0;}
+  @keyframes livePulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:0.5;}}
+
+  /* ══ TIMELINE ══ */
+  .timeline-wrap{padding:20px 24px;}
+  .timeline-label{font-size:0.72rem;font-weight:700;color:var(--text-mid);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+  .timeline{position:relative;padding-left:32px;}
+  .timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--green-main),var(--border));border-radius:2px;}
+
+  .tl-step{position:relative;margin-bottom:20px;animation:tlSlide 0.4s ease forwards;opacity:0;}
+  .tl-step:last-child{margin-bottom:0;}
+  @keyframes tlSlide{from{opacity:0;transform:translateX(-10px);}to{opacity:1;transform:none;}}
+
+  .tl-dot{
+    position:absolute;left:-32px;top:2px;
+    width:24px;height:24px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.75rem;border:2px solid;
+    background:#fff;transition:all 0.3s;
+  }
+  .tl-dot.done{background:var(--green-main);border-color:var(--green-main);color:#fff;box-shadow:0 0 12px rgba(26,122,60,0.4);}
+  .tl-dot.active{background:var(--saffron);border-color:var(--saffron);color:#fff;box-shadow:0 0 12px rgba(232,101,10,0.4);animation:activePulse 1.5s infinite;}
+  @keyframes activePulse{0%,100%{box-shadow:0 0 12px rgba(232,101,10,0.4);}50%{box-shadow:0 0 22px rgba(232,101,10,0.7);}}
+  .tl-dot.waiting{background:#f0f0f0;border-color:#ddd;color:#aaa;}
+
+  .tl-content{padding-left:4px;}
+  .tl-title{font-size:0.88rem;font-weight:700;color:var(--text-dark);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .tl-time{font-size:0.7rem;color:#aaa;font-family:'Share Tech Mono',monospace;}
+  .tl-desc{font-size:0.78rem;color:#7a9a7a;margin-top:3px;line-height:1.5;}
+
+  /* AI comment on timeline step */
+  .tl-ai-comment{
+    background:linear-gradient(135deg,#f0f8ff,#e8f0ff);
+    border:1px solid rgba(0,150,255,0.15);
+    border-left:3px solid var(--ai-cyan);
+    border-radius:0 10px 10px 0;
+    padding:8px 12px;margin-top:8px;
+    font-size:0.75rem;color:#3a5a8a;line-height:1.5;
+    display:flex;gap:8px;align-items:flex-start;
+  }
+  .tl-ai-comment .tac-icon{flex-shrink:0;font-size:0.9rem;}
+
+  /* Expected amount bar */
+  .amount-bar-wrap{padding:0 24px 20px;}
+  .ab-label{font-size:0.72rem;font-weight:700;color:var(--text-mid);margin-bottom:8px;display:flex;justify-content:space-between;}
+  .ab-track{height:10px;background:#eee;border-radius:5px;overflow:hidden;}
+  .ab-fill{height:100%;border-radius:5px;transition:width 1.5s ease;background:linear-gradient(90deg,var(--green-main),var(--saffron));}
+  .ab-note{font-size:0.7rem;color:#aaa;margin-top:6px;display:flex;justify-content:space-between;}
+
+  /* ══ RIGHT COLUMN ══ */
+  .right-col{display:flex;flex-direction:column;gap:20px;}
+
+  /* AI Prediction Card */
+  .ai-predict-card{
+    background:linear-gradient(160deg,var(--ai-dark),#0a2015);
+    border-radius:20px;border:1px solid rgba(0,200,255,0.15);
+    overflow:hidden;
+  }
+  .apc-header{
+    padding:18px 20px;border-bottom:1px solid rgba(0,200,255,0.1);
+    display:flex;align-items:center;gap:12px;
+    background:rgba(0,200,255,0.05);
+  }
+  .apc-bot{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#0a2a4a,#1a4a7a);border:2px solid var(--ai-cyan);display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 14px rgba(0,200,255,0.3);animation:aiGlow 3s infinite;}
+  .apc-title{font-family:'Baloo 2',sans-serif;font-weight:800;color:#fff;font-size:0.9rem;}
+  .apc-sub{font-size:0.65rem;color:var(--ai-cyan);font-family:'Share Tech Mono',monospace;}
+
+  .apc-body{padding:18px 20px;}
+  .predict-item{margin-bottom:16px;}
+  .predict-item:last-child{margin-bottom:0;}
+  .pi-label{font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;}
+  .pi-val{font-size:0.88rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px;}
+  .pi-val .piv-badge{font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;}
+  .piv-high  {background:rgba(37,160,80,0.2);color:#7deca0;border:1px solid rgba(37,160,80,0.3);}
+  .piv-med   {background:rgba(232,101,10,0.2);color:#ffaa70;border:1px solid rgba(232,101,10,0.3);}
+  .pi-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;margin-top:6px;overflow:hidden;}
+  .pi-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--ai-cyan),var(--green-mid));transition:width 1.5s ease;}
+
+  .apc-divider{height:1px;background:rgba(255,255,255,0.07);margin:14px 0;}
+
+  .ai-next-action{
+    background:rgba(37,160,80,0.1);border:1px solid rgba(37,160,80,0.25);
+    border-radius:12px;padding:12px 14px;
+  }
+  .ana-label{font-size:0.65rem;color:rgba(255,255,255,0.35);font-family:'Share Tech Mono',monospace;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+  .ana-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;font-size:0.78rem;color:rgba(255,255,255,0.7);line-height:1.5;}
+  .ana-item:last-child{margin-bottom:0;}
+  .ana-item .ani-icon{font-size:1rem;flex-shrink:0;}
+
+  /* Quick stats mini */
+  .quick-stats-card{background:#fff;border-radius:18px;border:2px solid var(--border);padding:20px;box-shadow:0 4px 16px rgba(0,0,0,0.04);}
+  .qs-title{font-family:'Yatra One',cursive;font-size:1rem;color:var(--green-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .qs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .qs-item{background:var(--green-light);border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(26,122,60,0.1);}
+  .qsi-num{font-family:'Yatra One',cursive;font-size:1.4rem;color:var(--green-dark);}
+  .qsi-lbl{font-size:0.68rem;color:#7a9a7a;margin-top:2px;}
+
+  /* Helpline card */
+  .helpline-card{background:linear-gradient(135deg,var(--saffron),#e05500);border-radius:18px;padding:20px;color:#fff;text-align:center;box-shadow:0 6px 24px rgba(232,101,10,0.3);}
+  .hc-icon{font-size:2.2rem;margin-bottom:8px;}
+  .hc-title{font-family:'Yatra One',cursive;font-size:1.1rem;margin-bottom:4px;}
+  .hc-sub{font-size:0.78rem;opacity:0.75;margin-bottom:14px;}
+  .hc-num{font-family:'Share Tech Mono',monospace;font-size:1.4rem;font-weight:700;background:rgba(255,255,255,0.15);border-radius:12px;padding:10px 20px;display:inline-block;letter-spacing:2px;border:1px solid rgba(255,255,255,0.25);}
+
+  /* ══ SEARCH BAR ══ */
+  .search-id-bar{
+    background:#fff;border-radius:16px;padding:16px 20px;
+    margin-bottom:20px;display:flex;gap:12px;align-items:center;
+    border:2px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.04);
+  }
+  .sib-input-wrap{flex:1;position:relative;}
+  .sib-input-wrap input{width:100%;padding:11px 16px 11px 40px;border-radius:12px;border:2px solid var(--border);background:var(--cream);font-family:'Share Tech Mono',monospace;font-size:0.88rem;outline:none;transition:all 0.25s;color:var(--text-dark);}
+  .sib-input-wrap input:focus{border-color:var(--green-main);background:#fff;}
+  .sib-input-wrap .sib-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:1rem;}
+  .btn-track-id{padding:12px 22px;border-radius:12px;background:linear-gradient(135deg,var(--green-main),var(--green-dark));color:#fff;border:none;font-family:'Baloo 2',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.25s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+  .btn-track-id:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(26,122,60,0.3);}
+
+  /* Animations */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  .ai-radar-header,.track-grid{animation:fadeUp 0.5s ease forwards;}
+
+  /* Responsive */
+  @media(max-width:1050px){.track-grid{grid-template-columns:1fr;}}
+  @media(max-width:860px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;}.sidebar-toggle{display:block;}}
+  @media(max-width:500px){.page-content{padding:14px;}.atc-header{flex-wrap:wrap;}.atc-status-wrap{align-items:flex-start;}}
+</style>
+<style>
+  /* ── Lucide Icons Global Style ── */
+  .lucide { 
+    width:1.1rem; height:1.1rem; 
+    stroke-width:2; 
+    vertical-align:middle; 
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .ni-icon { display:flex; align-items:center; justify-content:center; }
+  .ni-icon .lucide { width:1.15rem; height:1.15rem; }
+  .stat-icon .lucide { width:1.5rem; height:1.5rem; stroke-width:1.8; }
+  .ac-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .btn-logout .lucide { width:0.9rem; height:0.9rem; }
+  .lc-logo-icon .lucide { width:2.4rem; height:2.4rem; stroke-width:1.5; color:#fff; }
+  .sidebar-logo-icon .lucide { width:1.6rem; height:1.6rem; stroke-width:1.8; }
+  .benefit-icon .lucide { width:1.8rem; height:1.8rem; stroke-width:1.8; }
+  .step-num .lucide { width:1.2rem; height:1.2rem; }
+  label .lucide { width:0.85rem; height:0.85rem; }
+  .btn-hero-primary .lucide, .btn-hero-secondary .lucide { width:1rem; height:1rem; }
+  .btn-nav .lucide { width:0.9rem; height:0.9rem; }
+  h1 .lucide, h2 .lucide, h3 .lucide { width:1.2rem; height:1.2rem; }
+  .topbar-notif .lucide { width:1.1rem; height:1.1rem; }
+  .so-avatar .lucide { width:1.5rem; height:1.5rem; color:#fff; }
+</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body id="mainBody">
+
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar" id="sidebar">
+  <a class="sidebar-logo" href="index.html">
+    <div class="sidebar-logo-icon">🌾</div>
+    <div><span class="sidebar-logo-en">Krushi Sahayak</span><span class="sidebar-logo-mr">कृषी सहायक</span></div>
+  </a>
+  <div class="sidebar-profile">
+    <div class="sp-avatar">👨‍🌾</div>
+    <div>
+      <div class="sp-name" id="sb-name">—</div>
+      <div class="sp-id"  id="sb-id">—</div>
+      <span class="sp-badge">✅ Verified Farmer</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">MAIN MENU</div>
+    <a class="nav-item" href="farmer-dashboard.html"><span class="ni-icon"><i data-lucide="home" class="lucide"></i></span><span><span>Dashboard</span><span class="ni-mr">डॅशबोर्ड</span></span></a>
+    <a class="nav-item" href="schemes.html"><span class="ni-icon"><i data-lucide="clipboard-list" class="lucide"></i></span><span><span>View All Schemes</span><span class="ni-mr">सर्व योजना</span></span><span class="ni-badge">32</span></a>
+    <a class="nav-item" href="ai-recommendation.html"><span class="ni-icon"><i data-lucide="bot" class="lucide"></i></span><span><span>AI Recommendation</span><span class="ni-mr">AI शिफारस</span></span></a>
+    <a class="nav-item" href="apply-scheme.html"><span class="ni-icon"><i data-lucide="file-pen-line" class="lucide"></i></span><span><span>Apply for Scheme</span><span class="ni-mr">अर्ज करा</span></span></a>
+    <div class="nav-section-label" style="margin-top:12px;">TRACK & MANAGE</div>
+    <a class="nav-item active" href="tracking.html"><span class="ni-icon"><i data-lucide="bar-chart-3" class="lucide"></i></span><span><span>My Applications</span><span class="ni-mr">माझे अर्ज</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="notifications.html"><span class="ni-icon"><i data-lucide="bell" class="lucide"></i></span><span><span>Notifications</span><span class="ni-mr">सूचना</span></span><span class="ni-badge">0</span></a>
+    <a class="nav-item" href="edit-profile.html"><span class="ni-icon"><i data-lucide="user-pen" class="lucide"></i></span><span><span>Edit Profile</span><span class="ni-mr">प्रोफाइल</span></span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()"><i data-lucide="log-out" class="lucide"></i> <span>Logout</span></button>
+  </div>
+</aside>
+
+<!-- ════ MAIN ════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" data-en="📊 My Applications" data-mr="📊 माझे अर्ज">📊 My Applications</div>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en',this)">EN</button>
+        <button class="lang-btn" onclick="setLang('mr',this)">मराठी</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ══ AI RADAR HEADER ══ -->
+    <div class="ai-radar-header">
+      <div class="radar-wrap">
+        <div class="radar-circle rc1"></div>
+        <div class="radar-circle rc2"></div>
+        <div class="radar-circle rc3"></div>
+        <div class="radar-line"></div>
+        <div class="radar-dot rd1"></div>
+        <div class="radar-dot rd2"></div>
+        <div class="radar-dot rd3"></div>
+        <div class="radar-center"></div>
+      </div>
+      <div class="radar-info">
+        <div class="ri-label" data-en="AI TRACKING SYSTEM — LIVE" data-mr="AI ट्रॅकिंग सिस्टम — लाइव्ह">AI TRACKING SYSTEM — LIVE</div>
+        <h1 class="ri-title" data-en="Real-Time <span class='hl'>Application Radar</span>" data-mr="रिअल-टाइम <span class='hl'>अर्ज राडार</span>">Real-Time <span class="hl">Application Radar</span></h1>
+        <p class="ri-sub" data-en="AI is continuously monitoring your applications across all Maharashtra Government portals and will alert you instantly on any status change." data-mr="AI सतत सर्व महाराष्ट्र शासन पोर्टलवर तुमचे अर्ज निरीक्षण करत आहे आणि कोणत्याही स्थिती बदलावर लगेच सतर्क करेल.">AI is continuously monitoring your applications across all Maharashtra Government portals and will alert you instantly on any status change.</p>
+        <div class="ri-stats">
+          <div class="ri-stat"><div class="ris-num" id="hdr-total">3</div><div class="ris-lbl" data-en="Total" data-mr="एकूण">TOTAL</div></div>
+          <div class="ri-stat" style="border-color:rgba(37,160,80,0.3);"><div class="ris-num" style="color:#7deca0;" id="hdr-approved">1</div><div class="ris-lbl" data-en="Approved" data-mr="मंजूर">APPROVED</div></div>
+          <div class="ri-stat" style="border-color:rgba(232,101,10,0.3);"><div class="ris-num" style="color:#ffaa70;" id="hdr-review">1</div><div class="ris-lbl" data-en="In Review" data-mr="समीक्षा">IN REVIEW</div></div>
+          <div class="ri-stat" style="border-color:rgba(42,74,176,0.3);"><div class="ris-num" style="color:#a0b8ff;" id="hdr-submitted">1</div><div class="ris-lbl" data-en="Submitted" data-mr="सबमिट">SUBMITTED</div></div>
+          <div class="ri-stat" style="border-color:rgba(240,165,0,0.3);"><div class="ris-num" style="color:var(--gold);" id="hdr-amount">₹2.25L</div><div class="ris-lbl" data-en="Expected" data-mr="अपेक्षित">EXPECTED</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ AI INSIGHT STRIP ══ -->
+    <div class="ai-insight-strip">
+      <div class="ais-avatar">🤖</div>
+      <div class="ais-text" id="aiInsightText">
+        <strong>AI Update:</strong> Your <strong>Drip Irrigation</strong> application was approved and <strong>₹45,000 was transferred</strong> to your bank 2 days ago! Your <strong>Solar Pump</strong> application is currently with the field officer and expected approval within <strong>5–7 days</strong>. Tap any application card below to see full details.
+      </div>
+    </div>
+
+    <!-- ══ SEARCH BY ID ══ -->
+    <div class="search-id-bar">
+      <div class="sib-input-wrap">
+        <span class="sib-icon">🔍</span>
+        <input type="text" id="searchId" placeholder="Search by Application ID (e.g. KS-APP-2024-001)" oninput="filterApps()"/>
+      </div>
+      <button class="btn-track-id" onclick="filterApps()">
+        📡 <span data-en="Track" data-mr="ट्रॅक करा">Track</span>
+      </button>
+    </div>
+
+    <!-- ══ MAIN GRID ══ -->
+    <div class="track-grid">
+
+      <!-- LEFT: Application Cards -->
+      <div class="app-cards" id="appCards">
+        <!-- Injected by JS -->
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- AI Prediction Card -->
+        <div class="ai-predict-card">
+          <div class="apc-header">
+            <div class="apc-bot">🤖</div>
+            <div>
+              <div class="apc-title" data-en="AI Approval Predictor" data-mr="AI मंजुरी अंदाज">AI Approval Predictor</div>
+              <div class="apc-sub" data-en="Based on your profile & history" data-mr="तुमच्या प्रोफाइलवर आधारित">Based on your profile & history</div>
+            </div>
+          </div>
+          <div class="apc-body">
+            <div class="predict-item">
+              <div class="pi-label" data-en="OVERALL APPROVAL CHANCE" data-mr="एकूण मंजुरी शक्यता">OVERALL APPROVAL CHANCE</div>
+              <div class="pi-val">87% <span class="piv-badge piv-high" data-en="Very High" data-mr="खूप जास्त">Very High</span></div>
+              <div class="pi-bar"><div class="pi-bar-fill" style="width:87%"></div></div>
+            </div>
+            <div class="predict-item">
+              <div class="pi-label" data-en="DOCUMENT COMPLETENESS" data-mr="कागदपत्र पूर्णता">DOCUMENT COMPLETENESS</div>
+              <div class="pi-val">92% <span class="piv-badge piv-high" data-en="Complete" data-mr="पूर्ण">Complete</span></div>
+              <div class="pi-bar"><div class="pi-bar-fill" style="width:92%"></div></div>
+            </div>
+            <div class="predict-item">
+              <div class="pi-label" data-en="PROCESSING SPEED" data-mr="प्रक्रिया गती">PROCESSING SPEED</div>
+              <div class="pi-val">Medium <span class="piv-badge piv-med" data-en="10–15 days" data-mr="१०–१५ दिवस">10–15 days</span></div>
+              <div class="pi-bar"><div class="pi-bar-fill" style="width:60%"></div></div>
+            </div>
+            <div class="apc-divider"></div>
+            <div class="ai-next-action">
+              <div class="ana-label" data-en="AI RECOMMENDED ACTIONS" data-mr="AI शिफारस केलेल्या कृती">AI RECOMMENDED ACTIONS</div>
+              <div class="ana-item"><span class="ani-icon">📞</span><span data-en="Call Talathi office to confirm document verification for Solar Pump application." data-mr="सौर पंप अर्जासाठी तलाठी कार्यालयाशी संपर्क साधून कागदपत्र पडताळणीची पुष्टी करा.">Call Talathi office to confirm document verification for Solar Pump application.</span></div>
+              <div class="ana-item"><span class="ani-icon">📋</span><span data-en="Submit 7/12 for current season to strengthen PM Kisan application." data-mr="पीएम किसान अर्ज मजबूत करण्यासाठी सद्य हंगामाचा ७/१२ सबमिट करा.">Submit 7/12 for current season to strengthen PM Kisan application.</span></div>
+              <div class="ana-item"><span class="ani-icon">🤖</span><span data-en="3 new schemes match your profile — check AI Recommendations." data-mr="३ नवीन योजना तुमच्या प्रोफाइलशी जुळतात — AI शिफारसी तपासा.">3 new schemes match your profile — check AI Recommendations.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats-card">
+          <div class="qs-title" data-en="📈 Your Stats" data-mr="📈 तुमचे आकडे">📈 Your Stats</div>
+          <div class="qs-grid">
+            <div class="qs-item">
+              <div class="qsi-num" id="qs-received">₹0</div>
+              <div class="qsi-lbl" data-en="Received" data-mr="मिळाले">Received</div>
+            </div>
+            <div class="qs-item">
+              <div class="qsi-num" id="qs-pending">₹0</div>
+              <div class="qsi-lbl" data-en="Pending" data-mr="प्रतीक्षेत">Pending</div>
+            </div>
+            <div class="qs-item">
+              <div class="qsi-num" id="qs-applied">0</div>
+              <div class="qsi-lbl" data-en="Applied" data-mr="अर्ज केले">Applied</div>
+            </div>
+            <div class="qs-item">
+              <div class="qsi-num" id="qs-approved">0</div>
+              <div class="qsi-lbl" data-en="Approved" data-mr="मंजूर">Approved</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Helpline -->
+        <div class="helpline-card">
+          <div class="hc-icon">📞</div>
+          <div class="hc-title" data-en="Need Help?" data-mr="मदत हवी आहे?">Need Help?</div>
+          <div class="hc-sub" data-en="Talk to Krushi Sahayak helpline — Mon to Sat, 9AM–6PM" data-mr="सोमवार ते शनिवार, सकाळी ९ ते सायंकाळी ६">Mon–Sat, 9AM–6PM</div>
+          <div class="hc-num">1800-123-4567</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+if (!AuthAPI.isLoggedIn()) { window.location.href = 'farmer-login.html'; }
+let currentLang = 'en';
+let farmerData  = {};
+
+// ════ APPLICATIONS DATA ════
+const DEMO_APPS = []; // No fake data — real data from backend only
+// Real data loaded from backend API only
+
+// ════ INIT ════
+// ── Icon/color map for schemes ──
+const SCHEME_ICONS = {
+  drip:       { icon:'💧', bg:'background:linear-gradient(135deg,#e8f5ee,#c5e8d5)' },
+  solar:      { icon:'☀️', bg:'background:linear-gradient(135deg,#fffbe8,#f5eac0)' },
+  pmkisan:    { icon:'🌾', bg:'background:linear-gradient(135deg,#fff8e8,#fcecc0)' },
+  tractor:    { icon:'🚜', bg:'background:linear-gradient(135deg,#fff3eb,#ffe0c5)' },
+  cattle:     { icon:'🐄', bg:'background:linear-gradient(135deg,#fff0f0,#f5c8c8)' },
+  pond:       { icon:'🏞️', bg:'background:linear-gradient(135deg,#e8fff0,#c0f5d5)' },
+  sprinkler:  { icon:'🚿', bg:'background:linear-gradient(135deg,#e8f5ff,#c5d8f5)' },
+  seed:       { icon:'🌱', bg:'background:linear-gradient(135deg,#f0ffe8,#d5f5c0)' },
+  greenhouse: { icon:'🏠', bg:'background:linear-gradient(135deg,#f5e8ff,#e0c5f5)' },
+  organic:    { icon:'🌿', bg:'background:linear-gradient(135deg,#e8ffe8,#b8f0b8)' },
+  agrimachine:{ icon:'⚙️', bg:'background:linear-gradient(135deg,#f0f0ff,#d5d5f5)' },
+  warehouse:  { icon:'🏭', bg:'background:linear-gradient(135deg,#fff5e8,#f5ddb0)' },
+  biogas:     { icon:'♻️', bg:'background:linear-gradient(135deg,#e8fff0,#b8f0c8)' },
+  solarfence: { icon:'🔆', bg:'background:linear-gradient(135deg,#fffde8,#f5f0a0)' },
+  namo:       { icon:'🌻', bg:'background:linear-gradient(135deg,#ffe8e8,#f5c0c0)' },
+  bima:       { icon:'🛡️', bg:'background:linear-gradient(135deg,#e8ffe8,#c0f0c0)' },
+  kcc:        { icon:'💳', bg:'background:linear-gradient(135deg,#e8f5ee,#c5e8d5)' },
+  pmkusum:    { icon:'🌞', bg:'background:linear-gradient(135deg,#fff8e0,#f5e8a0)' },
+  soil:       { icon:'🧪', bg:'background:linear-gradient(135deg,#f0e8ff,#d5c0f5)' },
+  dairy:      { icon:'🥛', bg:'background:linear-gradient(135deg,#fff8f0,#f5e0c0)' },
+  poultry:    { icon:'🐔', bg:'background:linear-gradient(135deg,#fff5e0,#f5e8b0)' },
+  goat:       { icon:'🐐', bg:'background:linear-gradient(135deg,#f5ffe8,#ddf5c0)' },
+  fishery:    { icon:'🐟', bg:'background:linear-gradient(135deg,#e8f0ff,#c5d5f5)' },
+  horti:      { icon:'🍇', bg:'background:linear-gradient(135deg,#f5e8ff,#e0c5f5)' },
+  mango:      { icon:'🥭', bg:'background:linear-gradient(135deg,#fff8e0,#f5e8a0)' },
+  flower:     { icon:'🌸', bg:'background:linear-gradient(135deg,#ffe8f5,#f5c0e0)' },
+  coldstorage:{ icon:'❄️', bg:'background:linear-gradient(135deg,#e8f5ff,#c0d5f5)' },
+  borewell:   { icon:'🔩', bg:'background:linear-gradient(135deg,#e0f8ff,#b8eaf5)' },
+  watershed:  { icon:'🌊', bg:'background:linear-gradient(135deg,#e0f8ff,#b8eaf5)' },
+  jalayukt:   { icon:'💧', bg:'background:linear-gradient(135deg,#e8fffc,#c0f0ea)' },
+  scst:       { icon:'🎯', bg:'background:linear-gradient(135deg,#e8f5ff,#c0d8f5)' },
+  leased:     { icon:'📜', bg:'background:linear-gradient(135deg,#e8f0ff,#c5d5f5)' },
+};
+
+// ── Convert backend app to display format ──
+function convertApp(app) {
+  const ic = SCHEME_ICONS[app.schemeId] || { icon:'📋', bg:'background:linear-gradient(135deg,#f0f4f0,#e0e8e0)' };
+  const statusProgress = { submitted:15, under_review:55, pending_docs:40, approved:100, rejected:100 };
+  const timeline = (app.statusHistory || []).map(h => ({
+    icon:'📝', label: h.status.replace('_',' ').toUpperCase(),
+    labelMr: h.status.replace('_',' ').toUpperCase(),
+    time: new Date(h.date).toLocaleDateString('en-IN'),
+    state: 'done',
+    desc: h.note || h.status,
+    descMr: h.note || h.status,
+    aiComment:'', aiCommentMr:'',
+  }));
+  return {
+    id:            app.appId,
+    icon:          ic.icon,
+    iconBg:        ic.bg,
+    name:          app.schemeName,
+    nameMr:        app.schemeName,
+    amount:        app.schemeAmount || '—',
+    status:        app.status === 'under_review' ? 'review' : app.status,
+    statusMr:      app.status,
+    submittedDate: new Date(app.appliedOn).toLocaleDateString('en-IN'),
+    approvedDate:  app.approvedOn ? new Date(app.approvedOn).toLocaleDateString('en-IN') : '—',
+    progress:      statusProgress[app.status] || 15,
+    timeline:      timeline,
+  };
+}
+
+window.addEventListener('DOMContentLoaded', async () => {        // ← CHANGED: async
+  farmerData = AuthAPI.getFarmer() || {};
+  if (farmerData.name) document.getElementById('sb-name').textContent = farmerData.name;
+  if (farmerData.farmerId) document.getElementById('sb-id').textContent = farmerData.farmerId;
+
+  // ── Load real applications from backend ──
+  try {
+    const realApps = await ApplicationAPI.getMyApplications();
+    window._realApps = realApps.map(convertApp);
+    renderApps(window._realApps);
+    updateQuickStats(realApps);
+    // Update sidebar badge with real count
+    const badge = document.querySelector('.nav-item.active .ni-badge');
+    if (badge) badge.textContent = realApps.length;
+  } catch (err) {
+    renderApps([]); // show empty state if server not running
+  }
+  updateInsight();
+});
+
+// ════ QUICK STATS UPDATE ════
+function updateQuickStats(apps) {
+  const approved = apps.filter(a => a.status === 'approved');
+  const pending  = apps.filter(a => ['submitted','under_review','pending'].includes(a.status));
+  let received = 0, pendingAmt = 0;
+  approved.forEach(a => { const n = parseInt((a.schemeAmount||'0').replace(/[^0-9]/g,'')); received += n||0; });
+  pending.forEach(a  => { const n = parseInt((a.schemeAmount||'0').replace(/[^0-9]/g,'')); pendingAmt += n||0; });
+  const fmt = n => n >= 100000 ? '₹'+(n/100000).toFixed(1)+'L' : n >= 1000 ? '₹'+Math.round(n/1000)+'K' : n > 0 ? '₹'+n : '₹0';
+  const el = id => document.getElementById(id);
+  if(el('qs-received')) el('qs-received').textContent = fmt(received);
+  if(el('qs-pending'))  el('qs-pending').textContent  = fmt(pendingAmt);
+  if(el('qs-applied'))  el('qs-applied').textContent  = apps.length;
+  if(el('qs-approved')) el('qs-approved').textContent = approved.length;
+}
+
+// ════ RENDER ════
+function renderApps(apps) {
+  const grid = document.getElementById('appCards');
+
+  // Update header counts
+  document.getElementById('hdr-total').textContent     = apps.length;
+  document.getElementById('hdr-approved').textContent  = apps.filter(a=>a.status==='approved').length;
+  document.getElementById('hdr-review').textContent    = apps.filter(a=>a.status==='review').length;
+  document.getElementById('hdr-submitted').textContent = apps.filter(a=>a.status==='submitted').length;
+
+  if (apps.length === 0) {
+    grid.innerHTML = `<div style="background:#fff;border-radius:20px;border:2px solid var(--border);padding:48px;text-align:center;">
+      <div style="font-size:3rem;margin-bottom:12px;">🔍</div>
+      <h3 style="color:var(--text-mid);">${currentLang==='mr'?'कोणताही अर्ज सापडला नाही':'No applications found'}</h3>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = apps.map((app, idx) => {
+    const statusConfig = {
+      approved:  { cls:'sb-approved',  en:'✅ Approved',   mr:'✅ मंजूर',       showDot:false },
+      review:    { cls:'sb-review',    en:'🔍 Under Review', mr:'🔍 समीक्षाधीन', showDot:true  },
+      submitted: { cls:'sb-submitted', en:'📤 Submitted',   mr:'📤 सबमिट',      showDot:true  },
+      rejected:  { cls:'sb-rejected',  en:'❌ Rejected',    mr:'❌ नाकारले',     showDot:false },
+    };
+    const sc = statusConfig[app.status] || statusConfig.submitted;
+
+    return `
+    <div class="app-track-card" style="animation-delay:${idx*0.15}s" id="card-${app.id}">
+
+      <!-- Header -->
+      <div class="atc-header">
+        <div class="atc-scheme-icon" style="${app.iconBg}">${app.icon}</div>
+        <div class="atc-info">
+          <div class="atc-name">${currentLang==='mr'?app.nameMr:app.name}</div>
+          <div class="atc-id">🪪 ${app.id} &nbsp;·&nbsp; 📅 ${app.submittedDate}</div>
+        </div>
+        <div class="atc-status-wrap">
+          <span class="status-badge ${sc.cls}">
+            ${sc.showDot?'<span class="live-dot"></span>':''}
+            ${currentLang==='mr'?sc.mr:sc.en}
+          </span>
+          <span class="atc-amount">💰 ${app.amount}</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="amount-bar-wrap" style="padding:14px 24px 0;">
+        <div class="ab-label">
+          <span data-en="Application Progress" data-mr="अर्ज प्रगती">${currentLang==='mr'?'अर्ज प्रगती':'Application Progress'}</span>
+          <span style="color:var(--green-main);font-weight:800;">${app.progress}%</span>
+        </div>
+        <div class="ab-track">
+          <div class="ab-fill" style="width:0%" id="fill-${app.id}"></div>
+        </div>
+        <div class="ab-note">
+          <span>${currentLang==='mr'?'सबमिट':'Submitted'}: ${app.submittedDate}</span>
+          <span>${app.approvedDate !== '—' ? (currentLang==='mr'?'मंजूर':'Approved')+': '+app.approvedDate : (currentLang==='mr'?'अपेक्षित: लवकरच':'Expected: Soon')}</span>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-wrap">
+        <div class="timeline-label">
+          📡 ${currentLang==='mr'?'अर्ज ट्रॅकिंग टाइमलाइन':'Application Tracking Timeline'}
+        </div>
+        <div class="timeline">
+          ${app.timeline.map((step, si) => `
+            <div class="tl-step" style="animation-delay:${si*0.1}s">
+              <div class="tl-dot ${step.state}">${step.state==='done'?'✓':step.state==='active'?'⟳':step.icon}</div>
+              <div class="tl-content">
+                <div class="tl-title">
+                  <span>${currentLang==='mr'?step.labelMr:step.label}</span>
+                  <span class="tl-time">${step.time}</span>
+                </div>
+                <div class="tl-desc">${currentLang==='mr'?step.descMr:step.desc}</div>
+                ${(step.aiComment && step.state !== 'waiting') ? `
+                  <div class="tl-ai-comment">
+                    <span class="tac-icon">🤖</span>
+                    <span>${currentLang==='mr'?step.aiCommentMr:step.aiComment}</span>
+                  </div>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+    </div>`;
+  }).join('');
+
+  // Animate progress bars after render
+  setTimeout(() => {
+    apps.forEach(app => {
+      const fill = document.getElementById('fill-'+app.id);
+      if (fill) fill.style.width = app.progress + '%';
+    });
+  }, 300);
+}
+
+// ════ SEARCH ════
+function filterApps() {
+  const q = document.getElementById('searchId').value.trim().toLowerCase();
+  if (!q) { renderApps(window._realApps||[]); return; }
+  const filtered = (window._realApps||[]).filter(a =>
+    a.id.toLowerCase().includes(q) ||
+    a.name.toLowerCase().includes(q) ||
+    a.nameMr.includes(q)
+  );
+  renderApps(filtered);
+}
+
+// ════ AI INSIGHT ════
+function updateInsight() {
+  const insights = {
+    en:`<strong>AI Update:</strong> Your <strong>Drip Irrigation</strong> application was approved and <strong>₹45,000 was transferred</strong> to your bank! ✅ Your <strong>Solar Pump</strong> application is currently with the MSEDCL field officer — expected approval in <strong>5–7 days</strong>. Your <strong>PM Kisan</strong> application needs Aadhaar-Bank linking verification. Tap any card below for full details.`,
+    mr:`<strong>AI अपडेट:</strong> तुमचा <strong>ठिबक सिंचन</strong> अर्ज मंजूर झाला आणि <strong>₹४५,०००</strong> बँकेत जमा झाले! ✅ <strong>सौर पंप</strong> अर्ज सध्या MSEDCL फील्ड अधिकाऱ्याकडे आहे — <strong>५–७ दिवसांत</strong> मंजुरी अपेक्षित. <strong>PM Kisan</strong> अर्जासाठी आधार-बँक लिंकिंग आवश्यक.`
+  };
+  document.getElementById('aiInsightText').innerHTML = insights[currentLang];
+}
+
+// ════ LANGUAGE ════
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.body.classList.toggle('mr', lang==='mr');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.children.length===0) el.textContent = lang==='mr'?el.dataset.mr:el.dataset.en;
+  });
+  renderApps(window._realApps||[]);
+  updateInsight();
+}
+
+function doLogout() {                        // ← CHANGED: now calls AuthAPI
+  if (confirm(currentLang==='mr'?'लॉगआउट करायचे आहे का?':'Are you sure you want to logout?')) {
+    AuthAPI.logout();
+  }
+}
+</script>
+<script src="../js/main.js"></script>
+
+<script>document.addEventListener("DOMContentLoaded",()=>{ if(window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>
