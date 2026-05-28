@@ -415,21 +415,6 @@ Password: (set in your .env)
 
 ---
 
-## 👥 Team
-
-| Name | Role |
-|------|------|
-| **[Your Name]** | Full Stack Developer — Backend, AI Integration |
-| **[Teammate 1]** | Frontend Developer — UI/UX |
-| **[Teammate 2]** | Database & Testing |
-
-**Project Guide:** [Professor Name]  
-**College:** [Your College Name]  
-**Department:** [Your Department]  
-**Academic Year:** 2025–26
-
----
-
 ## 📄 License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
