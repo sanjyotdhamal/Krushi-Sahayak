@@ -306,12 +306,6 @@ Password: (set in your .env)
 |------|-------------|
 | 🏠 **Landing Page** | Hero section with Maharashtra scheme info |
 | 👨‍🌾 **Farmer Dashboard** | Real-time stats — applied, approved, amount |
-| 🤖 **AI Recommendation** | Gemini AI picks best 4 schemes |
-| 📝 **Apply Scheme** | 5-step application with document checklist |
-| 📊 **Tracking** | Status timeline — Submitted → Approved |
-| 🔔 **Notifications** | Real-time approval/rejection messages |
-| 🏛️ **Authority Dashboard** | All farmer applications with approve/reject |
-
 ---
 
 ## 🏛️ Government Schemes Covered
