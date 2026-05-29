@@ -300,14 +300,6 @@ Password: (set in your .env)
 
 ---
 
-## 🖼️ Screenshots
-
-| Page | Description |
-|------|-------------|
-| 🏠 **Landing Page** | Hero section with Maharashtra scheme info |
-| 👨‍🌾 **Farmer Dashboard** | Real-time stats — applied, approved, amount |
----
-
 ## 🏛️ Government Schemes Covered
 
 <details>
