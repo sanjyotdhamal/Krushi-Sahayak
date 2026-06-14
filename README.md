@@ -87,36 +87,36 @@
 The system uses a **hybrid AI approach** — primary Gemini AI with a custom algorithm fallback:
 
 ```
-               Farmer Profile
-                    │
-                    ▼
+                 Farmer Profile
+                      │
+                      ▼
   ┌─────────────────────────────────────────┐
   │        Is Gemini API available?         │
   └────────────┬────────────────┬───────────┘
-            YES             NO (fallback)
-             │                │ 
-             ▼                ▼
-    ┌──────────────┐  ┌──────────────────────┐
-    │ Gemini 2.0   │  │  Weighted Scoring    │
-    │ Flash API    │  │  Algorithm           │
-    │              │  │  14 params × 32      │
-    │ Sends farmer │  │  schemes             │
-    │ profile as   │  │  Min score = 30/100  │
-    │ LLM prompt   │  │                      │
-    └──────┬───────┘  └──────────┬───────────┘
-           │                     │
-           ▼                     ▼
-    ┌──────────────────────────────────────┐
-    │        Top 4 Schemes Selected       │
-    │    Sorted by match score / reason   │
-    └──────────────────────────────────────┘
-                      │
-                      ▼
-            Saved to session cache
-                      │
-                      ▼
-         Displayed to farmer with
-         match % · amount · Apply Now
+              YES           NO (fallback)
+               │                │ 
+               ▼                ▼
+      ┌──────────────┐  ┌──────────────────────┐
+      │ Gemini 2.0   │  │  Weighted Scoring    │
+      │ Flash API    │  │  Algorithm           │
+      │              │  │  14 params × 32      │
+      │ Sends farmer │  │  schemes             │
+      │ profile as   │  │  Min score = 30/100  │
+      │ LLM prompt   │  │                      │
+      └──────┬───────┘  └──────────┬───────────┘
+             │                     │
+             ▼                     ▼
+      ┌──────────────────────────────────────┐
+      │        Top 4 Schemes Selected        │
+      │    Sorted by match score / reason    │
+      └──────────────────────────────────────┘
+                       │
+                       ▼
+              Saved to session cache
+                       │
+                       ▼
+              Displayed to farmer with
+             match % · amount · Apply Now
 ```
 
 ### Weighted Scoring — Example
