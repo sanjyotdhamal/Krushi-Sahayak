@@ -87,13 +87,14 @@
 The system uses a **hybrid AI approach** — primary Gemini AI with a custom algorithm fallback:
 
 ```
-Farmer Profile
-      │
-      ▼
-┌─────────────────────────────────────────┐
-│       Is Gemini API available?          │
-└────────────┬────────────────┬───────────┘
-             │ YES            │ NO (fallback)
+               Farmer Profile
+                    │
+                    ▼
+  ┌─────────────────────────────────────────┐
+  │        Is Gemini API available?         │
+  └────────────┬────────────────┬───────────┘
+            YES             NO (fallback)
+             │                │ 
              ▼                ▼
     ┌──────────────┐  ┌──────────────────────┐
     │ Gemini 2.0   │  │  Weighted Scoring    │
