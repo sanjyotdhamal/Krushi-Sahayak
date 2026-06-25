@@ -32,12 +32,12 @@
 - [About the Project](#-about-the-project)
 - [Problem Statement](#-problem-statement)
 - [Key Features](#-key-features)
+- [Screenshots](#-screenshots)
 - [AI Recommendation System](#-ai-recommendation-system)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [API Endpoints](#-api-endpoints)
-- [Screenshots](#-screenshots)
 - [Government Schemes](#-government-schemes-covered)
 - [Team](#-team)
 
@@ -79,6 +79,18 @@
 - ✅ **Real-Time Stats** — pending, approved, disbursed amounts
 - ✅ **Bulk Approve** — AI-screened safe applications
 - ✅ **District-wise Analytics** — application distribution
+
+---
+
+## 🖼️ Screenshots
+
+### 🔄 How It Works — 4 Step Process
+
+<div align="center">
+  <img src="frontend/images/working.png" alt="Krushi Sahayak — How It Works" width="900"/>
+  <br/>
+  <em>From registration to subsidy in 4 simple steps</em>
+</div>
 
 ---
 
@@ -419,6 +431,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 *🌾 जय जवान · जय किसान 🌾*
 
-[![GitHub stars](https://img.shields.io/github/stars/YOUR_USERNAME/krushi-sahayak?style=social)](https://github.com/YOUR_USERNAME/krushi-sahayak)
+[![GitHub stars](https://img.shields.io/github/stars/sanjyotdhamal/krushi-sahayak?style=social)](https://github.com/sanjyotdhamal/krushi-sahayak)
 
 </div>
